@@ -1,0 +1,1365 @@
+openapi: 3.0.3 
+info:
+  title: Workflow Management API
+  version: 1.0.0
+
+tags: 
+  - name: Dashboard
+    description: APIs related to the dashboard page
+  - name: Projects
+    description: APIs related to the all projects page
+  - name: Team
+    description: APIs related to the Team page
+  - name: Misc
+    description: Miscellaneous APIs used throught the application   
+
+paths:
+  /org_projects_overview:
+    get:
+      tags: 
+        - Dashboard
+      summary: Get the total number of projects of an organization, percentage of projects completed, and total tasks 
+      operationId: getOrgProjectDetails
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalProjects:
+                    type: integer
+                    description: Total number of projects
+                  percentageCompleted:
+                    type: number
+                    format: float
+                    description: Percentage of completed projects
+                  totalTasks:
+                    type: integer
+                    description: Total number of tasks
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /org_projects_status_overview:
+    get:
+      tags: 
+        - Dashboard
+      summary: Get all projects of an org with all status (completed, in-progress, unassigned)
+      operationId: getOrgAllProjectStatusDetails
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completed_projects:
+                    type: integer
+                    description: Total number of completed projects
+                  inprogress_projects:
+                    type: integer
+                    description: Total number of in-progress projects
+                  unassigned_projects:
+                    type: integer
+                    description: Total number of unassigned projects
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                    
+  /project_usecase_overview:
+    get:
+      tags:
+        - Dashboard
+      summary: Get the number of completed and incomplete use cases of a project between dates
+      operationId: getProjectOverview
+      parameters:
+        - in: query
+          name: project_id
+          required: true
+          schema:
+            type: integer
+          description: ID of the project for which to get the overview
+        - in: query
+          name: from_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start date of the date range
+        - in: query
+          name: to_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End date of the date range
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completed_usecases:
+                    type: integer
+                    description: Total number of completed use cases
+                  incomplete_usecases:
+                    type: integer
+                    description: Total number of incomplete use cases
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                    
+  /projects_usecase_overview:
+    get:
+      tags: 
+        - Dashboard
+      summary: Get the number of completed and incomplete use cases of all project between dates
+      operationId: getAllProjectsOverview
+      parameters:
+        - in: query
+          name: from_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start date of the date range
+        - in: query
+          name: to_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End date of the date range
+      responses:
+        '200':
+          description: Ok 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    project_name:
+                      type: string
+                      description: Name of the project
+                    completed_usecases:
+                      type: integer
+                      description: Total number of completed use cases
+                    incomplete_usecases:
+                      type: integer
+                      description: Total number of incomplete use cases
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /resouce_task_status:
+    get:
+      tags: 
+        - Dashboard
+      summary: Get the number of completed, inprogress and pending tasks of a resource in between dates
+      operationId: getResourcesTasksStatus
+      parameters:
+        - in: query
+          name: resource_id
+          required: true
+          schema:
+            type: integer
+          description: ID of the resource for which to get the task status
+        - in: query
+          name: from_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start date of the date range
+        - in: query
+          name: to_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End date of the date range
+      responses:
+        '200':
+          description: Ok 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completed_tasks:
+                    type: integer
+                    description: Total number of completed tasks
+                  inprogress_tasks:
+                    type: integer
+                    description: Total number of in-progress tasks
+                  pending_tasks:
+                    type: integer
+                    description: Total number of pending tasks
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                    
+  /resources_task_status:
+    get:
+      tags:
+        - Dashboard
+      summary: Get the number of completed, inprogress and pending tasks of all resources in between dates
+      operationId: getAllResourcesTasksStatus
+      parameters:
+        - in: query
+          name: from_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Start date of the date range
+        - in: query
+          name: to_date
+          required: true
+          schema:
+            type: string
+            format: date
+          description: End date of the date range
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    resource_id:
+                      type: integer
+                      description: ID of the resource
+                    resource_name:
+                      type: string
+                      description: Name of the resource
+                    completed_tasks:
+                      type: integer
+                      description: Total number of completed tasks
+                    inprogress_tasks:
+                      type: integer
+                      description: Total number of in-progress tasks
+                    pending_tasks:
+                      type: integer
+                      description: Total number of pending tasks
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /projects_overview:
+    get:
+      tags:
+        - Dashboard
+      summary: Get the overview of projects
+      operationId: getProjectsOverview
+      parameters:
+        - in: query
+          name: project_status
+          schema:
+            type: string
+          description: Filter projects by status (optional)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    project_id:
+                      type: integer
+                      description: Unique ID of the project
+                    project_name:
+                      type: string
+                      description: Name of the project
+                    status:
+                      type: string
+                      description: Current status of the project
+                    total_usecases:
+                      type: integer
+                      description: Total number of use cases in the project
+                    completed_usecases:
+                      type: integer
+                      description: Number of completed use cases
+                    due_date:
+                      type: string
+                      format: date
+                      description: Due date of the project
+                    completed_tasks_percentage:
+                      type: number
+                      description: Percentage of completed tasks in the project
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /projects_resource_overview:
+    get:
+      tags:
+        - Dashboard
+      summary: Get the overview of project manager for a project
+      operationId: getProjectResourceOverview
+      parameters:
+        - in: query
+          name: project_status
+          schema:
+            type: string
+          description: Filter projects by status (optional)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    project_id:
+                      type: integer
+                      description: Unique ID of the project
+                    project_name:
+                      type: string
+                      description: Name of the project
+                    manager_id:
+                      type: string
+                      description: Id of resources
+                    manager_name:
+                      type: integer
+                      description: name of manager
+                    current_task:
+                      type: integer
+                      description: Current task of the manager
+                    created_date:
+                      type: string
+                      format: date
+                      description: Created date of the task
+                    due_date:
+                      type: string
+                      format: date
+                      description: Due date of the task
+                    total_tasks:
+                      type: number
+                      description: Total tasks of of the manager
+                    project_resources:
+                      type: array
+                      description: List of resources associated with the project
+                      items:
+                        type: object
+                        properties:
+                          resource_id:
+                            type: string
+                            description: Unique ID of the resource
+                          resource_name:
+                            type: string
+                            description: Name of the resource
+                          resource_img_url:
+                            type: string
+                            description: URL of the resource's image
+                      
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+
+  /project:
+    get:
+      tags:
+        - Projects
+      summary: Get a list of projects and its details
+      description: get a list of projects and its details like total_usecase, total resources and status
+      operationId: getProjects
+      parameters:
+        - in: query
+          name: status
+          required: false
+          schema:
+            type: string
+          description: Status of the project (optional)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    project_id:
+                      type: string
+                      description: Unique ID of the project
+                    project_name:
+                      type: string
+                      description: Name of the project
+                    project_icon_url:
+                      type: string
+                      description: URL of the project's image
+                    total_usecases:
+                      type: integer
+                      description : Total usecases of the project
+                    total_resources:
+                      type: integer
+                      description : Total resources of the project
+                    project_status:
+                      type: string
+                      description: Status of the project
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+    post:
+      tags:
+        - Projects
+      summary: Add a new project
+      description: Adds a new project to the database with the given details
+      operationId: addProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_name:
+                  type: string
+                project_manager_id:
+                  type: string
+                project_description:
+                  type: string
+                department:
+                  type: string
+                start_date:
+                  type: string
+                  format: date
+                end_date:
+                  type: string
+                  format: date
+                budget:
+                  type: number
+      responses:
+        '201':
+          description: New project created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  project_id:
+                    type: string
+                  project_name:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /project/workflow/new:                  
+    put:
+      tags:
+        - Projects
+      summary: Add a new workflow to a  project
+      description: Adds a new workflow to the project with the given details
+      operationId: addWorkflowToProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type : string
+                workflow_name:
+                  type : string
+                created_by_id:
+                  type : string
+                created_time:
+                  type : string
+                  format : date 
+                stages:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      tasks:
+                        type: array
+                        items:
+                          type: string
+                      checklists:
+                        type: array
+                        items:
+                          type: string
+      responses:
+        '201':
+          description: New workflow added to the project
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /project/team/new:                  
+    put:
+      tags:
+        - Projects
+      summary: Add a new team to a  project
+      description: Adds a new team to project the with the given details
+      operationId: addTeamToProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type : string
+                team_name:
+                  type : string
+                created_by_id:
+                  type : string
+                created_time:
+                  type : string
+                  format : date 
+                roles:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      role_name:
+                        type: array
+                        items:
+                          type: string
+      responses:
+        '201':
+          description: New workflow added to the project
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+
+  /project/{project_id}/stages:
+    put:
+      tags:
+        - Projects
+      summary: Add a new stage
+      description: Adds a new stage to a existing project
+      operationId: addStages
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          description: ID of the project to which the stage will be added
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new_stage:
+                  type: object
+                  properties:
+                    stage_name:
+                      type: object
+                      properties:
+                        tasks:
+                          type: array
+                          items:
+                            type: string
+                        checklists:
+                          type: array
+                          items:
+                            type: string
+      responses:
+        '201':
+          description: New project created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: New project created
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /project/usecases:
+    get:
+      tags:
+        - Projects
+      summary: Get a list of projects and its details
+      description: Get a list of usecases of a proejcts and get usecase details -> project_id, project_name, project_icon_url, total_usecases, total_resources, project_status
+      operationId: getProjectsUsecases
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    usecase_id:
+                      type: string
+                      description: Unique ID of the use case
+                    usecase_name:
+                      type: string
+                      description: Name of the use case
+                    current_stage:
+                      type: string
+                      description: Current stage of the use case
+                    usecase_assigned_id:
+                      type: string
+                      description: ID of the assigned use case
+                    total_resources:
+                      type: integer
+                      description: Total resources for the use case
+                    start_date:
+                      type: string
+                      format: date
+                      description: Start date of the use case
+                    end_date:
+                      type: string
+                      format: date
+                      description: End date of the use case
+                  required:
+                    - usecase_id
+                    - usecase_name
+                    - current_stage
+                    - usecase_assigned_id
+                    - total_resources
+                    - start_date
+                    - end_date
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /project/usecases/new:
+    post:
+      tags:
+        - Projects
+      summary: Add a new usecase to a project
+      description: Adds a new a usecase to a existing project
+      operationId: addusecase
+      requestBody:
+        description: Usecase details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                project_id:
+                  type: string
+                created_by_id:
+                  type: string
+                usecase_name:
+                  type: string
+                assigned_to_id:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Usecase created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  usecase_id:
+                    type: string
+                  project_id:
+                    type: string
+                  created_by_id:
+                    type: string
+                  usecase_name:
+                    type: string
+                  assigned_to_id:
+                    type: string
+                  description:
+                    type: string
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Invalid request payload
+            
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /project/usecases/assign_stage:
+    put:
+      tags:
+        - Projects
+      summary: Assign stage for a usecase
+      description: Assign stage to a resource for a given usecase
+      operationId: assignUsecase
+      requestBody:
+        description: Usecase details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usecase_id:
+                  type: string
+                stage_name:
+                  type: string
+                assigned_to_id:
+                  type: string
+                assigned_by_id:
+                  type: string
+                updated_by_id:
+                  type: string                  
+                description:
+                  type: string
+      responses:
+        '201':
+          description: stage assigned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: stage assigned to resource
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Invalid request payload
+            
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /project/usecases/assign_task:
+    put:
+      tags:
+        - Projects
+      summary: Assign task for a usecase
+      description: Assign task to a resource for a given usecase
+      operationId: assignTask
+      requestBody:
+        description: Usecase details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_id:
+                  type: string
+                assigned_to_id:
+                  type: string
+                assigned_by_id:
+                  type: string
+                updated_by_id:
+                  type: string
+                start_date:
+                  type: string
+                  format: date
+                end_date:
+                  type: string
+                  format: date
+                comments:
+                  type: string
+      responses:
+        '201':
+          description: stage assigned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: stage assigned to resource
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Invalid request payload
+            
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /project/usecases/stage_details:
+    get:
+      tags:
+        - Projects
+      summary: Get stage details for creating/adding usecase and tasks
+      description: Get all stages and tasks for creating a usecase
+      operationId: stageDetailsForCreatingUsecase
+      parameters:
+        - name: project_id
+          in: query
+          required: true
+          description: ID of the project to get stage details
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  stages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        stage_name:
+                          type: string
+                        assigned_to_id:
+                          type: string
+                        description:
+                          type: string
+                        tasks:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              task_id:
+                                type: string
+                              assigned_to_id:
+                                type: string
+                              assigned_by_id:
+                                type: string
+                              start_date:
+                                type: string
+                                format: date
+                              end_date:
+                                type: string
+                                format: date
+                              comments:
+                                type: string
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+
+  /project/usecases/{name}:
+    get:
+      tags:
+        - Projects
+      summary: Get a usecase by name
+      description: Get a  usecases of a proejct by name and get usecase details -> project_id, project_name, project_icon_url, total_usecases, total_resources, project_status
+      operationId: getProjectsUsecaseByName
+      parameters:
+        - in: query
+          name: project_id
+          required: true
+          schema:
+            type: string
+          description: id of the project
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+          description: name of usecase
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    usecase_id:
+                      type: string
+                      description: Unique ID of the use case
+                    usecase_name:
+                      type: string
+                      description: Name of the use case
+                    current_stage:
+                      type: string
+                      description: Current stage of the use case
+                    usecase_assigned_id:
+                      type: string
+                      description: ID of the assigned use case
+                    total_resources:
+                      type: integer
+                      description: Total resources for the use case
+                    start_date:
+                      type: string
+                      format: date
+                      description: Start date of the use case
+                    end_date:
+                      type: string
+                      format: date
+                      description: End date of the use case
+                  required:
+                    - usecase_id
+                    - usecase_name
+                    - current_stage
+                    - usecase_assigned_id
+                    - total_resources
+                    - start_date
+                    - end_date
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /resource:
+    get:
+      tags:
+        - Team
+      summary: Get a list of resources
+      description: Get a list of all resources or of a particular proejctand get resource details -> resource_id, resource_name, resource_img_url, role, list of projects and email
+      operationId: getResources
+      parameters:
+        - in: query
+          name: project_id
+          required: false
+          schema:
+            type: string
+          description: Id of a project (optional)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    resource_id:
+                      type: string
+                      description: Unique ID of the resource
+                    resource_name:
+                      type: string
+                      description: Name of the resource
+                    role:
+                      type: string
+                      description: Role of the resource
+                    resource_img_url:
+                      type: string
+                      description: URL of the resource's image
+                    resource_email:
+                      type: string
+                      description: Email of the resource
+                    projects:
+                      type: array
+                      description: List of projects associated with the resource
+                      items:
+                        type: object
+                        properties:
+                          project_id:
+                            type: string
+                            description: Unique ID of the project
+                          project_name:
+                            type: string
+                            description: Name of the project
+                          project_img_url:
+                            type: string
+                            description: URL of the project's image
+            
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+    post:
+      tags:
+        - Team
+      summary: Get a list of resources
+      description: Get a list of all resources or of a particular proejctand get resource details -> resource_id, resource_name, resource_img_url, role, list of projects and email
+      operationId: addUsecase
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resource_name:
+                  type: string
+                  description: Name of the resource (required)
+                email:
+                  type: string
+                  description: resource email
+                role:
+                  type: string
+                  description: role of the resource
+                project:
+                  type: string
+                  description: project of the resource
+                description:
+                  type: string
+                  description: description of the resource
+      responses:
+        '201':
+          description: New resource created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: New resource created
+            
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /resources/list:
+    get:
+      tags:
+        - Team
+      summary: Get a list of resources (list view)
+      description: Get a list view of all resources or of a particular proejct 
+      operationId: getResourcesListView
+      parameters:
+        - in: query
+          name: project_id
+          required: false
+          schema:
+            type: string
+          description: Id of a project (optional)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    resource_id:
+                      type: string
+                      description: Unique ID of the resource
+                    resource_name:
+                      type: string
+                      description: Name of the resource
+                    total_tasks:
+                      type: integer
+                      description: Total tasks of the resource
+                    total_projects:
+                      type: integer
+                      description: Total tasks of the resource
+                    role:
+                      type: string
+                      description: Role of the resource
+                    resource_img_url:
+                      type: string
+                      description: URL of the resource's image
+                    resource_email:
+                      type: string
+                      description: Email of the resource
+                    projects:
+                      type: array
+                      description: List of projects associated with the resource
+                      items:
+                        type: object
+                        properties:
+                          project_id:
+                            type: string
+                            description: Unique ID of the project
+                          project_name:
+                            type: string
+                            description: Name of the project
+                          project_img_url:
+                            type: string
+                            description: URL of the project's image
+            
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                    
+  /get_resource_by_name:
+    get:
+      tags:
+        - Misc
+      summary: Get resources by name
+      description: Retrieve a list of resources based on the provided name
+      operationId: getResourcesByName
+      parameters:
+        - in: query
+          name: name
+          required: true
+          schema:
+            type: string
+          description: Name of the resource to search for
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    resource_id:
+                      type: integer
+                      description: Unique ID of the resource
+                    name:
+                      type: string
+                      description: Name of the resource
+                    image_url:
+                      type: string
+                      description: URL of the resource's image
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /get_resource_by_role:
+    get:
+      tags:
+        - Misc
+      summary: Get resources by role
+      description: Retrieve a list of resources based on the provided role
+      operationId: getResourcesByRole
+      parameters:
+        - in: query
+          name: project_id
+          required: true
+          schema:
+            type: string
+          description: project id of the project
+        - in: query
+          name: team_name
+          required: true
+          schema:
+            type: string
+          description: team name associated with the project
+        - in: query
+          name: role
+          required: true
+          schema:
+            type: string
+          description: role of the resource to search for
+        - in: query
+          name: resource_name
+          required: false
+          schema:
+            type: string
+          description: Name of the resource to search for  
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    resource_id:
+                      type: integer
+                      description: Unique ID of the resource
+                    name:
+                      type: string
+                      description: Name of the resource
+                    image_url:
+                      type: string
+                      description: URL of the resource's image
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
