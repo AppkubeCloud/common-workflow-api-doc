@@ -693,7 +693,7 @@ paths:
         get:
             tags:
                 - Projects
-            summary: Get a list of projects and its details
+            summary: Get a list of usecases and its details
             description: Get a list of usecases of a proejcts and get usecase details -> project_id, project_name, project_icon_url, total_usecases, total_resources, project_status
             operationId: getProjectsUsecases
             responses:
@@ -976,7 +976,7 @@ paths:
                                         description: An internal server error occurred
 
     /project/usecase/{name}:
-        get:
+        get: 
             tags:
                 - Projects
             summary: Get a usecase by name

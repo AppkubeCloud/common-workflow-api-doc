@@ -1,0 +1,25 @@
+{
+	"id": "uuid",
+	"usecase_id": "usecase_id",
+	"project_id": "project_id",
+	"assignee_id": "resource_id",
+	"stage": "stage_name",
+	"task": {
+		"name": "task_name",
+		"created_date": "date",
+		"start_date": "date",
+		"end_date": "date",
+		"resource_start_date": "date",
+		"resource_end_date": "date",
+		"task_assigned_date" : "date",
+		"assigned_by_id" : "resource_id",
+        "status" : "",
+		"comments": [
+			{
+				"resource_id": "resource_id",
+				"comment": "comment",
+				"created_date": " date"
+			}
+		]
+	}
+}

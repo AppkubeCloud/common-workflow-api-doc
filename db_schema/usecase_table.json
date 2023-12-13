@@ -1,0 +1,31 @@
+{
+	"id": "uuid",
+	"project_id": "project_id",
+	"usecase": {
+		"name": "usecase_name",
+		"usecase_assignee_id": "resource_id",
+		"description": " description text",
+		"start_date": "date",
+		"end_date": "date",
+		"creation_date" : "date",
+		"status": "",
+		"current_stage": "stage_name",
+		"workflow": {
+			"requirement": {
+				"assigne_id" : "resourceId",
+				"checklists": [
+					{
+						"item_id": 1,
+						"description": "Checklist item 1",
+						"checked": false
+					},
+					{
+						"item_id": 2,
+						"description": "Checklist item 2",
+						"checked": true
+					}
+				]
+			}
+		}
+	}
+}

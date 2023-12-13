@@ -1,0 +1,41 @@
+{
+	"id": "uuid",
+	"project": {
+		"name": "projectName",
+		"status": "completed",
+		"project_manager": "manager id",
+		"project_description": " description",
+		"department": "department name",
+		"current_stage": "",
+		"start_date": "12-12-2024",
+		"end_date": "12-12-2024",
+		"budget": 250000,
+		"workflows": {
+			"workflow_name": {
+				"created_by_id" : "resource_id",
+				"created_time" : "timestamp",
+				"stages" : {
+					"stage_1": {
+						"tasks": ["add to github", "add screen shot"],
+						"checklists": ["github", "screenshot"]
+					},
+					"stage_2": {
+						"tasks": ["add to github", "add screen shot"],
+						"checklists": ["github", "screenshot"]
+					}
+				}
+			}
+		},
+		"teams": {
+			"team_name": {
+				"created_by_id" : "resource_id",
+				"created_time" : "timestamp",
+				"roles" : {
+					"role_name": ["id", "id"],
+					"role_name": ["id", "id"],
+					"role_name": ["id", "id"]
+				}
+			}
+		}
+	}
+}
