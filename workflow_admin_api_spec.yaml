@@ -571,7 +571,7 @@ paths:
                             schema:
                                 type: object
                                 properties:
-                                    message:
+                                    workflow_name:
                                         type: string
                 "500":
                     description: Internal Server Error
@@ -696,6 +696,13 @@ paths:
             summary: Get a list of usecases and its details
             description: Get a list of usecases of a proejcts and get usecase details -> project_id, project_name, project_icon_url, total_usecases, total_resources, project_status
             operationId: getProjectsUsecases
+            parameters:
+                - name: project_id
+                  in: query
+                  required: true
+                  description: ID of the project
+                  schema:
+                      type: string
             responses:
                 "200":
                     description: Successful response
@@ -976,7 +983,7 @@ paths:
                                         description: An internal server error occurred
 
     /project/usecase/{name}:
-        get: 
+        get:
             tags:
                 - Projects
             summary: Get a usecase by name
@@ -1114,8 +1121,7 @@ paths:
         post:
             tags:
                 - Team
-            summary: Get a list of resources
-            description: Get a list of all resources or of a particular proejctand get resource details -> resource_id, resource_name, resource_img_url, role, list of projects and email
+            summary: Adds a new resource
             operationId: addUsecase
             requestBody:
                 required: true
