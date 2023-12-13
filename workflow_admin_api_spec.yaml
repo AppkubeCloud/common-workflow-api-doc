@@ -551,8 +551,10 @@ paths:
                                     type: string
                                     format: date
                                 stages:
-                                    type: object
-                                    additionalProperties:
+                                  type: array
+                                  items:
+                                      type: object  # Added this line
+                                      additionalProperties:
                                         type: object
                                         properties:
                                             tasks:
@@ -689,7 +691,7 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/usecase/all:
+    /project/usecase:
         get:
             tags:
                 - Projects
