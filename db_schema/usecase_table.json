@@ -13,7 +13,10 @@
 		"workflow": [
 			{
 				"requirement": {
-					"assigne_id": "resourceId",
+					"assignee_id": "resourceId",
+					"assigned_by_id" : "resourceId",
+					"updated_by_id": "resourceId",
+					"description": "description",
 					"checklists": [
 						{
 							"item_id": 1,
@@ -30,7 +33,10 @@
 			},
 			{
 				"mock": {
-					"assigne_id": "resourceId",
+					"assignee_id": "resourceId",
+					"assigned_by_id" : "resourceId",
+					"updated_by_id": "resourceId",
+					"description": "description",
 					"checklists": [
 						{
 							"item_id": 1,

@@ -659,17 +659,22 @@ paths:
                         schema:
                             type: object
                             properties:
-                                stage_name:
-                                    type: object
-                                    properties:
-                                        tasks:
-                                            type: array
-                                            items:
-                                                type: string
-                                        checklists:
-                                            type: array
-                                            items:
-                                                type: string
+                                index:
+                                  type: integer
+                                stage:
+                                  type: object
+                                  properties:
+                                    stage_name:
+                                        type: object
+                                        properties:
+                                            tasks:
+                                                type: array
+                                                items:
+                                                    type: string
+                                            checklists:
+                                                type: array
+                                                items:
+                                                    type: string
             responses:
                 "201":
                     description: New project created
