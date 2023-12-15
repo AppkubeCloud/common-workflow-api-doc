@@ -51,30 +51,25 @@ paths:
                   message:
                     type: string
                     description: An internal server error occurred
-  /task/start:
+  /task/{task_id}/start:
     put:
       tags: 
         - Tasks
       summary: Starts a task assigned to a resource
       operationId: startTask
       parameters:
+        - name: task_id
+          in: path
+          required: true
+          description: Id of the task
+          schema:
+            type: string
         - name: resource_id
           in: query
           required: true
-          description: ID of the project to get stage details
+          description: Id of the resource
           schema:
             type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                task_id:
-                  type: string
-                start_date:
-                  type: string
       responses:
         '201':
           description: Task started successfully

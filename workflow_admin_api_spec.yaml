@@ -638,13 +638,13 @@ paths:
                                         type: string
                                         description: An internal server error occurred
 
-    /project/{usecase_id}/stages:
+    /project/{usecase_id}/stage:
         put:
             tags:
                 - Projects
             summary: Add a new stage
             description: Adds a new stage to a existing usecase of a project
-            operationId: addStages
+            operationId: addStage
             parameters:
                 - name: usecase_id
                   in: path
@@ -957,7 +957,7 @@ paths:
                 - Projects
             summary: Get stage details for creating/adding usecase and tasks
             description: Get all stages and tasks for creating a usecase
-            operationId: stageDetailsForCreatingUsecase
+            operationId: getAllWorkflows
             parameters:
                 - name: project_id
                   in: query
@@ -1304,23 +1304,11 @@ paths:
                       type: string
                   description: project id of the project
                 - in: query
-                  name: team_name
-                  required: true
-                  schema:
-                      type: string
-                  description: team name associated with the project
-                - in: query
                   name: role
                   required: true
                   schema:
                       type: string
                   description: role of the resource to search for
-                - in: query
-                  name: resource_name
-                  required: false
-                  schema:
-                      type: string
-                  description: Name of the resource to search for
             responses:
                 "200":
                     description: Successful response
@@ -1340,6 +1328,9 @@ paths:
                                         image_url:
                                             type: string
                                             description: URL of the resource's image
+                                        email:
+                                            type: string
+                                            description: email of the resource
                 "500":
                     description: Internal Server Error
                     content:
