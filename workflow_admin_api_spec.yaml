@@ -18,7 +18,7 @@ paths:
         get:
             tags:
                 - Dashboard
-            summary: Get the total number of projects of an organization, percentage of projects completed, and total tasks
+            summary: organisation projects details overview
             operationId: getOrgProjectDetails
             responses:
                 "200":
@@ -31,46 +31,22 @@ paths:
                                     totalProjects:
                                         type: integer
                                         description: Total number of projects
-                                    percentageCompleted:
-                                        type: number
-                                        format: float
-                                        description: Percentage of completed projects
-                                    totalTasks:
+                                    total_tasks:
                                         type: integer
                                         description: Total number of tasks
-                "500":
-                    description: "Internal Server Error"
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /org_projects_status_overview:
-        get:
-            tags:
-                - Dashboard
-            summary: Get all projects of an org with all status (completed, in-progress, unassigned)
-            operationId: getOrgAllProjectStatusDetails
-            responses:
-                "200":
-                    description: Ok
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    completed_projects:
+                                    percentage_completed:
                                         type: integer
-                                        description: Total number of completed projects
-                                    inprogress_projects:
+                                        description: percentage of completed projects
+                                    completed:
                                         type: integer
-                                        description: Total number of in-progress projects
-                                    unassigned_projects:
+                                        description: number of completed projects
+                                    in_progress:
+                                        type: number
+                                        format: float
+                                        description: number of in progress projects
+                                    unassigned:
                                         type: integer
-                                        description: Total number of unassigned projects
+                                        description: number of unassigned projects
                 "500":
                     description: "Internal Server Error"
                     content:
