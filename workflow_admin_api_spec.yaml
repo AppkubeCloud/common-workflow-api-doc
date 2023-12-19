@@ -58,29 +58,29 @@ paths:
                                         type: string
                                         description: An internal server error occurred
 
-    /project_usecase_overview:
+    /projects_usecase_overview:
         get:
             tags:
                 - Dashboard
             summary: Get the number of completed and incomplete use cases of a project between dates
-            operationId: getProjectOverview
+            operationId: getProjectsUsecaseOverview
             parameters:
                 - in: query
                   name: project_id
-                  required: true
+                  required: false
                   schema:
                       type: integer
                   description: ID of the project for which to get the overview
                 - in: query
                   name: from_date
-                  required: true
+                  required: false
                   schema:
                       type: string
                       format: date
                   description: Start date of the date range
                 - in: query
                   name: to_date
-                  required: true
+                  required: false
                   schema:
                       type: string
                       format: date
@@ -110,57 +110,7 @@ paths:
                                         type: string
                                         description: An internal server error occurred
 
-    /projects_usecase_overview:
-        get:
-            tags:
-                - Dashboard
-            summary: Get the number of completed and incomplete use cases of all project between dates
-            operationId: getAllProjectsOverview
-            parameters:
-                - in: query
-                  name: from_date
-                  required: true
-                  schema:
-                      type: string
-                      format: date
-                  description: Start date of the date range
-                - in: query
-                  name: to_date
-                  required: true
-                  schema:
-                      type: string
-                      format: date
-                  description: End date of the date range
-            responses:
-                "200":
-                    description: Ok
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        project_name:
-                                            type: string
-                                            description: Name of the project
-                                        completed_usecases:
-                                            type: integer
-                                            description: Total number of completed use cases
-                                        incomplete_usecases:
-                                            type: integer
-                                            description: Total number of incomplete use cases
-                "500":
-                    description: "Internal Server Error"
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /resouce_task_status:
+    /resources_task_status:
         get:
             tags:
                 - Dashboard
@@ -169,69 +119,20 @@ paths:
             parameters:
                 - in: query
                   name: resource_id
-                  required: true
+                  required: false
                   schema:
                       type: integer
                   description: ID of the resource for which to get the task status
                 - in: query
                   name: from_date
-                  required: true
+                  required: false
                   schema:
                       type: string
                       format: date
                   description: Start date of the date range
                 - in: query
                   name: to_date
-                  required: true
-                  schema:
-                      type: string
-                      format: date
-                  description: End date of the date range
-            responses:
-                "200":
-                    description: Ok
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    completed_tasks:
-                                        type: integer
-                                        description: Total number of completed tasks
-                                    inprogress_tasks:
-                                        type: integer
-                                        description: Total number of in-progress tasks
-                                    pending_tasks:
-                                        type: integer
-                                        description: Total number of pending tasks
-                "500":
-                    description: "Internal Server Error"
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-
-    /resources_task_status:
-        get:
-            tags:
-                - Dashboard
-            summary: Get the number of completed, inprogress and pending tasks of all resources in between dates
-            operationId: getAllResourcesTasksStatus
-            parameters:
-                - in: query
-                  name: from_date
-                  required: true
-                  schema:
-                      type: string
-                      format: date
-                  description: Start date of the date range
-                - in: query
-                  name: to_date
-                  required: true
+                  required: false
                   schema:
                       type: string
                       format: date
@@ -261,8 +162,20 @@ paths:
                                         pending_tasks:
                                             type: integer
                                             description: Total number of pending tasks
+                "204":
+                    description: "Ok"
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: no tasks assigned
+
+                                        
                 "500":
-                    description: Internal Server Error
+                    description: "Internal Server Error"
                     content:
                         application/json:
                             schema:
@@ -271,6 +184,7 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+
     /projects_overview:
         get:
             tags:
@@ -931,8 +845,7 @@ paths:
         get:
             tags:
                 - Projects
-            summary: Get stage details for creating/adding usecase and tasks
-            description: Get all stages and tasks for creating a usecase
+            summary: Get all workflow names
             operationId: getAllWorkflows
             parameters:
                 - name: project_id
