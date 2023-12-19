@@ -162,17 +162,6 @@ paths:
                                         pending_tasks:
                                             type: integer
                                             description: Total number of pending tasks
-                "204":
-                    description: "Ok"
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: no tasks assigned
-
                                         
                 "500":
                     description: "Internal Server Error"
