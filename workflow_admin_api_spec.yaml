@@ -262,6 +262,9 @@ paths:
                                         manager_name:
                                             type: integer
                                             description: name of manager
+                                        manager_image_url:
+                                            type: string
+                                            description: image url of manager
                                         current_task:
                                             type: integer
                                             description: Current task of the manager
@@ -1176,11 +1179,11 @@ paths:
             operationId: getResourcesByRole
             parameters:
                 - in: query
-                  name: project_id
-                  required: true
+                  name: name
+                  required: false
                   schema:
                       type: string
-                  description: project id of the project
+                  description: name of the resource
                 - in: query
                   name: role
                   required: true
