@@ -643,7 +643,6 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/usecase/new:
         post:
             tags:
                 - Projects
@@ -690,6 +689,73 @@ paths:
                                         type: string
                                     description:
                                         type: string
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: Invalid request payload
+
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /project/usecase/details:
+        get:
+            tags:
+                - Projects
+            summary: get usecase details
+            operationId: getusecaseDetails
+            parameters:
+                - name: usecase_id
+                  in: query
+                  required: true
+                  description: ID of the usecase
+                  schema:
+                      type: string            
+            responses:
+                "201":
+                    description: stage assigned
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        usecase_id:
+                                            type: string
+                                            description: Unique ID of the use case
+                                        usecase_name:
+                                            type: string
+                                            description: Name of the use case
+                                        current_stage:
+                                            type: string
+                                            description: Current stage of the use case
+                                        usecase_assigned_id:
+                                            type: string
+                                            description: ID of the assigned use case
+                                        total_resources:
+                                            type: integer
+                                            description: Total resources for the use case
+                                        start_date:
+                                            type: string
+                                            format: date
+                                            description: Start date of the use case
+                                        end_date:
+                                            type: string
+                                            format: date
+                                            description: End date of the use case
                 "400":
                     description: Bad Request
                     content:
