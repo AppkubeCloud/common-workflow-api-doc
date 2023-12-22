@@ -467,7 +467,7 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/team/new:
+    /project/team:
         put:
             tags:
                 - Projects
