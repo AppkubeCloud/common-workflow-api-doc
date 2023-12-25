@@ -371,7 +371,7 @@ paths:
                         schema:
                             type: object
                             properties:
-                                name:
+                                project_name:
                                     type: string
                                 project_manager_id:
                                     type: string
@@ -468,11 +468,51 @@ paths:
                                         type: string
                                         description: An internal server error occurred
     /project/team:
+        get:
+            tags:
+                - Projects
+            summary: Gets the team for a project
+            operationId: getProjectTeam
+            responses:
+                "201":
+                    description: OK
+                    content:
+                        application/json:
+                          schema:
+                              type: object
+                              properties:
+                                  project_id:
+                                      type: string
+                                  team_name:
+                                      type: string
+                                  created_by_id:
+                                      type: string
+                                  roles:
+                                    type: array
+                                    items:
+                                      type: object
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                          role_name:
+                                            type: array
+                                            items:
+                                              type: string
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    
         put:
             tags:
                 - Projects
             summary: Add a new team to a  project
-            description: Adds a new team to project the with the given details
             operationId: addTeamToProject
             requestBody:
                 required: true
@@ -500,7 +540,7 @@ paths:
                                             type: string
             responses:
                 "201":
-                    description: New workflow added to the project
+                    description: New team added to the project
                     content:
                         application/json:
                             schema:
@@ -518,7 +558,6 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-
     /project/{usecase_id}/stage:
         put:
             tags:
