@@ -371,7 +371,7 @@ paths:
                         schema:
                             type: object
                             properties:
-                                project_name:
+                                name:
                                     type: string
                                 project_manager_id:
                                     type: string
@@ -487,18 +487,17 @@ paths:
                                     type: string
                                 created_by_id:
                                     type: string
-                                created_time:
-                                    type: string
-                                    format: date
                                 roles:
+                                  type: array
+                                  items:
                                     type: object
                                     additionalProperties:
-                                        type: object
-                                        properties:
-                                            role_name:
-                                                type: array
-                                                items:
-                                                    type: string
+                                      type: object
+                                      properties:
+                                        role_name:
+                                          type: array
+                                          items:
+                                            type: string
             responses:
                 "201":
                     description: New workflow added to the project
