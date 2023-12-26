@@ -1,0 +1,22 @@
+{
+	"id": "uuid",
+	"workflow": {
+		"workflow_name": "workflow_name",
+		"created_by_id": "resource_id",
+		"created_time": "timestamp",
+		"stages": [
+			{
+				"stage_1": {
+					"tasks": ["add to github", "add screen shot"],
+					"checklists": ["github", "screenshot"]
+				}
+			},
+			{
+				"stage_2": {
+					"tasks": ["add to github", "add screen shot"],
+					"checklists": ["github", "screenshot"]
+				}
+			}
+		]
+	}
+}
