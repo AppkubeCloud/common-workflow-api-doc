@@ -3,7 +3,11 @@
 	"project": {
 		"name": "projectName",
 		"status": "completed",
-		"project_manager": "manager id",
+		"project_manager": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url"
+		},
 		"project_description": " description",
 		"department": "department name",
 		"project_icon_url": "url",
@@ -11,7 +15,11 @@
 		"start_date": "12-12-2024",
 		"end_date": "12-12-2024",
 		"budget": 250000,
-		"workflows": ["workflow_id", "workflow_id","workflow_id"],
+		"workflows": [
+			{ "id": "workflow_id", "name": "workflwo_name" },
+			{ "id": "workflow_id", "name": "workflwo_name" },
+			{ "id": "workflow_id", "name": "workflwo_name" }
+		],
 		"team": {
 			"team_name": "team_name",
 			"created_by_id": "resource_id",

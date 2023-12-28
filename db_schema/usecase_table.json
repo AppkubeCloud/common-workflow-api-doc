@@ -1,6 +1,7 @@
 {
 	"id": "uuid",
 	"project_id": "project_id",
+	"workfflow_id": "workfflow_id",
 	"usecase": {
 		"name": "usecase_name",
 		"usecase_assignee_id": "resource_id",

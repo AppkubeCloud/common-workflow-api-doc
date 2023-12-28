@@ -1,8 +1,9 @@
 {
 	"id": "uuid",
+	"name": "workflwo_name",
 	"workflow": {
-		"workflow_name": "workflow_name",
 		"created_by_id": "resource_id",
+		"updated_by_id": "resource_id",
 		"created_time": "timestamp",
 		"stages": [
 			{

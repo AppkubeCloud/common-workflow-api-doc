@@ -44,3 +44,6 @@ ADD COLUMN workflow_id UUID;
 
 ALTER TABLE usecases_table
 ADD CONSTRAINT fk_usecase_workflow_id FOREIGN KEY (workflow_id) REFERENCES workflows_table (id);
+
+ALTER TABLE workflows_table
+ADD COLUMN NAME VARCHAR(255) UNIQUE NOT NULL;

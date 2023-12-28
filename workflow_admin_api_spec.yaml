@@ -409,64 +409,6 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/workflow/new:
-        put:
-            tags:
-                - Projects
-            summary: Add a new workflow to a  project
-            description: Adds a new workflow to the project with the given details
-            operationId: addWorkflowToProject
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                project_id:
-                                    type: string
-                                workflow_name:
-                                    type: string
-                                created_by_id:
-                                    type: string
-                                created_time:
-                                    type: string
-                                    format: date
-                                stages:
-                                  type: array
-                                  items:
-                                      type: object  # Added this line
-                                      additionalProperties:
-                                        type: object
-                                        properties:
-                                            tasks:
-                                                type: array
-                                                items:
-                                                    type: string
-                                            checklists:
-                                                type: array
-                                                items:
-                                                    type: string
-            responses:
-                "201":
-                    description: New workflow added to the project
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    workflow_name:
-                                        type: string
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
     /project/team:
         get:
             tags:
@@ -937,6 +879,60 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+    /workflow:
+        post:
+            tags:
+                - Projects
+            summary: Add a new workflow to a  project
+            description: Adds a new workflow to the project with the given details
+            operationId: addWorkflowToProject
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                created_by_id:
+                                    type: string
+                                stages:
+                                  type: array
+                                  items:
+                                      type: object  # Added this line
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                            tasks:
+                                                type: array
+                                                items:
+                                                    type: string
+                                            checklists:
+                                                type: array
+                                                items:
+                                                    type: string
+            responses:
+                "201":
+                    description: New workflow added to the project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    workflow_name:
+                                        type: string
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+
     /project/workflow/all:
         get:
             tags:
