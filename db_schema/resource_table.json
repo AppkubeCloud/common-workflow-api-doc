@@ -8,7 +8,9 @@
 		"description": "Responsible for frontend development",
 		"current_task": {
 			"task_id": "task_id",
-			"task_name": "task_name"
+			"task_name": "task_name",
+			"created_date" : "",
+			"due_date" : ""
 		}
 	}
 }
