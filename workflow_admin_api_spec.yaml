@@ -208,9 +208,6 @@ paths:
                                         total_usecases:
                                             type: integer
                                             description: Total number of use cases in the project
-                                        completed_usecases:
-                                            type: integer
-                                            description: Number of completed use cases
                                         due_date:
                                             type: string
                                             format: date
@@ -415,6 +412,12 @@ paths:
                 - Projects
             summary: Gets the team for a project
             operationId: getProjectTeam
+            parameters:
+                - in: query
+                  name: project_id
+                  schema:
+                      type: string
+                  description: (optional)            
             responses:
                 "201":
                     description: OK
