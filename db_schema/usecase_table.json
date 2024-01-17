@@ -11,6 +11,7 @@
 		"creation_date": "date",
 		"status": "",
 		"current_stage": "stage_name",
+		"created_by_id" : "uuid",
 		"stages": [
 			{
 				"requirement": {

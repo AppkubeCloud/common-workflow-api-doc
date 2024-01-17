@@ -2,6 +2,7 @@
 	"id": "uuid",
 	"name": "workflow_name",
 	"arn" : "arn",
+	"project_id" : "uuid",
 	"metadata": {
 		"created_by_id": "resource_id",
 		"updated_by_id": "resource_id",

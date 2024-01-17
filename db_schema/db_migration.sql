@@ -61,5 +61,11 @@ RENAME COLUMN workflow TO metadata;
 alter table workflows_table 
 drop constraint workflows_table_name_key;
 
-alter table usecases_table
-rename column usecase to stages;
+alter table workflows_table 
+add column project_id UUID not null,
+add constraint fk_workflows_project
+foreign key (project_id)
+references projects_table(id);
+
+alter table usecases_table 
+add column arn VARCHAR(255) not null;
