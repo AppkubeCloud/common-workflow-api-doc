@@ -4,6 +4,8 @@
 	"project_id": "project_id",
 	"assignee_id": "resource_id",
 	"stage": "stage_name",
+	"arn" : "arn",
+	"token" : "token",
 	"task": {
 		"name": "task_name",
 		"created_date": "date",

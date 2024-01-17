@@ -47,3 +47,19 @@ ADD CONSTRAINT fk_usecase_workflow_id FOREIGN KEY (workflow_id) REFERENCES workf
 
 ALTER TABLE workflows_table
 ADD COLUMN NAME VARCHAR(255) UNIQUE NOT NULL;
+
+ALTER TABLE tasks_table 
+ADD COLUMN arn VARCHAR(255) NOT NULL,
+ADD COLUMN token VARCHAR(1000) NOT NULL;
+
+ALTER TABLE workflows_table
+ADD COLUMN arn VARCHAR(255) NOT null;
+
+ALTER TABLE workflows_table
+RENAME COLUMN workflow TO metadata;
+
+alter table workflows_table 
+drop constraint workflows_table_name_key;
+
+alter table usecases_table
+rename column usecase to stages;

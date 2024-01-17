@@ -1,17 +1,17 @@
 {
 	"id": "uuid",
 	"project_id": "project_id",
-	"workfflow_id": "workfflow_id",
+	"workfflow_id": "workflow_id",
 	"usecase": {
 		"name": "usecase_name",
 		"usecase_assignee_id": "resource_id",
 		"description": " description text",
-		"start_date": "date",
+		"start _date": "date",
 		"end_date": "date",
 		"creation_date": "date",
 		"status": "",
 		"current_stage": "stage_name",
-		"workflow": [
+		"stages": [
 			{
 				"requirement": {
 					"assignee_id": "resourceId",

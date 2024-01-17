@@ -30,23 +30,17 @@ paths:
                                 properties:
                                     totalProjects:
                                         type: integer
-                                        description: Total number of projects
                                     total_tasks:
                                         type: integer
-                                        description: Total number of tasks
                                     percentage_completed:
                                         type: integer
-                                        description: percentage of completed projects
                                     completed:
                                         type: integer
-                                        description: number of completed projects
                                     in_progress:
                                         type: number
                                         format: float
-                                        description: number of in progress projects
                                     unassigned:
                                         type: integer
-                                        description: number of unassigned projects
                 "500":
                     description: "Internal Server Error"
                     content:
@@ -56,7 +50,7 @@ paths:
                                 properties:
                                     message:
                                         type: string
-                                        description: An internal server error occurred
+                                        
 
     /projects_usecase_overview:
         get:
@@ -70,6 +64,7 @@ paths:
                   required: false
                   schema:
                       type: integer
+                      format: uuid
                   description: ID of the project for which to get the overview
                 - in: query
                   name: from_date
@@ -122,6 +117,7 @@ paths:
                   required: false
                   schema:
                       type: integer
+                      format: uuid
                   description: ID of the resource for which to get the task status
                 - in: query
                   name: from_date
@@ -149,19 +145,15 @@ paths:
                                     properties:
                                         resource_id:
                                             type: integer
-                                            description: ID of the resource
+                                            format: uuid
                                         resource_name:
                                             type: string
-                                            description: Name of the resource
                                         completed_tasks:
                                             type: integer
-                                            description: Total number of completed tasks
                                         inprogress_tasks:
                                             type: integer
-                                            description: Total number of in-progress tasks
                                         pending_tasks:
                                             type: integer
-                                            description: Total number of pending tasks
                                         
                 "500":
                     description: "Internal Server Error"
@@ -198,23 +190,18 @@ paths:
                                     properties:
                                         project_id:
                                             type: integer
-                                            description: Unique ID of the project
+                                            format: uuid
                                         project_name:
                                             type: string
-                                            description: Name of the project
                                         status:
                                             type: string
-                                            description: Current status of the project
                                         total_usecases:
                                             type: integer
-                                            description: Total number of use cases in the project
                                         due_date:
                                             type: string
                                             format: date
-                                            description: Due date of the project
                                         completed_tasks_percentage:
                                             type: number
-                                            description: Percentage of completed tasks in the project
                 "500":
                     description: Internal Server Error
                     content:
@@ -249,48 +236,38 @@ paths:
                                     properties:
                                         project_id:
                                             type: integer
-                                            description: Unique ID of the project
+                                            format: uuid
                                         project_name:
                                             type: string
-                                            description: Name of the project
                                         manager_id:
                                             type: string
-                                            description: Id of resources
+                                            format: uuid
                                         manager_name:
                                             type: integer
-                                            description: name of manager
                                         manager_image_url:
                                             type: string
-                                            description: image url of manager
                                         current_task:
                                             type: integer
-                                            description: Current task of the manager
                                         created_date:
                                             type: string
                                             format: date
-                                            description: Created date of the task
                                         due_date:
                                             type: string
                                             format: date
-                                            description: Due date of the task
                                         total_tasks:
                                             type: number
-                                            description: Total tasks of of the manager
                                         project_resources:
                                             type: array
-                                            description: List of resources associated with the project
                                             items:
                                                 type: object
                                                 properties:
                                                     resource_id:
                                                         type: string
-                                                        description: Unique ID of the resource
+                                                        format: uuid
                                                     resource_name:
                                                         type: string
-                                                        description: Name of the resource
                                                     resource_img_url:
                                                         type: string
-                                                        description: URL of the resource's image
 
                 "500":
                     description: Internal Server Error
@@ -329,22 +306,17 @@ paths:
                                     properties:
                                         project_id:
                                             type: string
-                                            description: Unique ID of the project
+                                            format: uuid
                                         project_name:
                                             type: string
-                                            description: Name of the project
                                         project_icon_url:
                                             type: string
-                                            description: URL of the project's image
                                         total_usecases:
                                             type: integer
-                                            description: Total usecases of the project
                                         total_resources:
                                             type: integer
-                                            description: Total resources of the project
                                         project_status:
                                             type: string
-                                            description: Status of the project
                 "500":
                     description: Internal Server Error
                     content:
@@ -359,7 +331,6 @@ paths:
             tags:
                 - Projects
             summary: Add a new project
-            description: Adds a new project to the database with the given details
             operationId: addProject
             requestBody:
                 required: true
@@ -372,6 +343,7 @@ paths:
                                     type: string
                                 project_manager_id:
                                     type: string
+                                    format: uuid
                                 project_description:
                                     type: string
                                 department:
@@ -394,6 +366,7 @@ paths:
                                 properties:
                                     project_id:
                                         type: string
+                                        format: uuid
                                     project_name:
                                         type: string
                 "500":
@@ -417,6 +390,7 @@ paths:
                   name: project_id
                   schema:
                       type: string
+                      format: uuid
                   description: (optional)            
             responses:
                 "201":
@@ -428,10 +402,12 @@ paths:
                               properties:
                                   project_id:
                                       type: string
+                                      format: uuid
                                   team_name:
                                       type: string
                                   created_by_id:
                                       type: string
+                                      format: uuid
                                   roles:
                                     type: array
                                     items:
@@ -468,10 +444,12 @@ paths:
                             properties:
                                 project_id:
                                     type: string
+                                    format: uuid
                                 team_name:
                                     type: string
                                 created_by_id:
                                     type: string
+                                    format: uuid
                                 roles:
                                   type: array
                                   items:
@@ -508,7 +486,6 @@ paths:
             tags:
                 - Projects
             summary: Add a new stage
-            description: Adds a new stage to a existing usecase of a project
             operationId: addStage
             parameters:
                 - name: usecase_id
@@ -517,6 +494,7 @@ paths:
                   description: ID of the usecase to which the stage will be added
                   schema:
                       type: string
+                      format: uuid
             requestBody:
                 required: true
                 content:
@@ -566,7 +544,6 @@ paths:
             tags:
                 - Projects
             summary: Get a list of usecases and its details
-            description: Get a list of usecases of a proejcts and get usecase details -> project_id, project_name, project_icon_url, total_usecases, total_resources, project_status
             operationId: getProjectsUsecases
             parameters:
                 - name: project_id
@@ -575,6 +552,7 @@ paths:
                   description: ID of the project
                   schema:
                       type: string
+                      format: uuid
             responses:
                 "200":
                     description: Successful response
@@ -587,19 +565,16 @@ paths:
                                     properties:
                                         usecase_id:
                                             type: string
-                                            description: Unique ID of the use case
+                                            format: uuid
                                         usecase_name:
                                             type: string
-                                            description: Name of the use case
                                         current_stage:
                                             type: string
-                                            description: Current stage of the use case
                                         usecase_assigned_id:
                                             type: string
-                                            description: ID of the assigned use case
+                                            format: uuid
                                         total_resources:
                                             type: integer
-                                            description: Total resources for the use case
                                         start_date:
                                             type: string
                                             format: date
@@ -608,14 +583,6 @@ paths:
                                             type: string
                                             format: date
                                             description: End date of the use case
-                                    required:
-                                        - usecase_id
-                                        - usecase_name
-                                        - current_stage
-                                        - usecase_assigned_id
-                                        - total_resources
-                                        - start_date
-                                        - end_date
                 "500":
                     description: Internal Server Error
                     content:
@@ -630,7 +597,6 @@ paths:
             tags:
                 - Projects
             summary: Add a new usecase to a project
-            description: Adds a new a usecase to a existing project
             operationId: addusecase
             requestBody:
                 description: Usecase details
@@ -642,16 +608,21 @@ paths:
                             properties:
                                 project_id:
                                     type: string
+                                    format: uuid
                                 created_by_id:
                                     type: string
+                                    format: uuid
                                 usecase_name:
                                     type: string
                                 assigned_to_id:
                                     type: string
+                                    format: uuid
                                 description:
                                     type: string
-                                workflow_name:
+                                workflow_id:
                                   type: string
+                                  format: uuid
+
             responses:
                 "201":
                     description: Usecase created successfully
@@ -662,14 +633,18 @@ paths:
                                 properties:
                                     usecase_id:
                                         type: string
+                                        format: uuid
                                     project_id:
                                         type: string
+                                        format: uuid
                                     created_by_id:
                                         type: string
+                                        format: uuid
                                     usecase_name:
                                         type: string
                                     assigned_to_id:
                                         type: string
+                                        format: uuid
                                     description:
                                         type: string
                 "400":
@@ -705,7 +680,8 @@ paths:
                   required: true
                   description: ID of the usecase
                   schema:
-                      type: string            
+                      type: string
+                      format: uuid
             responses:
                 "201":
                     description: stage assigned
@@ -718,27 +694,22 @@ paths:
                                     properties:
                                         usecase_id:
                                             type: string
-                                            description: Unique ID of the use case
+                                            format: uuid
                                         usecase_name:
                                             type: string
-                                            description: Name of the use case
                                         current_stage:
                                             type: string
-                                            description: Current stage of the use case
                                         usecase_assigned_id:
                                             type: string
-                                            description: ID of the assigned use case
+                                            format: uuid
                                         total_resources:
                                             type: integer
-                                            description: Total resources for the use case
                                         start_date:
                                             type: string
                                             format: date
-                                            description: Start date of the use case
                                         end_date:
                                             type: string
                                             format: date
-                                            description: End date of the use case
                 "400":
                     description: Bad Request
                     content:
@@ -777,14 +748,18 @@ paths:
                             properties:
                                 usecase_id:
                                     type: string
+                                    format: uuid
                                 stage_name:
                                     type: string
                                 assigned_to_id:
                                     type: string
+                                    format: uuid
                                 assigned_by_id:
                                     type: string
+                                    format: uuid
                                 updated_by_id:
                                     type: string
+                                    format: uuid
                                 description:
                                     type: string
             responses:
@@ -824,7 +799,6 @@ paths:
             tags:
                 - Projects
             summary: Assign task for a usecase
-            description: Assign task to a resource for a given usecase
             operationId: assignTask
             requestBody:
                 description: Usecase details
@@ -836,12 +810,16 @@ paths:
                             properties:
                                 task_id:
                                     type: string
+                                    format: uuid
                                 assigned_to_id:
                                     type: string
+                                    format: uuid
                                 assigned_by_id:
                                     type: string
+                                    format: uuid
                                 updated_by_id:
                                     type: string
+                                    format: uuid
                                 start_date:
                                     type: string
                                     format: date
@@ -887,7 +865,6 @@ paths:
             tags:
                 - Projects
             summary: Add a new workflow to a  project
-            description: Adds a new workflow to the project with the given details
             operationId: addWorkflowToProject
             requestBody:
                 required: true
@@ -900,10 +877,11 @@ paths:
                                     type: string
                                 created_by_id:
                                     type: string
+                                    format: uuid
                                 stages:
                                   type: array
                                   items:
-                                      type: object  # Added this line
+                                      type: object
                                       additionalProperties:
                                         type: object
                                         properties:
@@ -949,6 +927,7 @@ paths:
                   description: ID of the project to get stage details
                   schema:
                       type: string
+                      format: uuid
             responses:
                 "200":
                   description: Successful response
@@ -978,7 +957,6 @@ paths:
             tags:
                 - Projects
             summary: Get a usecase by name
-            description: Get a  usecases of a proejct by name and get usecase details -> project_id, project_name, project_icon_url, total_usecases, total_resources, project_status
             operationId: getProjectsUsecaseByName
             parameters:
                 - in: query
@@ -986,6 +964,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      format: uuid
                   description: id of the project
                 - in: path
                   name: name
@@ -1005,19 +984,16 @@ paths:
                                     properties:
                                         usecase_id:
                                             type: string
-                                            description: Unique ID of the use case
+                                            format: uuid
                                         usecase_name:
                                             type: string
-                                            description: Name of the use case
                                         current_stage:
                                             type: string
-                                            description: Current stage of the use case
                                         usecase_assigned_id:
                                             type: string
-                                            description: ID of the assigned use case
+                                            format: uuid
                                         total_resources:
                                             type: integer
-                                            description: Total resources for the use case
                                         start_date:
                                             type: string
                                             format: date
@@ -1026,14 +1002,6 @@ paths:
                                             type: string
                                             format: date
                                             description: End date of the use case
-                                    required:
-                                        - usecase_id
-                                        - usecase_name
-                                        - current_stage
-                                        - usecase_assigned_id
-                                        - total_resources
-                                        - start_date
-                                        - end_date
                 "500":
                     description: Internal Server Error
                     content:
@@ -1049,7 +1017,6 @@ paths:
             tags:
                 - Team
             summary: Get a list of resources
-            description: Get a list of all resources or of a particular proejctand get resource details -> resource_id, resource_name, resource_img_url, role, list of projects and email
             operationId: getResources
             parameters:
                 - in: query
@@ -1057,6 +1024,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      format: uuid
                   description: Id of a project (optional)
             responses:
                 "200":
@@ -1070,34 +1038,27 @@ paths:
                                     properties:
                                         resource_id:
                                             type: string
-                                            description: Unique ID of the resource
+                                            format: uuid
                                         resource_name:
                                             type: string
-                                            description: Name of the resource
                                         role:
                                             type: string
-                                            description: Role of the resource
                                         resource_img_url:
                                             type: string
-                                            description: URL of the resource's image
                                         resource_email:
                                             type: string
-                                            description: Email of the resource
                                         projects:
                                             type: array
-                                            description: List of projects associated with the resource
                                             items:
                                                 type: object
                                                 properties:
                                                     project_id:
                                                         type: string
-                                                        description: Unique ID of the project
+                                                        format: uuid project
                                                     project_name:
                                                         type: string
-                                                        description: Name of the project
                                                     project_img_url:
                                                         type: string
-                                                        description: URL of the project's image
 
                 "500":
                     description: Internal Server Error
@@ -1123,19 +1084,14 @@ paths:
                             properties:
                                 resource_name:
                                     type: string
-                                    description: Name of the resource (required)
                                 email:
                                     type: string
-                                    description: resource email
                                 role:
                                     type: string
-                                    description: role of the resource
                                 project:
                                     type: string
-                                    description: project of the resource
                                 description:
                                     type: string
-                                    description: description of the resource
             responses:
                 "201":
                     description: New resource created
@@ -1163,7 +1119,6 @@ paths:
             tags:
                 - Team
             summary: Get a list of resources (list view)
-            description: Get a list view of all resources or of a particular proejct
             operationId: getResourcesListView
             parameters:
                 - in: query
@@ -1171,6 +1126,7 @@ paths:
                   required: false
                   schema:
                       type: string
+                      format: uuid
                   description: Id of a project (optional)
             responses:
                 "200":
@@ -1184,40 +1140,31 @@ paths:
                                     properties:
                                         resource_id:
                                             type: string
-                                            description: Unique ID of the resource
+                                            format: uuid
                                         resource_name:
                                             type: string
-                                            description: Name of the resource
                                         total_tasks:
                                             type: integer
-                                            description: Total tasks of the resource
                                         total_projects:
                                             type: integer
-                                            description: Total tasks of the resource
                                         role:
                                             type: string
-                                            description: Role of the resource
                                         resource_img_url:
                                             type: string
-                                            description: URL of the resource's image
                                         resource_email:
                                             type: string
-                                            description: Email of the resource
                                         projects:
                                             type: array
-                                            description: List of projects associated with the resource
                                             items:
                                                 type: object
                                                 properties:
                                                     project_id:
                                                         type: string
-                                                        description: Unique ID of the project
+                                                        format: uuid
                                                     project_name:
                                                         type: string
-                                                        description: Name of the project
                                                     project_img_url:
                                                         type: string
-                                                        description: URL of the project's image
 
                 "500":
                     description: Internal Server Error
@@ -1235,7 +1182,6 @@ paths:
             tags:
                 - Misc
             summary: Get resources by name
-            description: Retrieve a list of resources based on the provided name
             operationId: getResourcesByName
             parameters:
                 - in: query
@@ -1243,6 +1189,7 @@ paths:
                   required: true
                   schema:
                       type: string
+                      format: uuid
                   description: Name of the resource to search for
             responses:
                 "200":
@@ -1256,13 +1203,11 @@ paths:
                                     properties:
                                         resource_id:
                                             type: integer
-                                            description: Unique ID of the resource
+                                            format: uuid
                                         name:
                                             type: string
-                                            description: Name of the resource
                                         image_url:
                                             type: string
-                                            description: URL of the resource's image
                 "500":
                     description: Internal Server Error
                     content:
@@ -1278,7 +1223,6 @@ paths:
             tags:
                 - Misc
             summary: Get resources by role
-            description: Retrieve a list of resources based on the provided role
             operationId: getResourcesByRole
             parameters:
                 - in: query
@@ -1305,16 +1249,13 @@ paths:
                                     properties:
                                         resource_id:
                                             type: integer
-                                            description: Unique ID of the resource
+                                            format: uuid
                                         name:
                                             type: string
-                                            description: Name of the resource
                                         image_url:
                                             type: string
-                                            description: URL of the resource's image
                                         email:
                                             type: string
-                                            description: email of the resource
                 "500":
                     description: Internal Server Error
                     content:
