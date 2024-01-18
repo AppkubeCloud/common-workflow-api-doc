@@ -878,6 +878,9 @@ paths:
                                 created_by_id:
                                     type: string
                                     format: uuid
+                                projectid:
+                                    type: string
+                                    format: uuid
                                 stages:
                                   type: array
                                   items:
