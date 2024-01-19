@@ -8,10 +8,16 @@ tags:
       description: APIs related to the dashboard page
     - name: Projects
       description: APIs related to the all projects page
+    - name: Workflow
+      description: APIs related to workflow
+    - name: Usecase
+      description: APIs related to usecase      
     - name: Team
       description: APIs related to the Team page
     - name: Misc
       description: Miscellaneous APIs used throught the application
+    - name: Media
+      description: Apis related to media files
 
 paths:
     /org_projects_overview:
@@ -481,256 +487,6 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/{usecase_id}/stage:
-        put:
-            tags:
-                - Projects
-            summary: Add a new stage
-            operationId: addStage
-            parameters:
-                - name: usecase_id
-                  in: path
-                  required: true
-                  description: ID of the usecase to which the stage will be added
-                  schema:
-                      type: string
-                      format: uuid
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                index:
-                                  type: integer
-                                stage:
-                                  type: object
-                                  properties:
-                                    stage_name:
-                                        type: object
-                                        properties:
-                                            tasks:
-                                                type: array
-                                                items:
-                                                    type: string
-                                            checklists:
-                                                type: array
-                                                items:
-                                                    type: string
-            responses:
-                "201":
-                    description: New project created
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: New project created
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /project/usecase:
-        get:
-            tags:
-                - Projects
-            summary: Get a list of usecases and its details
-            operationId: getProjectsUsecases
-            parameters:
-                - name: project_id
-                  in: query
-                  required: true
-                  description: ID of the project
-                  schema:
-                      type: string
-                      format: uuid
-            responses:
-                "200":
-                    description: Successful response
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        usecase_id:
-                                            type: string
-                                            format: uuid
-                                        usecase_name:
-                                            type: string
-                                        current_stage:
-                                            type: string
-                                        usecase_assigned_id:
-                                            type: string
-                                            format: uuid
-                                        total_resources:
-                                            type: integer
-                                        start_date:
-                                            type: string
-                                            format: date
-                                            description: Start date of the use case
-                                        end_date:
-                                            type: string
-                                            format: date
-                                            description: End date of the use case
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-        post:
-            tags:
-                - Projects
-            summary: Add a new usecase to a project
-            operationId: addusecase
-            requestBody:
-                description: Usecase details
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                project_id:
-                                    type: string
-                                    format: uuid
-                                created_by_id:
-                                    type: string
-                                    format: uuid
-                                usecase_name:
-                                    type: string
-                                assigned_to_id:
-                                    type: string
-                                    format: uuid
-                                description:
-                                    type: string
-                                workflow_id:
-                                  type: string
-                                  format: uuid
-
-            responses:
-                "201":
-                    description: Usecase created successfully
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    usecase_id:
-                                        type: string
-                                        format: uuid
-                                    project_id:
-                                        type: string
-                                        format: uuid
-                                    created_by_id:
-                                        type: string
-                                        format: uuid
-                                    usecase_name:
-                                        type: string
-                                    assigned_to_id:
-                                        type: string
-                                        format: uuid
-                                    description:
-                                        type: string
-                "400":
-                    description: Bad Request
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Invalid request payload
-
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /project/usecase/details:
-        get:
-            tags:
-                - Projects
-            summary: get usecase details
-            operationId: getusecaseDetails
-            parameters:
-                - name: usecase_id
-                  in: query
-                  required: true
-                  description: ID of the usecase
-                  schema:
-                      type: string
-                      format: uuid
-            responses:
-                "201":
-                    description: stage assigned
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        usecase_id:
-                                            type: string
-                                            format: uuid
-                                        usecase_name:
-                                            type: string
-                                        current_stage:
-                                            type: string
-                                        usecase_assigned_id:
-                                            type: string
-                                            format: uuid
-                                        total_resources:
-                                            type: integer
-                                        start_date:
-                                            type: string
-                                            format: date
-                                        end_date:
-                                            type: string
-                                            format: date
-                "400":
-                    description: Bad Request
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Invalid request payload
-
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
     /project/usecase/assign_stage:
         put:
             tags:
@@ -860,10 +616,179 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+    /workflow/{id}:
+        get:
+            tags:
+                - Workflow
+            summary: get workflow by id
+            operationId: getWorkflow
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the workflow
+            responses:
+                "201":
+                    description: New workflow added to the project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    workflow_name:
+                                        type: string
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred    
+        put:
+            tags:
+                - Workflow
+            summary: updates a workflow
+            operationId: updateWorkflow
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the workflow
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                updated_by_id:
+                                    type: string
+                                    format: uuid
+                                stages:
+                                  type: array
+                                  items:
+                                      type: object
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                            tasks:
+                                                type: array
+                                                items:
+                                                    type: string
+                                            checklists:
+                                                type: array
+                                                items:
+                                                    type: string
+            responses:
+                "200":
+                    description: workflow updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    stages:
+                                      type: array
+                                      items:
+                                          type: object
+                                          additionalProperties:
+                                            type: object
+                                            properties:
+                                                tasks:
+                                                    type: array
+                                                    items:
+                                                        type: string
+                                                checklists:
+                                                    type: array
+                                                    items:
+                                                        type: string
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+        delete:
+            tags:
+                - Workflow
+            summary: teminates a workflow
+            operationId: deleteWorkflow
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the workflow
+            responses:
+                "204":
+                    description: Workflow successfully terminated
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred 
     /workflow:
+        get:
+            tags:
+                - Workflow
+            summary: Get all workflows
+            operationId: getAllWorkflows
+            parameters:
+                - name: project_id
+                  in: query
+                  required: true
+                  description: ID of the project to get stage details
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                  description: Successful response
+                  content:
+                    application/json:
+                      schema:
+                        type: array
+                        items:
+                          type: string
+                      example:
+                        - workflow1_name
+                        - workflow2_name
+                        - workflow3_name
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
         post:
             tags:
-                - Projects
+                - Workflow
             summary: Add a new workflow to a  project
             operationId: addWorkflowToProject
             requestBody:
@@ -916,34 +841,104 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-
-    /project/workflow/all:
+                                        
+    /usecase/{id}:
         get:
             tags:
-                - Projects
-            summary: Get all workflow names
-            operationId: getAllWorkflows
+                - Usecase
+            summary: get usecase by id
+            operationId: getUsecase
             parameters:
-                - name: project_id
-                  in: query
+                - in: path
+                  name: id
                   required: true
-                  description: ID of the project to get stage details
                   schema:
                       type: string
                       format: uuid
+                  description: id of the usecase
+            responses:
+                "201":
+                    description: New workflow added to the project
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    usecase:
+                                        type: string
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred     
+        put:
+            tags:
+                - Usecase
+            summary: updates a usecase
+            operationId: updateUsecase
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the usecase
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                updated_by_id:
+                                    type: string
+                                    format: uuid
+                                stages:
+                                  type: array
+                                  items:
+                                      type: object
+                                      additionalProperties:
+                                        type: object
+                                        properties:
+                                            tasks:
+                                                type: array
+                                                items:
+                                                    type: string
+                                            checklists:
+                                                type: array
+                                                items:
+                                                    type: string
             responses:
                 "200":
-                  description: Successful response
-                  content:
-                    application/json:
-                      schema:
-                        type: array
-                        items:
-                          type: string
-                      example:
-                        - workflow1_name
-                        - workflow2_name
-                        - workflow3_name
+                    description: usecase updated successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    stages:
+                                      type: array
+                                      items:
+                                          type: object
+                                          additionalProperties:
+                                            type: object
+                                            properties:
+                                                tasks:
+                                                    type: array
+                                                    items:
+                                                        type: string
+                                                checklists:
+                                                    type: array
+                                                    items:
+                                                        type: string
                 "500":
                     description: Internal Server Error
                     content:
@@ -954,13 +949,167 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-
-    /project/usecase/{name}:
+        delete:
+            tags:
+                - Usecase
+            summary: deletes a usecase
+            operationId: deleteUsecase
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the usecase
+            responses:
+                "204":
+                    description: usecase successfully deleted
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /usecase:
         get:
             tags:
-                - Projects
+                - Usecase
+            summary: Get all usecases
+            operationId: getUsecases
+            parameters:
+                - name: project_id
+                  in: query
+                  required: true
+                  description: ID of the project
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        usecase_id:
+                                            type: string
+                                            format: uuid
+                                        usecase_name:
+                                            type: string
+                                        current_stage:
+                                            type: string
+                                        usecase_assigned_id:
+                                            type: string
+                                            format: uuid
+                                        total_resources:
+                                            type: integer
+                                        start_date:
+                                            type: string
+                                            format: date
+                                            description: Start date of the use case
+                                        end_date:
+                                            type: string
+                                            format: date
+                                            description: End date of the use case
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+        post:
+            tags:
+                - Usecase
+            summary: Add a new usecase to a  project
+            operationId: addusecase
+            requestBody:
+                description: Usecase details
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                project_id:
+                                    type: string
+                                    format: uuid
+                                created_by_id:
+                                    type: string
+                                    format: uuid
+                                usecase_name:
+                                    type: string
+                                assigned_to_id:
+                                    type: string
+                                    format: uuid
+                                description:
+                                    type: string
+                                workflow_id:
+                                  type: string
+                                  format: uuid
+
+            responses:
+                "201":
+                    description: Usecase created successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    usecase_id:
+                                        type: string
+                                        format: uuid
+                                    project_id:
+                                        type: string
+                                        format: uuid
+                                    created_by_id:
+                                        type: string
+                                        format: uuid
+                                    usecase_name:
+                                        type: string
+                                    assigned_to_id:
+                                        type: string
+                                        format: uuid
+                                    description:
+                                        type: string
+                "400":
+                    description: Bad Request
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: Invalid request payload
+
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /usecase/{name}:
+        get:
+            tags:
+                - Usecase
             summary: Get a usecase by name
-            operationId: getProjectsUsecaseByName
+            operationId: getUsecaseByName
             parameters:
                 - in: query
                   name: project_id
@@ -1269,3 +1418,27 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+                                        
+    # /upload:
+    #     post:
+    #         tags:
+    #             - Media
+    #         summary: upload a media file
+    #         operationId: uploadMedia
+    #         requestBody:
+    #         required: true
+    #         content:
+    #           multipart/form-data:
+    #             schema:
+    #               type: object
+    #               properties:
+    #                 file:
+    #                   type: string
+    #                   format: binary
+    #         responses:
+    #           '200':
+    #             description: File uploaded successfully
+    #           '400':
+    #             description: Bad request - Invalid file or missing file parameter
+    #           '500':
+    #             description: Internal server error
