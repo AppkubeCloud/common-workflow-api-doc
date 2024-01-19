@@ -861,11 +861,63 @@ paths:
                     description: New workflow added to the project
                     content:
                         application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    usecase:
-                                        type: string
+                            example:
+                              id: "uuid"
+                              project_id: "project_id"
+                              workflow_id: "workflow_id"
+                              assignee_id: "resource_id"
+                              assignee_name: "name"
+                              role: "role"
+                              image: "image_url"
+                              current_task: "task_name"
+                              total_task: 10
+                              usecase:
+                                name: "usecase_name"
+                                description: "description text"
+                                start_date: "date"
+                                end_date: "date"
+                                creation_date: "date"
+                                status: ""
+                                current_stage: "stage_name"
+                                stages:
+                                  - requirement:
+                                      tasks:
+                                        - id: "uuid"
+                                          name: "task_name"
+                                          stage: "stage_name"
+                                          created_date: "date"
+                                          start_date: "date"
+                                          end_date: "date"
+                                          resource_start_date: "date"
+                                          resource_end_date: "date"
+                                          task_assigned_date: "date"
+                                          status: ""
+                                      checklists:
+                                        - item_id: 1
+                                          description: "Checklist item 1"
+                                          checked: false
+                                        - item_id: 2
+                                          description: "Checklist item 2"
+                                          checked: true
+                                  - mock:
+                                      tasks:
+                                        - id: "uuid"
+                                          name: "task_name"
+                                          stage: "stage_name"
+                                          created_date: "date"
+                                          start_date: "date"
+                                          end_date: "date"
+                                          resource_start_date: "date"
+                                          resource_end_date: "date"
+                                          task_assigned_date: "date"
+                                          status: ""
+                                      checklists:
+                                        - item_id: 1
+                                          description: "Checklist item 1"
+                                          checked: false
+                                        - item_id: 2
+                                          description: "Checklist item 2"
+                                          checked: true
                 "500":
                     description: Internal Server Error
                     content:
