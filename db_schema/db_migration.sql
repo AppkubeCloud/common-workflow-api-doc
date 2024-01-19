@@ -69,3 +69,12 @@ references projects_table(id);
 
 alter table usecases_table 
 add column arn VARCHAR(255) not null;
+
+alter table tasks_table 
+drop column stage;
+
+alter table usecases_table 
+add column assignee_id UUID,
+add constraint fk_task_assignee
+foreign key(assignee_id)
+references resources_table(id);

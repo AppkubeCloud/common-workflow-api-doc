@@ -1,10 +1,11 @@
 {
 	"id": "uuid",
 	"project_id": "project_id",
-	"workfflow_id": "workflow_id",
+	"workflow_id": "workflow_id",
+	"assignee_id": "resource_id",
+	"arn": "arn",
 	"usecase": {
 		"name": "usecase_name",
-		"usecase_assignee_id": "resource_id",
 		"description": " description text",
 		"start _date": "date",
 		"end_date": "date",

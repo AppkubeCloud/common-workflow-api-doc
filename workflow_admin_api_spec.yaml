@@ -360,8 +360,8 @@ paths:
                                 end_date:
                                     type: string
                                     format: date
-                                budget:
-                                    type: number
+                                image_url:
+                                    type: string
             responses:
                 "201":
                     description: New project created
