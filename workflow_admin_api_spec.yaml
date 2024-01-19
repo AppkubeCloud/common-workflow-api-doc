@@ -1041,6 +1041,13 @@ paths:
                   schema:
                       type: string
                       format: uuid
+                - name: workflow_id
+                  in: query
+                  required: true
+                  description: ID of the project
+                  schema:
+                      type: string
+                      format: uuid
             responses:
                 "200":
                     description: Successful response
