@@ -7,7 +7,7 @@
 	"token": "token",
 	"task": {
 		"name": "task_name",
-		"stagetage": "stage_name",
+		"stage_name": "stage_name",
 		"created_date": "date",
 		"start_date": "date",
 		"end_date": "date",
