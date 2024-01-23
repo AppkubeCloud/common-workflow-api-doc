@@ -14,11 +14,24 @@
 		"resource_start_date": "date",
 		"resource_end_date": "date",
 		"task_assigned_date": "date",
-		"assigned_by_id": "resource_id",
+		"assigned_by": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url"
+		},
+		"updated_by": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url"
+		},
 		"status": "",
 		"comments": [
 			{
-				"resource_id": "resource_id",
+				"resource": {
+					"id" : "id",
+					"name" : "name",
+					"image_url" : "url"
+				},
 				"comment": "comment",
 				"created_date": " date"
 			}

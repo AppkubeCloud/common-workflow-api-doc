@@ -12,7 +12,16 @@
 		"creation_date": "date",
 		"status": "",
 		"current_stage": "stage_name",
-		"created_by_id" : "uuid",
+		"created_by": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url"
+		},
+		"updated_by": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url"
+		},
 		"stages": [
 			{
 				"requirement": {

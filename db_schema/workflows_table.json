@@ -4,8 +4,16 @@
 	"arn" : "arn",
 	"project_id" : "uuid",
 	"metadata": {
-		"created_by_id": "resource_id",
-		"updated_by_id": "resource_id",
+		"created_by": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url"
+		},
+		"updated_by": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url"
+		},
 		"created_time": "timestamp",
 		"stages": [
 			{

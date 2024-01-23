@@ -286,6 +286,52 @@ paths:
                                         type: string
                                         description: An internal server error occurred
 
+    /project/{id}:
+        get:
+            tags:
+                - Projects
+            summary: Get a project overview
+            operationId: getProject
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: Id of the project
+            responses:
+                '200':
+                  description: Successful response
+                  content:
+                    application/json:
+                      example:
+                        project_id: "project_id_value"
+                        project_name: "project_name_value"
+                        last_updated:
+                            updated_by_id: "uuid"
+                            updated_by_name: "name"
+                            updated_time: "2024-01-19T12:34:56Z"
+                        project_description: "project_description_value"
+                        workflows:
+                          - workflow_id: "workflow_id_1"
+                            workflow_name: "workflow_name_1"
+                            total_usecases: 10
+                            task_completed: 50.0
+                          - workflow_id: "workflow_id_2"
+                            workflow_name: "workflow_name_2"
+                            total_usecases: 8
+                            task_completed: 75.0
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred    
     /project:
         get:
             tags:
@@ -922,7 +968,7 @@ paths:
                     description: Internal Server Error
                     content:
                         application/json:
-                            schema:
+                               schema:
                                 type: object
                                 properties:
                                     message:
@@ -1065,9 +1111,11 @@ paths:
                                             type: string
                                         current_stage:
                                             type: string
-                                        usecase_assigned_id:
+                                        assignee_id:
                                             type: string
                                             format: uuid
+                                        assignee_name:
+                                            type: string
                                         total_resources:
                                             type: integer
                                         start_date:

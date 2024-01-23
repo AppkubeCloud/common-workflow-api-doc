@@ -15,10 +15,11 @@
 		"start_date": "12-12-2024",
 		"end_date": "12-12-2024",
 		"budget": 250000,
-		"last_updated" : {
-			"upadted_by_id" : "uuid",
-			"upadted_by_name" : "name",
-			"updated_time" : "time_stamp"
+		"updated_by": {
+			"id" : "id",
+			"name" : "name",
+			"image_url" : "url",
+			"time" : "time_stamp"
 		},
 		"workflows": [
 			{ "id": "workflow_id", "name": "workflwow_name" },
