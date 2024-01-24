@@ -22,6 +22,7 @@
 			"name" : "name",
 			"image_url" : "url"
 		},
+		"stop_date" : "date",
 		"stages": [
 			{
 				"requirement": {

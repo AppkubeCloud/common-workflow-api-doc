@@ -4,6 +4,7 @@
 	"arn" : "arn",
 	"project_id" : "uuid",
 	"metadata": {
+		"status" : "inprogress",
 		"created_by": {
 			"id" : "id",
 			"name" : "name",
