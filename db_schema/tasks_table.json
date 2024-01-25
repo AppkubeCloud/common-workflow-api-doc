@@ -5,6 +5,26 @@
 	"assignee_id": "resource_id",
 	"arn": "arn",
 	"token": "token",
+	"comments": [
+		{
+			"resource": {
+				"id" : "id",
+				"name" : "name",
+				"image_url" : "url"
+			},
+			"comment": "comment",
+			"created_date": " date",
+			"reply" : {
+				"resource": {
+					"id" : "id",
+					"name" : "name",
+					"image_url" : "url"
+				},
+				"comment": "comment",
+				"created_date": " date"
+			}
+		}
+	],
 	"task": {
 		"name": "task_name",
 		"stage": "stage_name",
@@ -24,17 +44,6 @@
 			"name" : "name",
 			"image_url" : "url"
 		},
-		"status": "",
-		"comments": [
-			{
-				"resource": {
-					"id" : "id",
-					"name" : "name",
-					"image_url" : "url"
-				},
-				"comment": "comment",
-				"created_date": " date"
-			}
-		]
+		"status": ""
 	}
 }
