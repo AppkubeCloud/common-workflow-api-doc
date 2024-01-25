@@ -89,7 +89,7 @@ CREATE TABLE
 		created_by UUID,
 		doc_name VARCHAR(20),
 		doc_url VARCHAR(20),
-		created_time date
+		created_time timestamp
 	);
 ALTER TABLE metadocs_table
 ADD CONSTRAINT fk_metadocs_tasks_id FOREIGN KEY (tasks_id) REFERENCES tasks_table (id),
