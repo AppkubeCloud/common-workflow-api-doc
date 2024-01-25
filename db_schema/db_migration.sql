@@ -78,3 +78,6 @@ add column assignee_id UUID,
 add constraint fk_task_assignee
 foreign key(assignee_id)
 references resources_table(id);
+
+alter table tasks_table  
+add column comments JSONB;
