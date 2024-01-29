@@ -486,9 +486,6 @@ paths:
                             properties:
                                 project_name:
                                     type: string
-                                project_manager_id:
-                                    type: string
-                                    format: uuid
                                 project_description:
                                     type: string
                                 department:
@@ -939,7 +936,7 @@ paths:
             tags:
                 - Workflow
             summary: Add a new workflow to a  project
-            operationId: addWorkflowToProject
+            operationId: addWorkflow
             requestBody:
                 required: true
                 content:
@@ -1360,7 +1357,7 @@ paths:
         put:
             tags:
                 - Task
-            summary: complete a task
+            summary: update a task
             operationId: updateTask
             parameters:
                 - in: path
@@ -1580,7 +1577,7 @@ paths:
             tags:
                 - Resource
             summary: Adds a new resource
-            operationId: addUsecase
+            operationId: addResource
             requestBody:
                 required: true
                 content:
