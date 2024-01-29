@@ -81,3 +81,21 @@ references resources_table(id);
 
 alter table tasks_table  
 add column comments JSONB;
+
+CREATE TABLE
+	metadocs_table (
+		id UUID DEFAULT gen_random_uuid () PRIMARY KEY,
+		tasks_id UUID,
+		created_by UUID,
+		created_time date,
+		doc_url VARCHAR(20)
+	);
+ALTER TABLE metadocs_table
+ADD CONSTRAINT fk_metadocs_tasks_id FOREIGN KEY (tasks_id) REFERENCES tasks_table (id),
+ADD CONSTRAINT fk_metadocs_created_by FOREIGN KEY (created_by) REFERENCES resources_table (id);
+
+ALTER TABLE metadocs_table
+ADD COLUMN doc_name VARCHAR(20);
+
+ALTER TABLE metadocs_table
+ALTER COLUMN created_time TYPE timestamp;
