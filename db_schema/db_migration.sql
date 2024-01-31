@@ -28,7 +28,8 @@ CREATE TABLE
 		assignee_id UUID,
 		stage VARCHAR(20),
 		task JSONB
-	)
+	);
+
 ALTER TABLE tasks_table
 ADD CONSTRAINT fk_task_usecase_id FOREIGN KEY (usecase_id) REFERENCES usecases_table (id),
 ADD CONSTRAINT fk_task_project_id FOREIGN KEY (project_id) REFERENCES projects_table (id),
@@ -38,7 +39,8 @@ CREATE TABLE
 	workflows_table (
 		id UUID DEFAULT gen_random_uuid () PRIMARY KEY,
 		workflow JSONB
-	)
+	);
+
 ALTER TABLE usecases_table
 ADD COLUMN workflow_id UUID;
 
@@ -90,6 +92,7 @@ CREATE TABLE
 		created_time date,
 		doc_url VARCHAR(20)
 	);
+
 ALTER TABLE metadocs_table
 ADD CONSTRAINT fk_metadocs_tasks_id FOREIGN KEY (tasks_id) REFERENCES tasks_table (id),
 ADD CONSTRAINT fk_metadocs_created_by FOREIGN KEY (created_by) REFERENCES resources_table (id);

@@ -16,8 +16,6 @@ tags:
       description: Apis related to task
     - name: Resource
       description: APIs related to the Resource page
-    - name: Misc
-      description: Miscellaneous APIs used throught the application
     - name: Media
       description: Apis related to media files
 
@@ -521,19 +519,19 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/team:
+    /project/{id}/team:
         get:
             tags:
                 - Projects
             summary: Gets the team for a project
             operationId: getProjectTeam
             parameters:
-                - in: query
-                  name: project_id
+                - in: path
+                  name: id
                   schema:
                       type: string
                       format: uuid
-                  description: (optional)
+                  required : true
             responses:
                 "201":
                     description: OK
@@ -577,6 +575,13 @@ paths:
                 - Projects
             summary: Add a new team to a  project
             operationId: addTeamToProject
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                      format: uuid
+                  required : true
             requestBody:
                 required: true
                 content:
@@ -623,135 +628,7 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/usecase/assign_stage:
-        put:
-            tags:
-                - Projects
-            summary: Assign stage for a usecase
-            description: Assign stage to a resource for a given usecase
-            operationId: assignUsecase
-            requestBody:
-                description: Usecase details
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                usecase_id:
-                                    type: string
-                                    format: uuid
-                                stage_name:
-                                    type: string
-                                assigned_to_id:
-                                    type: string
-                                    format: uuid
-                                assigned_by_id:
-                                    type: string
-                                    format: uuid
-                                updated_by_id:
-                                    type: string
-                                    format: uuid
-                                description:
-                                    type: string
-            responses:
-                "201":
-                    description: stage assigned
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: stage assigned to resource
-                "400":
-                    description: Bad Request
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Invalid request payload
 
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /project/usecase/assign_task:
-        put:
-            tags:
-                - Projects
-            summary: Assign task for a usecase
-            operationId: assignTask
-            requestBody:
-                description: Usecase details
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                task_id:
-                                    type: string
-                                    format: uuid
-                                assigned_to_id:
-                                    type: string
-                                    format: uuid
-                                assigned_by_id:
-                                    type: string
-                                    format: uuid
-                                updated_by_id:
-                                    type: string
-                                    format: uuid
-                                start_date:
-                                    type: string
-                                    format: date
-                                end_date:
-                                    type: string
-                                    format: date
-                                comments:
-                                    type: string
-            responses:
-                "201":
-                    description: stage assigned
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: stage assigned to resource
-                "400":
-                    description: Bad Request
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Invalid request payload
-
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
     /workflow/{id}:
         get:
             tags:
@@ -885,20 +762,59 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+    /workflow/{project_id}:
+        get:
+            tags:
+                - Workflow
+            summary: Get all workflows for a project
+            operationId: getProjectWorkflows
+            parameters:
+                - name: project_id
+                  in: path
+                  required: true
+                  description: ID of the project to get stage details
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        workflow_id:
+                                            type: string
+                                            format: uuid
+                                            description: ID of the workflow
+                                        workflow_name:
+                                            type: string
+                                            description: Name of the workflow
+                                        total_usecases:
+                                            type: integer
+                                            description: Total number of use cases
+                                        task_completed:
+                                            type: number
+                                            description: Percentage of tasks completed
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
     /workflow:
         get:
             tags:
                 - Workflow
             summary: Get all workflows
             operationId: getAllWorkflows
-            parameters:
-                - name: project_id
-                  in: query
-                  required: true
-                  description: ID of the project to get stage details
-                  schema:
-                      type: string
-                      format: uuid
             responses:
                 "200":
                     description: Successful response
@@ -1450,6 +1366,36 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+    /task/{id}/comment:
+        put:
+            tags:
+                - Task
+            summary: complete a task
+            operationId: addComment
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the project
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            example: "Task completed successfully"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
     /task:
         get:
                 tags:
@@ -1683,7 +1629,7 @@ paths:
     /get_resource_by_name:
         get:
             tags:
-                - Misc
+                - Resource
             summary: Get resources by name
             operationId: getResourcesByName
             parameters:
@@ -1724,7 +1670,7 @@ paths:
     /get_resource_by_role:
         get:
             tags:
-                - Misc
+                - Resource
             summary: Get resources by role
             operationId: getResourcesByRole
             parameters:
