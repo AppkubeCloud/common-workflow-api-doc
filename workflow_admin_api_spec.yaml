@@ -312,20 +312,20 @@ paths:
                     content:
                         application/json:
                             example:
-                                project_id: "project_id_value"
-                                project_name: "project_name_value"
+                                id: "project_id_value"
+                                name: "project_name_value"
                                 last_updated:
                                     updated_by_id: "uuid"
                                     updated_by_name: "name"
                                     updated_time: "2024-01-19T12:34:56Z"
-                                project_description: "project_description_value"
+                                description: "project_description_value"
                                 workflows:
-                                    - workflow_id: "workflow_id_1"
-                                      workflow_name: "workflow_name_1"
+                                    - id: "workflow_id_1"
+                                      name: "workflow_name_1"
                                       total_usecases: 10
                                       task_completed: 50.0
-                                    - workflow_id: "workflow_id_2"
-                                      workflow_name: "workflow_name_2"
+                                    - id: "workflow_id_2"
+                                      name: "workflow_name_2"
                                       total_usecases: 8
                                       task_completed: 75.0
                 "500":
@@ -447,18 +447,18 @@ paths:
                                 items:
                                     type: object
                                     properties:
-                                        project_id:
+                                        id:
                                             type: string
                                             format: uuid
-                                        project_name:
+                                        name:
                                             type: string
-                                        project_icon_url:
+                                        icon_url:
                                             type: string
                                         total_usecases:
                                             type: integer
                                         total_resources:
                                             type: integer
-                                        project_status:
+                                        status:
                                             type: string
                 "500":
                     description: Internal Server Error
@@ -559,6 +559,53 @@ paths:
                                                         type: array
                                                         items:
                                                             type: string
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /project/{id}/workflow:
+        get:
+            tags:
+                - Project
+            summary: Get all workflows for a project
+            operationId: getProjectWorkflows
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ID of the project to get stage details
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        workflow_id:
+                                            type: string
+                                            format: uuid
+                                            description: ID of the workflow
+                                        workflow_name:
+                                            type: string
+                                            description: Name of the workflow
+                                        total_usecases:
+                                            type: integer
+                                            description: Total number of use cases
+                                        task_completed:
+                                            type: number
+                                            description: Percentage of tasks completed
                 "500":
                     description: Internal Server Error
                     content:
@@ -737,53 +784,6 @@ paths:
             responses:
                 "204":
                     description: Workflow successfully terminated
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /workflow/{project_id}:
-        get:
-            tags:
-                - Workflow
-            summary: Get all workflows for a project
-            operationId: getProjectWorkflows
-            parameters:
-                - name: project_id
-                  in: path
-                  required: true
-                  description: ID of the project to get stage details
-                  schema:
-                      type: string
-                      format: uuid
-            responses:
-                "200":
-                    description: Successful response
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        workflow_id:
-                                            type: string
-                                            format: uuid
-                                            description: ID of the workflow
-                                        workflow_name:
-                                            type: string
-                                            description: Name of the workflow
-                                        total_usecases:
-                                            type: integer
-                                            description: Total number of use cases
-                                        task_completed:
-                                            type: number
-                                            description: Percentage of tasks completed
                 "500":
                     description: Internal Server Error
                     content:
