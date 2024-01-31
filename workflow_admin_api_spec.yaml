@@ -482,9 +482,9 @@ paths:
                         schema:
                             type: object
                             properties:
-                                project_name:
+                                name:
                                     type: string
-                                project_description:
+                                description:
                                     type: string
                                 department:
                                     type: string
