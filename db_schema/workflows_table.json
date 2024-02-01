@@ -5,16 +5,8 @@
 	"project_id" : "uuid",
 	"metadata": {
 		"status" : "inprogress",
-		"created_by": {
-			"id" : "id",
-			"name" : "name",
-			"image_url" : "url"
-		},
-		"updated_by": {
-			"id" : "id",
-			"name" : "name",
-			"image_url" : "url"
-		},
+		"created_by": "uuid",
+		"updated_by": "uuid",
 		"created_time": "timestamp",
 		"stages": [
 			{

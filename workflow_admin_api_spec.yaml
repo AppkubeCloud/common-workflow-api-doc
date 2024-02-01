@@ -186,7 +186,7 @@ paths:
             operationId: getProjectsOverview
             parameters:
                 - in: query
-                  name: project_status
+                  name: status
                   schema:
                       type: string
                   description: Filter projects by status (optional)
@@ -490,10 +490,10 @@ paths:
                                     type: string
                                 start_date:
                                     type: string
-                                    format: date
+                                    format: date-time
                                 end_date:
                                     type: string
-                                    format: date
+                                    format: date-time 
                                 image_url:
                                     type: string
             responses:
@@ -537,28 +537,25 @@ paths:
                     description: OK
                     content:
                         application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    project_id:
-                                        type: string
-                                        format: uuid
-                                    team_name:
-                                        type: string
-                                    created_by_id:
-                                        type: string
-                                        format: uuid
-                                    roles:
-                                        type: array
-                                        items:
-                                            type: object
-                                            additionalProperties:
-                                                type: object
-                                                properties:
-                                                    role_name:
-                                                        type: array
-                                                        items:
-                                                            type: string
+                            example:
+                              - backend:
+                                  - resource_id: "8f68647c-5249-4748-8464-d0daa2f55e2c"
+                                    resource_name: "Mia Lopez"
+                                    image_url: "https://cdn.pixabay.com/photo/2018/11/08/23/52/man-3803551_640.jpg"
+                                    email: "mia.lopez@example.com"
+                                  - resource_id: "5aa51a3f-b8f6-4576-a105-598edc57ff2e"
+                                    resource_name: "Nathan Brown"
+                                    image_url: "https://cdn.pixabay.com/photo/2016/09/24/03/20/man-1690965_640.jpg"
+                                    email: "nathan.brown@example.com"
+                              - frontend:
+                                  - resource_id: "3373514c-6590-4d0f-89cf-c4e17751a1ff"
+                                    resource_name: "Kelly Adams"
+                                    image_url: "https://cdn.pixabay.com/photo/2016/11/18/19/07/happy-1836445_1280.jpg"
+                                    email: "kelly.adams@example.com"
+                                  - resource_id: "30ae6a64-5197-4aa4-bd0a-0bf986741a74"
+                                    resource_name: "Olivia Martin"
+                                    image_url: "https://cdn.pixabay.com/photo/2015/08/05/04/02/people-875597_640.jpg"
+                                    email: "olivia.martin@example.com"
                 "500":
                     description: Internal Server Error
                     content:
@@ -712,29 +709,29 @@ paths:
                 required: true
                 content:
                     application/json:
-                        schema:
-                            type: object
-                            properties:
-                                name:
-                                    type: string
-                                updated_by_id:
-                                    type: string
-                                    format: uuid
-                                stages:
-                                    type: array
-                                    items:
-                                        type: object
-                                        additionalProperties:
-                                            type: object
-                                            properties:
-                                                tasks:
-                                                    type: array
-                                                    items:
-                                                        type: string
-                                                checklists:
-                                                    type: array
-                                                    items:
-                                                        type: string
+                        example:
+                            name: "string"
+                            created_by_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                            project_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                            stages:
+                              - Requirements1:
+                                  tasks:
+                                    - "task-1"
+                                    - "task-2"
+                                    - "task-3"
+                                  checklist:
+                                    - "thing 1"
+                                    - "thing 2"
+                                    - "thing 3"
+                              - mock1:
+                                  tasks:
+                                    - "mytask-1"
+                                    - "task-2"
+                                    - "task-3"
+                                  checklist:
+                                    - "thing 1"
+                                    - "thing 2"
+                                    - "thing 3"
             responses:
                 "200":
                     description: workflow updated successfully
@@ -842,32 +839,29 @@ paths:
                 required: true
                 content:
                     application/json:
-                        schema:
-                            type: object
-                            properties:
-                                name:
-                                    type: string
-                                created_by_id:
-                                    type: string
-                                    format: uuid
-                                projectid:
-                                    type: string
-                                    format: uuid
-                                stages:
-                                    type: array
-                                    items:
-                                        type: object
-                                        additionalProperties:
-                                            type: object
-                                            properties:
-                                                tasks:
-                                                    type: array
-                                                    items:
-                                                        type: string
-                                                checklists:
-                                                    type: array
-                                                    items:
-                                                        type: string
+                        example:
+                            name: "string"
+                            created_by_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                            project_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                            stages:
+                              - Requirements1:
+                                  tasks:
+                                    - "task-1"
+                                    - "task-2"
+                                    - "task-3"
+                                  checklist:
+                                    - "thing 1"
+                                    - "thing 2"
+                                    - "thing 3"
+                              - mock1:
+                                  tasks:
+                                    - "mytask-1"
+                                    - "task-2"
+                                    - "task-3"
+                                  checklist:
+                                    - "thing 1"
+                                    - "thing 2"
+                                    - "thing 3"
             responses:
                 "201":
                     description: New workflow added to the project
@@ -990,29 +984,28 @@ paths:
                 required: true
                 content:
                     application/json:
-                        schema:
-                            type: object
-                            properties:
-                                name:
-                                    type: string
-                                updated_by_id:
-                                    type: string
-                                    format: uuid
-                                stages:
-                                    type: array
-                                    items:
-                                        type: object
-                                        additionalProperties:
-                                            type: object
-                                            properties:
-                                                tasks:
-                                                    type: array
-                                                    items:
-                                                        type: string
-                                                checklists:
-                                                    type: array
-                                                    items:
-                                                        type: string
+                        example:
+                            name: "string"
+                            updated_by_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+                            stages:
+                              - Requirements1:
+                                  tasks:
+                                    - "task-1"
+                                    - "task-2"
+                                    - "task-3"
+                                  checklist:
+                                    - "thing 1"
+                                    - "thing 2"
+                                    - "thing 3"
+                              - mock1:
+                                  tasks:
+                                    - "mytask-1"
+                                    - "task-2"
+                                    - "task-3"
+                                  checklist:
+                                    - "thing 1"
+                                    - "thing 2"
+                                    - "thing 3"
             responses:
                 "200":
                     description: usecase updated successfully
@@ -1062,6 +1055,258 @@ paths:
             responses:
                 "204":
                     description: usecase successfully deleted
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /usecase/{id}/form:
+        get:
+            tags:
+                - Usecase
+            summary: get usecase form by id
+            operationId: getUsecaseForm
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the usecase
+            responses:
+                "201":
+                    description: New workflow added to the project
+                    content:
+                        application/json:
+                            example:
+                                id: "uuid"
+                                assignee_id: "resource_id"
+                                assignee_name: "name"
+                                role: "role"
+                                image: "image_url"
+                                current_task: "task_name"
+                                total_task: 10
+                                usecase:
+                                    name: "usecase_name"
+                                    description: "description text"
+                                    start_date: "date"
+                                    end_date: "date"
+                                    creation_date: "date"
+                                    status: ""
+                                    current_stage: "stage_name"
+                                    stages:
+                                        - requirement:
+                                              tasks:
+                                                  - id: "uuid"
+                                                    name: "task_name"
+                                                    stage: "stage_name"
+                                                    created_date: "date"
+                                                    start_date: "date"
+                                                    end_date: "date"
+                                                    resource_start_date: "date"
+                                                    resource_end_date: "date"
+                                                    task_assigned_date: "date"
+                                                    status: ""
+                                              checklists:
+                                                  - item_id: 1
+                                                    description: "Checklist item 1"
+                                                    checked: false
+                                                  - item_id: 2
+                                                    description: "Checklist item 2"
+                                                    checked: true
+                                        - mock:
+                                              tasks:
+                                                  - id: "uuid"
+                                                    name: "task_name"
+                                                    stage: "stage_name"
+                                                    created_date: "date"
+                                                    start_date: "date"
+                                                    end_date: "date"
+                                                    resource_start_date: "date"
+                                                    resource_end_date: "date"
+                                                    task_assigned_date: "date"
+                                                    status: ""
+                                              checklists:
+                                                  - item_id: 1
+                                                    description: "Checklist item 1"
+                                                    checked: false
+                                                  - item_id: 2
+                                                    description: "Checklist item 2"
+                                                    checked: true
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /usecase/{id}/asset:
+        get:
+            tags:
+                - Usecase
+            summary: get usecase assets by id
+            operationId: getUsecaseAsset
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the usecase
+            responses:
+                "201":
+                    description: New workflow added to the project
+                    content:
+                        application/json:
+                            example:
+                                id: "uuid"
+                                assignee_id: "resource_id"
+                                assignee_name: "name"
+                                role: "role"
+                                image: "image_url"
+                                current_task: "task_name"
+                                total_task: 10
+                                usecase:
+                                    name: "usecase_name"
+                                    description: "description text"
+                                    start_date: "date"
+                                    end_date: "date"
+                                    creation_date: "date"
+                                    status: ""
+                                    current_stage: "stage_name"
+                                    stages:
+                                        - requirement:
+                                              tasks:
+                                                  - id: "uuid"
+                                                    name: "task_name"
+                                                    stage: "stage_name"
+                                                    created_date: "date"
+                                                    start_date: "date"
+                                                    end_date: "date"
+                                                    resource_start_date: "date"
+                                                    resource_end_date: "date"
+                                                    task_assigned_date: "date"
+                                                    status: ""
+                                              checklists:
+                                                  - item_id: 1
+                                                    description: "Checklist item 1"
+                                                    checked: false
+                                                  - item_id: 2
+                                                    description: "Checklist item 2"
+                                                    checked: true
+                                        - mock:
+                                              tasks:
+                                                  - id: "uuid"
+                                                    name: "task_name"
+                                                    stage: "stage_name"
+                                                    created_date: "date"
+                                                    start_date: "date"
+                                                    end_date: "date"
+                                                    resource_start_date: "date"
+                                                    resource_end_date: "date"
+                                                    task_assigned_date: "date"
+                                                    status: ""
+                                              checklists:
+                                                  - item_id: 1
+                                                    description: "Checklist item 1"
+                                                    checked: false
+                                                  - item_id: 2
+                                                    description: "Checklist item 2"
+                                                    checked: true
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /usecase/{id}/planning:
+        get:
+            tags:
+                - Usecase
+            summary: get usecase plannnig by id
+            operationId: getUsecasePlanning
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the usecase
+            responses:
+                "201":
+                    description: New workflow added to the project
+                    content:
+                        application/json:
+                            example:
+                                id: "uuid"
+                                assignee_id: "resource_id"
+                                assignee_name: "name"
+                                role: "role"
+                                image: "image_url"
+                                current_task: "task_name"
+                                total_task: 10
+                                usecase:
+                                    name: "usecase_name"
+                                    description: "description text"
+                                    start_date: "date"
+                                    end_date: "date"
+                                    creation_date: "date"
+                                    status: ""
+                                    current_stage: "stage_name"
+                                    stages:
+                                        - requirement:
+                                              tasks:
+                                                  - id: "uuid"
+                                                    name: "task_name"
+                                                    stage: "stage_name"
+                                                    created_date: "date"
+                                                    start_date: "date"
+                                                    end_date: "date"
+                                                    resource_start_date: "date"
+                                                    resource_end_date: "date"
+                                                    task_assigned_date: "date"
+                                                    status: ""
+                                              checklists:
+                                                  - item_id: 1
+                                                    description: "Checklist item 1"
+                                                    checked: false
+                                                  - item_id: 2
+                                                    description: "Checklist item 2"
+                                                    checked: true
+                                        - mock:
+                                              tasks:
+                                                  - id: "uuid"
+                                                    name: "task_name"
+                                                    stage: "stage_name"
+                                                    created_date: "date"
+                                                    start_date: "date"
+                                                    end_date: "date"
+                                                    resource_start_date: "date"
+                                                    resource_end_date: "date"
+                                                    task_assigned_date: "date"
+                                                    status: ""
+                                              checklists:
+                                                  - item_id: 1
+                                                    description: "Checklist item 1"
+                                                    checked: false
+                                                  - item_id: 2
+                                                    description: "Checklist item 2"
+                                                    checked: true
                 "500":
                     description: Internal Server Error
                     content:
