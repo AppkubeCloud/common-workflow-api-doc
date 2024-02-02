@@ -566,54 +566,6 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /project/{id}/workflow:
-        get:
-            tags:
-                - Project
-            summary: Get all workflows for a project
-            operationId: getProjectWorkflows
-            parameters:
-                - name: id
-                  in: path
-                  required: true
-                  description: ID of the project to get stage details
-                  schema:
-                      type: string
-                      format: uuid
-            responses:
-                "200":
-                    description: Successful response
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        workflow_id:
-                                            type: string
-                                            format: uuid
-                                            description: ID of the workflow
-                                        workflow_name:
-                                            type: string
-                                            description: Name of the workflow
-                                        total_usecases:
-                                            type: integer
-                                            description: Total number of use cases
-                                        task_completed:
-                                            type: number
-                                            description: Percentage of tasks completed
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-
         put:
             tags:
                 - Projects
@@ -657,7 +609,53 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-
+    /project/{id}/workflow:
+        get:
+            tags:
+                - Projects
+            summary: Get all workflows for a project
+            operationId: getProjectWorkflows
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  description: ID of the project to get stage details
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: object
+                                    properties:
+                                        workflow_id:
+                                            type: string
+                                            format: uuid
+                                            description: ID of the workflow
+                                        workflow_name:
+                                            type: string
+                                            description: Name of the workflow
+                                        total_usecases:
+                                            type: integer
+                                            description: Total number of use cases
+                                        task_completed:
+                                            type: number
+                                            description: Percentage of tasks completed
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
     /workflow/{id}:
         get:
             tags:

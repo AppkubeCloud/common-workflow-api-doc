@@ -30,6 +30,8 @@
 					"assigned_by_id" : "resourceId",
 					"updated_by_id": "resourceId",
 					"description": "description",
+					"start_date": "date",
+					"end_date": "date",
 					"checklists": [
 						{
 							"item_id": 1,
@@ -50,6 +52,8 @@
 					"assigned_by_id" : "resourceId",
 					"updated_by_id": "resourceId",
 					"description": "description",
+					"start_date": "date",
+					"end_date": "date",
 					"checklists": [
 						{
 							"item_id": 1,
