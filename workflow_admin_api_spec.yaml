@@ -583,8 +583,7 @@ paths:
                 content:
                     application/json:
                         example:
-                          project_id: "550e8400-e29b-41d4-a716-446655440000"
-                          name: "Team Name"
+                          team_name: "Team Name"
                           created_by_id: "550e8400-e29b-41d4-a716-446655440001"
                           roles:
                             - backend: ["8f68647c-5249-4748-8464-d0daa2f55e2c", "5aa51a3f-b8f6-4576-a105-598edc57ff2e"]
@@ -628,24 +627,11 @@ paths:
                     description: Successful response
                     content:
                         application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        workflow_id:
-                                            type: string
-                                            format: uuid
-                                            description: ID of the workflow
-                                        workflow_name:
-                                            type: string
-                                            description: Name of the workflow
-                                        total_usecases:
-                                            type: integer
-                                            description: Total number of use cases
-                                        task_completed:
-                                            type: number
-                                            description: Percentage of tasks completed
+                            example:
+                              - workflow_id: "78514e7f-c367-4718-9549-443b1a719fe7"
+                                workflow_name: "The-latest-workflow-by-team"
+                                total_usecases: 1
+                                task_completed: 0
                 "500":
                     description: Internal Server Error
                     content:
@@ -800,24 +786,89 @@ paths:
                     description: Successful response
                     content:
                         application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        workflow_id:
-                                            type: string
-                                            format: uuid
-                                            description: ID of the workflow
-                                        workflow_name:
-                                            type: string
-                                            description: Name of the workflow
-                                        total_usecases:
-                                            type: integer
-                                            description: Total number of use cases
-                                        task_completed:
-                                            type: number
-                                            description: Percentage of tasks completed
+                            example:
+                              - id: "be9c621f-8a63-4748-9143-4801fdbc9cea"
+                                name: "The-latest-workflow-by-team"
+                                stages:
+                                  - Requirements1:
+                                      tasks:
+                                        - "task-1"
+                                        - "task-2"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 2"
+                                        - "thing 3"
+                                  - mock1:
+                                      tasks:
+                                        - "mytask-1"
+                                        - "task-2"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 2"
+                                        - "thing 3"
+                              - id: "383ccc12-6819-4ac1-a008-482e57b59452"
+                                name: "The-latest-workflow-by-team"
+                                stages:
+                                  - Requirements1:
+                                      tasks:
+                                        - "task-1"
+                                        - "task-2"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 2"
+                                        - "thing 3"
+                                  - mock1:
+                                      tasks:
+                                        - "mytask-1"
+                                        - "task-2"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 2"
+                                        - "thing 3"
+                              - id: "0a31aeb5-4a2d-4889-8b65-d6c425cd7f0f"
+                                name: "Testing-workflow-for-api"
+                                stages:
+                                  - Requirements1:
+                                      tasks:
+                                        - "task-1"
+                                        - "task-2"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 2"
+                                        - "thing 3"
+                                  - mock1:
+                                      tasks:
+                                        - "mytask-1"
+                                        - "task-2"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 2"
+                                        - "thing 3"
+                              - id: "78514e7f-c367-4718-9549-443b1a719fe7"
+                                name: "The-latest-workflow-by-team"
+                                stages:
+                                  - Requirements:
+                                      tasks:
+                                        - "task-1"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 3"
+                                  - mock:
+                                      tasks:
+                                        - "mytask-1"
+                                        - "task-2"
+                                        - "task-3"
+                                      checklist:
+                                        - "thing 1"
+                                        - "thing 2"
+                                        - "thing 3"
                 "500":
                     description: Internal Server Error
                     content:
@@ -1083,60 +1134,20 @@ paths:
                     content:
                         application/json:
                             example:
-                                id: "uuid"
-                                assignee_id: "resource_id"
-                                assignee_name: "name"
-                                role: "role"
-                                image: "image_url"
-                                current_task: "task_name"
-                                total_task: 10
-                                usecase:
-                                    name: "usecase_name"
-                                    description: "description text"
-                                    start_date: "date"
-                                    end_date: "date"
-                                    creation_date: "date"
-                                    status: ""
-                                    current_stage: "stage_name"
-                                    stages:
-                                        - requirement:
-                                              tasks:
-                                                  - id: "uuid"
-                                                    name: "task_name"
-                                                    stage: "stage_name"
-                                                    created_date: "date"
-                                                    start_date: "date"
-                                                    end_date: "date"
-                                                    resource_start_date: "date"
-                                                    resource_end_date: "date"
-                                                    task_assigned_date: "date"
-                                                    status: ""
-                                              checklists:
-                                                  - item_id: 1
-                                                    description: "Checklist item 1"
-                                                    checked: false
-                                                  - item_id: 2
-                                                    description: "Checklist item 2"
-                                                    checked: true
-                                        - mock:
-                                              tasks:
-                                                  - id: "uuid"
-                                                    name: "task_name"
-                                                    stage: "stage_name"
-                                                    created_date: "date"
-                                                    start_date: "date"
-                                                    end_date: "date"
-                                                    resource_start_date: "date"
-                                                    resource_end_date: "date"
-                                                    task_assigned_date: "date"
-                                                    status: ""
-                                              checklists:
-                                                  - item_id: 1
-                                                    description: "Checklist item 1"
-                                                    checked: false
-                                                  - item_id: 2
-                                                    description: "Checklist item 2"
-                                                    checked: true
+                              - mock1:
+                                  - id: "7f00f35e-c223-4e98-b741-4afed36594b7"
+                                    docName: "designImage"
+                                    Url: "formkiq_url"
+                                  - id: "ec5e7579-9167-4c58-aaf5-47a192f5ad10"
+                                    docName: "api specs"
+                                    Url: "git.file"
+                              - Requirements1:
+                                  - id: "4a0622a9-7224-4730-bd49-a491be0daa8c"
+                                    docName: "awsfile"
+                                    Url: "aws_url"
+                                  - id: "342f7699-1212-4fd2-8669-441df2efe3fd"
+                                    docName: "design.html"
+                                    Url: "design_url"
                 "500":
                     description: Internal Server Error
                     content:
@@ -1251,60 +1262,64 @@ paths:
                     content:
                         application/json:
                             example:
-                                id: "uuid"
-                                assignee_id: "resource_id"
-                                assignee_name: "name"
-                                role: "role"
-                                image: "image_url"
-                                current_task: "task_name"
-                                total_task: 10
-                                usecase:
-                                    name: "usecase_name"
-                                    description: "description text"
-                                    start_date: "date"
-                                    end_date: "date"
-                                    creation_date: "date"
-                                    status: ""
-                                    current_stage: "stage_name"
-                                    stages:
-                                        - requirement:
-                                              tasks:
-                                                  - id: "uuid"
-                                                    name: "task_name"
-                                                    stage: "stage_name"
-                                                    created_date: "date"
-                                                    start_date: "date"
-                                                    end_date: "date"
-                                                    resource_start_date: "date"
-                                                    resource_end_date: "date"
-                                                    task_assigned_date: "date"
-                                                    status: ""
-                                              checklists:
-                                                  - item_id: 1
-                                                    description: "Checklist item 1"
-                                                    checked: false
-                                                  - item_id: 2
-                                                    description: "Checklist item 2"
-                                                    checked: true
-                                        - mock:
-                                              tasks:
-                                                  - id: "uuid"
-                                                    name: "task_name"
-                                                    stage: "stage_name"
-                                                    created_date: "date"
-                                                    start_date: "date"
-                                                    end_date: "date"
-                                                    resource_start_date: "date"
-                                                    resource_end_date: "date"
-                                                    task_assigned_date: "date"
-                                                    status: ""
-                                              checklists:
-                                                  - item_id: 1
-                                                    description: "Checklist item 1"
-                                                    checked: false
-                                                  - item_id: 2
-                                                    description: "Checklist item 2"
-                                                    checked: true
+                              - Requirements1:
+                                  task_details:
+                                    - id: "a1ce8762-5b54-4f63-af7d-95b8eb8e1576"
+                                      name: "Requirements1-task-3"
+                                      assignee_id: ""
+                                      start_date: ""
+                                      end_date: ""
+                                      resource_start_date: ""
+                                      resource_end_date: ""
+                                      start_deviation: 0
+                                      end_deviation: 0
+                                    - id: "62f877ae-07fc-472e-ad3a-0d2ff5c5a1ee"
+                                      name: "Requirements1-task-2"
+                                      assignee_id: ""
+                                      start_date: ""
+                                      end_date: ""
+                                      resource_start_date: ""
+                                      resource_end_date: ""
+                                      start_deviation: 0
+                                      end_deviation: 0
+                                    - id: "9f16e912-17fb-414f-b0ae-9ba108b231e1"
+                                      name: "Requirements1-task-1"
+                                      assignee_id: ""
+                                      start_date: "2024-02-02T07:16:50.571Z"
+                                      end_date: ""
+                                      resource_start_date: "2024-02-02T07:16:50.571Z"
+                                      resource_end_date: ""
+                                      start_deviation: 0
+                                      end_deviation: 0
+                              - mock1:
+                                  task_details:
+                                    - id: "a3eacbcd-60fe-4e6a-a2ee-34a81d637e33"
+                                      name: "mock1-task-2"
+                                      assignee_id: ""
+                                      start_date: ""
+                                      end_date: ""
+                                      resource_start_date: ""
+                                      resource_end_date: ""
+                                      start_deviation: 0
+                                      end_deviation: 0
+                                    - id: "8c7979e0-bde6-49cf-be5f-ccc530711cf5"
+                                      name: "mock1-mytask-1"
+                                      assignee_id: ""
+                                      start_date: "2024-03-01T07:16:50.571Z"
+                                      end_date: "2024-03-01T07:16:50.571Z"
+                                      resource_start_date: "2024-04-01T07:16:50.571Z"
+                                      resource_end_date: "2024-04-01T07:16:50.571Z"
+                                      start_deviation: 31
+                                      end_deviation: 31
+                                    - id: "8834281d-71a9-4377-b149-a79fc3922550"
+                                      name: "mock1-task-3"
+                                      assignee_id: ""
+                                      start_date: ""
+                                      end_date: ""
+                                      resource_start_date: ""
+                                      resource_end_date: ""
+                                      start_deviation: 0
+                                      end_deviation: 0
                 "500":
                     description: Internal Server Error
                     content:
@@ -1407,7 +1422,12 @@ paths:
                                 workflow_id:
                                     type: string
                                     format: uuid
-
+                                start_date:
+                                    type: string
+                                    format: uuid
+                                end_date:
+                                    type: string
+                                    format: uuid                                    
             responses:
                 "201":
                     description: Usecase created successfully
@@ -1564,6 +1584,43 @@ paths:
                                         type: string
                                         description: An internal server error occurred
 
+    /task/{id}/assign/{resourceId}:
+        put:
+            tags:
+                - Task
+            summary: assign a task to a resource
+            operationId: assignTask
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the project
+                - in: path
+                  name: resourceId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the resource
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            example: "Task completed successfully"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
     /task/{id}/complete:
         put:
             tags:
@@ -1598,7 +1655,7 @@ paths:
         put:
             tags:
                 - Task
-            summary: complete a task
+            summary: add a comment to a task
             operationId: addComment
             parameters:
                 - in: path
