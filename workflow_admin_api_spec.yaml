@@ -16,8 +16,6 @@ tags:
       description: Apis related to task
     - name: Resource
       description: APIs related to the Resource page
-    - name: Meta Docs
-      description: Apis related to media files
 
 paths:
     /org_projects_overview:
@@ -1520,36 +1518,6 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /task/{id}/docs:
-        get:
-            tags:
-                - Task
-            summary: get meta docs for a task
-            operationId: getTaskDocs
-            parameters:
-                - in: path
-                  name: id
-                  required: true
-                  schema:
-                      type: string
-                      format: uuid
-                  description: id of the project
-            responses:
-                "200":
-                    description: Successful response
-                    content:
-                        application/json:
-                            example: "Task completed successfully"
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
         put:
             tags:
                 - Task
@@ -1615,7 +1583,160 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-
+    /task/{id}/docs:
+        get:
+            tags:
+                - Task
+            summary: get meta docs for a task
+            operationId: getTaskDocs
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the task
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            example: "Task completed successfully"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+        post:
+            tags:
+                - Task
+            summary: upload a meta doc 
+            operationId: uploadMetaDoc
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: id of the task
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            example: "Task completed successfully"
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+    /task/{taskId}/docs/{docId}:
+        get:
+            tags:
+                - Task
+            summary: Get meta doc details
+            operationId: getMetaDoc
+            parameters:
+                - in: path
+                  name: taskId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: Id
+                - in: path
+                  name: docId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: Id 
+            responses:
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                            example:
+                                task_id: "task_id_value"
+                                task_name: "task_name_value"
+                                task_description: "task_description_value"
+                                status: "completed"
+                                # Include other task properties
+                "404":
+                    description: Task not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: Task not found
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
+        delete:
+            tags:
+                - Task
+            summary: Delete a meta doc
+            operationId: deleteMetaDoc
+            parameters:
+                - in: path
+                  name: taskId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: Id
+                - in: path
+                  name: docId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: Id 
+            responses:
+                "204":
+                    description: Task successfully deleted
+                "404":
+                    description: Task not found
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: Task not found
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred
     /task/{id}/assign/{resourceId}:
         put:
             tags:
@@ -2022,110 +2143,6 @@ paths:
                                             type: string
                                         email:
                                             type: string
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-
-    /docs/{id}:
-        get:
-            tags:
-                - Meta Docs
-            summary: Get meta doc details
-            operationId: getMetaDoc
-            parameters:
-                - in: path
-                  name: id
-                  required: true
-                  schema:
-                      type: string
-                      format: uuid
-                  description: Id of the doc
-            responses:
-                "200":
-                    description: Successful response
-                    content:
-                        application/json:
-                            example:
-                                task_id: "task_id_value"
-                                task_name: "task_name_value"
-                                task_description: "task_description_value"
-                                status: "completed"
-                                # Include other task properties
-                "404":
-                    description: Task not found
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Task not found
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-        delete:
-            tags:
-                - Meta Docs
-            summary: Delete a meta doc
-            operationId: deleteMetaDoc
-            parameters:
-                - in: path
-                  name: id
-                  required: true
-                  schema:
-                      type: string
-                      format: uuid
-                  description: Id of the Meta Doc
-            responses:
-                "204":
-                    description: Task successfully deleted
-                "404":
-                    description: Task not found
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Task not found
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /doc:
-        post:
-            tags:
-                - Meta Docs
-            summary: upload a meta doc 
-            operationId: uploadMetaDoc
-            responses:
-                "200":
-                    description: Successful response
-                    content:
-                        application/json:
-                            example: "Task completed successfully"
                 "500":
                     description: Internal Server Error
                     content:
