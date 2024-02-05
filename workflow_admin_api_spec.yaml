@@ -1356,33 +1356,35 @@ paths:
                     description: Successful response
                     content:
                         application/json:
-                            schema:
-                                type: array
-                                items:
-                                    type: object
-                                    properties:
-                                        usecase_id:
-                                            type: string
-                                            format: uuid
-                                        usecase_name:
-                                            type: string
-                                        current_stage:
-                                            type: string
-                                        assignee_id:
-                                            type: string
-                                            format: uuid
-                                        assignee_name:
-                                            type: string
-                                        total_resources:
-                                            type: integer
-                                        start_date:
-                                            type: string
-                                            format: date
-                                            description: Start date of the use case
-                                        end_date:
-                                            type: string
-                                            format: date
-                                            description: End date of the use case
+                            example:
+                              stages:
+                                - Requirements1
+                                - mock1
+                              usecases:
+                                - usecase_id: "409ef3df-9c01-4f00-a702-9b302ae37c7d"
+                                  usecase_name: "procuremenworkflowusecase-1"
+                                  current_stage: ""
+                                  assignee_id: ""
+                                  assignee_name: ""
+                                  total_resources: 0
+                                  start_date: "2024-02-02T09:45:37.344Z"
+                                  end_date: "2024-02-02T09:45:37.344Z"
+                                - usecase_id: "bddb4eee-7190-41b4-9227-52649907b8a0"
+                                  usecase_name: "procurementworkflowusecase-1"
+                                  current_stage: ""
+                                  assignee_id: ""
+                                  assignee_name: ""
+                                  total_resources: 0
+                                  start_date: "2024-02-02T09:45:37.344Z"
+                                  end_date: "2024-02-02T09:45:37.344Z"
+                                - usecase_id: "f92f6b45-77bd-48d5-8429-ba7ec8957003"
+                                  usecase_name: "mdddy-1"
+                                  current_stage: ""
+                                  assignee_id: ""
+                                  assignee_name: ""
+                                  total_resources: 0
+                                  start_date: "2024-02-02T09:45:37.344Z"
+                                  end_date: "2024-02-02T09:45:37.344Z"
                 "500":
                     description: Internal Server Error
                     content:
