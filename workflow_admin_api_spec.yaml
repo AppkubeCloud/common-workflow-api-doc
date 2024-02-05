@@ -1843,7 +1843,7 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-    /task:
+    # /task:
         # get:
         #         tags:
         #             - Task
