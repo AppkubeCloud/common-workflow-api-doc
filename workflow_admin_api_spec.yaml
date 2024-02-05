@@ -1547,42 +1547,42 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
-        delete:
-            tags:
-                - Task
-            summary: Delete a task
-            operationId: deleteTask
-            parameters:
-                - in: path
-                  name: id
-                  required: true
-                  schema:
-                      type: string
-                      format: uuid
-                  description: Id of the task
-            responses:
-                "204":
-                    description: Task successfully deleted
-                "404":
-                    description: Task not found
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Task not found
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
+        # delete:
+        #     tags:
+        #         - Task
+        #     summary: Delete a task
+        #     operationId: deleteTask
+        #     parameters:
+        #         - in: path
+        #           name: id
+        #           required: true
+        #           schema:
+        #               type: string
+        #               format: uuid
+        #           description: Id of the task
+        #     responses:
+        #         "204":
+        #             description: Task successfully deleted
+        #         "404":
+        #             description: Task not found
+        #             content:
+        #                 application/json:
+        #                     schema:
+        #                         type: object
+        #                         properties:
+        #                             message:
+        #                                 type: string
+        #                                 description: Task not found
+        #         "500":
+        #             description: Internal Server Error
+        #             content:
+        #                 application/json:
+        #                     schema:
+        #                         type: object
+        #                         properties:
+        #                             message:
+        #                                 type: string
+        #                                 description: An internal server error occurred
     /task/{id}/docs:
         get:
             tags:
@@ -1602,17 +1602,30 @@ paths:
                     description: Successful response
                     content:
                         application/json:
-                            example: "Task completed successfully"
+                          example:
+                            - doc_name: "Usecase doc 1"
+                              doc_id: "123456"
+                              resource_id: "789012"
+                              resource_name: "John Doe"
+                              email: "john.doe@example.com"
+                              image: "https://example.com/image1.jpg"
+                              created_time: "2024-02-05T12:00:00Z"
+                              doc_url: "https://example.com/document/123456"
+                            - doc_name: "Usecase doc 2"
+                              doc_id: "789012"
+                              resource_id: "345678"
+                              resource_name: "Jane Doe"
+                              email: "jane.doe@example.com"
+                              image: "https://example.com/image2.jpg"
+                              created_time: "2024-02-06T12:30:00Z"
+                              doc_url: "https://example.com/document/789012"
                 "500":
                     description: Internal Server Error
                     content:
                         application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
+                            example:
+                                message: "Internal server error"
+                                error : "error stack"
         post:
             tags:
                 - Task
@@ -1626,74 +1639,80 @@ paths:
                       type: string
                       format: uuid
                   description: id of the task
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                            example:
+                                created_by_id: "3373514c-6590-4d0f-89cf-c4e17751a1ff"
+                                doc_name: "usecase document"
+                                doc_url: "formkiq.docs/docId.pdf"
             responses:
                 "200":
                     description: Successful response
                     content:
                         application/json:
-                            example: "Task completed successfully"
+                            example: 
+                              message: "Documented uploaded successfully"
                 "500":
                     description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
-    /task/{taskId}/docs/{docId}:
-        get:
-            tags:
-                - Task
-            summary: Get meta doc details
-            operationId: getMetaDoc
-            parameters:
-                - in: path
-                  name: taskId
-                  required: true
-                  schema:
-                      type: string
-                      format: uuid
-                  description: Id
-                - in: path
-                  name: docId
-                  required: true
-                  schema:
-                      type: string
-                      format: uuid
-                  description: Id 
-            responses:
-                "200":
-                    description: Successful response
                     content:
                         application/json:
                             example:
-                                task_id: "task_id_value"
-                                task_name: "task_name_value"
-                                task_description: "task_description_value"
-                                status: "completed"
-                                # Include other task properties
-                "404":
-                    description: Task not found
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Task not found
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
+                                message: "Internal server error"
+                                error : "error stack"
+    /task/{taskId}/docs/{docId}:
+        # get:
+        #     tags:
+        #         - Task
+        #     summary: Get meta doc details
+        #     operationId: getMetaDoc
+        #     parameters:
+        #         - in: path
+        #           name: taskId
+        #           required: true
+        #           schema:
+        #               type: string
+        #               format: uuid
+        #           description: Id
+        #         - in: path
+        #           name: docId
+        #           required: true
+        #           schema:
+        #               type: string
+        #               format: uuid
+        #           description: Id 
+        #     responses:
+        #         "200":
+        #             description: Successful response
+        #             content:
+        #                 application/json:
+        #                     example:
+        #                         task_id: "task_id_value"
+        #                         task_name: "task_name_value"
+        #                         task_description: "task_description_value"
+        #                         status: "completed"
+        #                         # Include other task properties
+        #         "404":
+        #             description: Task not found
+        #             content:
+        #                 application/json:
+        #                     schema:
+        #                         type: object
+        #                         properties:
+        #                             message:
+        #                                 type: string
+        #                                 description: Task not found
+        #         "500":
+        #             description: Internal Server Error
+        #             content:
+        #                 application/json:
+        #                     schema:
+        #                         type: object
+        #                         properties:
+        #                             message:
+        #                                 type: string
+        #                                 description: An internal server error occurred
         delete:
             tags:
                 - Task
@@ -1716,27 +1735,17 @@ paths:
                   description: Id 
             responses:
                 "204":
-                    description: Task successfully deleted
+                    description: document successfully deleted
                 "404":
                     description: Task not found
                     content:
                         application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: Task not found
+                            example: "Documented not found"
                 "500":
                     description: Internal Server Error
                     content:
                         application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
+                            example: "Internal server error"
     /task/{id}/assign/{resourceId}:
         put:
             tags:
@@ -1835,70 +1844,70 @@ paths:
                                         type: string
                                         description: An internal server error occurred
     /task:
-        get:
-                tags:
-                    - Task
-                summary: get all tasks for a usecase
-                operationId: getAllTasks
-                parameters:
-                    - in: query
-                      name: id
-                      required: true
-                      schema:
-                          type: string
-                          format: uuid
-                      description: id of the usecase
-                responses:
-                    "201":
-                        description: Task created successfully
-                        content:
-                            application/json:
-                                example:
-                                    task_id: "newly_created_task_id"
-                    "500":
-                        description: Internal Server Error
-                        content:
-                            application/json:
-                                schema:
-                                    type: object
-                                    properties:
-                                        message:
-                                            type: string
-                                            description: An internal server error occurred
-        post:
-            tags:
-                - Task
-            summary: Create a new task
-            operationId: createTask
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            type: object
-                            properties:
-                                task_name:
-                                    type: string
-                                task_description:
-                                    type: string
-                                # Include other task properties
-            responses:
-                "201":
-                    description: Task created successfully
-                    content:
-                        application/json:
-                            example:
-                                task_id: "newly_created_task_id"
-                "500":
-                    description: Internal Server Error
-                    content:
-                        application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
+        # get:
+        #         tags:
+        #             - Task
+        #         summary: get all tasks for a usecase
+        #         operationId: getAllTasks
+        #         parameters:
+        #             - in: query
+        #               name: id
+        #               required: true
+        #               schema:
+        #                   type: string
+        #                   format: uuid
+        #               description: id of the usecase
+        #         responses:
+        #             "201":
+        #                 description: Task created successfully
+        #                 content:
+        #                     application/json:
+        #                         example:
+        #                             task_id: "newly_created_task_id"
+        #             "500":
+        #                 description: Internal Server Error
+        #                 content:
+        #                     application/json:
+        #                         schema:
+        #                             type: object
+        #                             properties:
+        #                                 message:
+        #                                     type: string
+        #                                     description: An internal server error occurred
+        # post:
+        #     tags:
+        #         - Task
+        #     summary: Create a new task
+        #     operationId: createTask
+        #     requestBody:
+        #         required: true
+        #         content:
+        #             application/json:
+        #                 schema:
+        #                     type: object
+        #                     properties:
+        #                         task_name:
+        #                             type: string
+        #                         task_description:
+        #                             type: string
+        #                         # Include other task properties
+        #     responses:
+        #         "201":
+        #             description: Task created successfully
+        #             content:
+        #                 application/json:
+        #                     example:
+        #                         task_id: "newly_created_task_id"
+        #         "500":
+        #             description: Internal Server Error
+        #             content:
+        #                 application/json:
+        #                     schema:
+        #                         type: object
+        #                         properties:
+        #                             message:
+        #                                 type: string
+        #                                 description: An internal server error occurred
     /resource:
         get:
             tags:
@@ -1966,41 +1975,27 @@ paths:
                 required: true
                 content:
                     application/json:
-                        schema:
-                            type: object
-                            properties:
-                                resource_name:
-                                    type: string
-                                email:
-                                    type: string
-                                role:
-                                    type: string
-                                project:
-                                    type: string
-                                description:
-                                    type: string
+                            example:
+                                resource_name: "John doe"
+                                email: "john.doe@example.com"
+                                role: "Complete developer"
+                                project: "Workflow"
+                                description: "This is a sample description"
             responses:
                 "201":
                     description: New resource created
                     content:
                         application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: New resource created
-
+                            example:
+                                message: "New resource created successfully"
                 "500":
                     description: Internal Server Error
                     content:
                         application/json:
-                            schema:
-                                type: object
-                                properties:
-                                    message:
-                                        type: string
-                                        description: An internal server error occurred
+                            example:
+                                message: "Internal server error"
+                                error : "error stack"
+
     /resources/list:
         get:
             tags:
