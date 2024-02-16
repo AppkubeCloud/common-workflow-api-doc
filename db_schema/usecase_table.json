@@ -27,7 +27,7 @@
 			{
 				"requirement": {
 					"assignee_id": "resourceId",
-					"assigned_by_id" : "resourceId",
+					"assigned_by_id" : "resourceId", 
 					"updated_by_id": "resourceId",
 					"description": "description",
 					"start_date": "date",

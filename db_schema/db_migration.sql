@@ -102,3 +102,171 @@ ADD COLUMN doc_name VARCHAR(20);
 
 ALTER TABLE metadocs_table
 ALTER COLUMN created_time TYPE timestamp;
+
+
+CREATE TYPE invitation_status_enum AS ENUM ('SENT', 'DRAFT', 'SCHEDULED');
+
+ALTER TABLE resources_table
+ADD COLUMN email VARCHAR(255) not null unique,
+ADD COLUMN password VARCHAR(255),
+ADD COLUMN work_email VARCHAR(255) unique ,
+ADD COLUMN first_name VARCHAR(100),
+ADD COLUMN last_name VARCHAR(100),
+ADD COLUMN gender VARCHAR(10),
+ADD COLUMN dob DATE,
+ADD COLUMN number VARCHAR(20),
+ADD COLUMN emergency_number VARCHAR(20),
+ADD COLUMN highest_qualification VARCHAR(255),
+ADD COLUMN address_id INT ,  
+ADD COLUMN emp_detail_id UUID ,
+ADD COLUMN description TEXT,
+ADD COLUMN current_task_id UUID ,
+ADD COLUMN access_token VARCHAR(255),
+ADD COLUMN refresh_token VARCHAR(255),
+ADD COLUMN role_id INT ,
+ADD COLUMN created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN created_by UUID ,
+ADD COLUMN updated_by UUID ,
+ADD COLUMN invitation_status invitation_status_enum not null,
+ADD COLUMN org_id UUID ,
+ADD CONSTRAINT unique_values CHECK (
+    email != work_email AND
+    number != emergency_number
+);
+
+CREATE TABLE organisation(
+	id UUID DEFAULT gen_random_uuid () PRIMARY KEY,
+	name VARCHAR(100) not null ,
+	email VARCHAR(255) not null unique ,
+	number VARCHAR(20) not null ,
+	logo VARCHAR(255) not null,
+	address_id INT null
+);
+
+
+CREATE TABLE address(
+	id SERIAL PRIMARY KEY,
+	address_line_1 TEXT not null, 
+	address_line_2 TEXT ,
+	landmark TEXT not null, 
+	country VARCHAR(100) not null,
+	state VARCHAR(100) not null,
+	city VARCHAR(100) not null, 
+	zipcode VARCHAR(10) not null
+);
+
+CREATE TABLE role(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) not null,
+	org_id UUID not null ,
+	UNIQUE (name, org_id)
+);
+
+CREATE TABLE department(
+	id SERIAL PRIMARY KEY, 
+	name VARCHAR(100) not null,
+	org_id UUID not null,
+	UNIQUE (name, org_id)
+);
+
+CREATE TABLE emp_type (
+    id SERIAL PRIMARY KEY,
+    type VARCHAR(50) not null ,
+	org_id UUID not null ,
+	UNIQUE (type, org_id)
+);
+
+CREATE TABLE emp_designation (
+    id SERIAL PRIMARY KEY,
+    designation VARCHAR(50) not null ,
+	org_id UUID not null ,
+	UNIQUE (designation, org_id)
+);
+
+CREATE TABLE emp_detail (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    emp_id UUID NOT null unique,
+    designation_id INT ,
+    pf VARCHAR(100) unique,
+    uan VARCHAR(100) unique,
+    department_id INT ,
+    reporting_manager_id UUID ,
+    emp_type_id INT ,
+    work_location VARCHAR(100),
+    start_date DATE
+);
+
+CREATE TABLE device_type (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) ,
+	org_id UUID ,
+	UNIQUE (name, org_id)
+);
+
+CREATE TABLE equipment (
+    id SERIAL PRIMARY KEY,
+    owner BOOLEAN NOT null ,
+    device_type_id INT ,
+    manufacturer VARCHAR(100),
+    serial_number VARCHAR(100) unique,
+    note TEXT,
+    supply_date DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by UUID ,
+    updated_by UUID ,
+    emp_id UUID
+);
+
+CREATE TABLE document(
+    id SERIAL PRIMARY KEY,
+	name VARCHAR(100) not null,
+	url VARCHAR(255) not null,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	emp_id UUID
+);
+
+ALTER TABLE resources_table
+RENAME TO employee;
+
+ALTER TABLE employee
+ADD CONSTRAINT fk_employee_addredd_id FOREIGN KEY (address_id) REFERENCES address(id),
+ADD CONSTRAINT fk_employee_employee_detail_id FOREIGN KEY (emp_detail_id) REFERENCES emp_detail(id),
+ADD CONSTRAINT fk_employee_current_task_id FOREIGN KEY (current_task_id) REFERENCES tasks_table(id),
+ADD CONSTRAINT fk_employee_role_id FOREIGN KEY (role_id) REFERENCES role(id),
+ADD CONSTRAINT fk_employee_created_by_id FOREIGN KEY (created_by) REFERENCES employee(id),
+ADD CONSTRAINT fk_employee_updated_by_id FOREIGN KEY (updated_by) REFERENCES employee(id),
+ADD CONSTRAINT fk_employee_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
+
+ALTER TABLE organisation
+ADD CONSTRAINT fk_org_address_id FOREIGN KEY (address_id) REFERENCES address(id);
+
+ALTER TABLE role
+ADD CONSTRAINT fk_role_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
+
+ALTER TABLE department
+ADD CONSTRAINT fk_department_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
+
+ALTER TABLE emp_type
+ADD CONSTRAINT fk_emp_type_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
+
+ALTER TABLE emp_designation
+ADD CONSTRAINT fk_emp_designation_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
+
+ALTER TABLE emp_detail
+ADD CONSTRAINT fk_emp_detail_emp_detail FOREIGN KEY (emp_id) REFERENCES employee(id),
+ADD CONSTRAINT fk_emp_detail_designation_id FOREIGN KEY (designation_id) REFERENCES emp_designation(id),
+ADD CONSTRAINT fk_emp_detail_department_id FOREIGN KEY (department_id) REFERENCES department(id),
+ADD CONSTRAINT fk_emp_detail_reporting_manager_id FOREIGN KEY (reporting_manager_id) REFERENCES employee(id),
+ADD CONSTRAINT fk_emp_detail_emp_type_id FOREIGN KEY (emp_type_id) REFERENCES emp_type(id);
+
+ALTER TABLE device_type
+ADD CONSTRAINT fk_device_type_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
+
+ALTER TABLE equipment
+ADD CONSTRAINT fk_equipment_device_type FOREIGN KEY (device_type_id) REFERENCES device_type(id),
+ADD CONSTRAINT fk_equipment_created_by FOREIGN KEY ( created_by) REFERENCES employee(id),
+ADD CONSTRAINT fk_equipment_updated_by FOREIGN KEY (updated_by) REFERENCES employee(id),
+ADD CONSTRAINT fk_equipment_emp_id FOREIGN KEY (emp_id) REFERENCES employee(id);
+
