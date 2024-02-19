@@ -270,3 +270,32 @@ ADD CONSTRAINT fk_equipment_created_by FOREIGN KEY ( created_by) REFERENCES empl
 ADD CONSTRAINT fk_equipment_updated_by FOREIGN KEY (updated_by) REFERENCES employee(id),
 ADD CONSTRAINT fk_equipment_emp_id FOREIGN KEY (emp_id) REFERENCES employee(id);
 
+ALTER TABLE employee
+DROP COLUMN resource;
+
+ALTER TABLE emp_detail
+ADD COLUMN employee_id VARCHAR(20) unique
+
+alter table	organisation 
+add column address_line_1 TEXT, 
+add column 	address_line_2 TEXT ,
+add column 	landmark TEXT, 
+add column 	country VARCHAR(100),
+add column 	state VARCHAR(100),
+add column 	city VARCHAR(100), 
+add column 	zipcode VARCHAR(10)
+
+alter table employee 
+drop column address_id;
+
+alter table address 
+add column emp_id uuid unique;
+
+alter table emp_detail 
+drop column employee_id;
+
+alter table employee 
+drop column password;
+
+alter table document
+add constraint fk_document_emp_id foreign KEY(emp_id) references employee(id);
