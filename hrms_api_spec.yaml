@@ -1,0 +1,842 @@
+openapi: 3.0.3
+info:
+  title: HRMS Management API
+  version: 1.0.0
+tags:
+  - name: auth
+    description: APIs related to the auth page
+  - name: Dashboard
+    description: APIs related to the dashboard page
+  - name: Department
+    description: APIs related to department
+  - name: Employee Type
+    description: APIs related to employee type
+  - name: Employee
+    description: APIs related to the employee page
+paths:
+  /signin:
+    post:
+      tags:
+        - auth
+      summary: Sign in to the system
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful sign-in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ChallengeName:
+                    type: string
+                    description: The challenge name returned from the authentication process
+                  Session:
+                    type: string
+                    description: The session returned from the authentication process
+        '400':
+          description: Bad request, validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details of the validation errors
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+  /signup:
+    post:
+      tags:
+        - auth
+      summary: Sign up for a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Successful sign-up
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Confirmation message for successful sign-up
+        '400':
+          description: Bad request, validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details of the validation errors
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string 
+                    description: Details of the internal server error
+  /Dashboard/getEmployee:
+    get:
+      tags:
+        - Dashboard
+      summary: Retrieve total employees and projects count
+      operationId: getEmployee
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Totalemployees:
+                    type: integer
+                  Totalprojects:
+                    type: integer
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /department:
+    get:
+      tags:
+        - Department
+      summary: Retrieve all departments
+      operationId: getDepartment
+      responses:
+        '200':
+          description: Successful response with a list of departments.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: The unique identifier for the department.
+                    name:
+                      type: string
+                      description: The name of the department.
+                    org_id:
+                      type: string
+                      format: uuid
+                      description: The organization ID associated with the department.
+        '500':
+          description: Internal Server Error response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating the cause of the internal server error.
+    post:
+      tags:
+        - Department
+      summary: Add a new department
+      operationId: addDepartment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                org_id:
+                  type: string
+                  format: uuid
+      responses:
+        "201":
+          description: Department added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  org_id:
+                    type: string
+                    format: uuid
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+
+  /department/{id}:
+    put:
+      tags:
+        - Department
+      summary: Update a department
+      operationId: updateDepartment
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                org_id:
+                  type: string
+                  format: uuid
+      responses:
+        "200":
+          description: Department updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  type:
+                    type: string
+                  org_id:
+                    type: string
+                    format: uuid
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /emp_type:
+    get:
+      tags:
+        - Employee Type
+      summary: Retrieve all employee types
+      operationId: getEmp_type
+      responses:
+        "200":
+          description: Successful response with a list of employee types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: The unique identifier for the employee type.
+                    type:
+                      type: string
+                      description: The name of the employee type.
+                    org_id:
+                      type: string
+                      format: uuid
+                      description: The organization ID associated with the employee type.
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+    post:
+      tags:
+        - Employee Type
+      summary: Add a new employee type
+      operationId: addEmp_type
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                org_id:
+                  type: string
+                  format: uuid
+      responses:
+        "201":
+          description: Employee type added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  type:
+                    type: string
+                  org_id:
+                    type: string
+                    format: uuid
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+  /emp_type/{id}:
+    put:
+      tags:
+        - Employee Type
+      summary: Update an employee type
+      operationId: updateEmp_type
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                org_id:
+                  type: string
+                  format: uuid
+      responses:
+        "200":
+          description: Employee type updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  type:
+                    type: string
+                  org_id:
+                    type: string
+                    format: uuid
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+        
+  /employee/addDocument:
+    put:
+      tags:
+        - Employee
+      summary: Add document for an employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the document
+                  url:
+                    type: string
+                    format: uri
+                    description: The URL of the document
+                  emp_id:
+                    type: string
+                    format: uuid
+                    description: The ID of the employee associated with the document
+      responses:
+        '200':
+          description: Successful addition of document(s)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: The unique identifier for the document
+                    name:
+                      type: string
+                      description: The name of the document
+                    url:
+                      type: string
+                      format: uri
+                      description: The URL of the document
+                    emp_id:
+                      type: string
+                      format: uuid
+                      description: The ID of the employee associated with the document
+                    created_at:
+                      type: string
+                      format: date-time
+                      description: The timestamp when the document was created
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error                  
+  /employee/addEquipmentdetailsInfo:
+    put:
+      tags:
+        - Employee
+      summary: Add equipment details for an employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  owner:
+                    type: string
+                    description: The owner of the equipment
+                  device_type_id:
+                    type: integer
+                    description: The ID of the device type
+                  manufacturer:
+                    type: string
+                    description: The manufacturer of the equipment
+                  serial_number:
+                    type: string
+                    description: The serial number of the equipment
+                  note:
+                    type: string
+                    description: Any additional notes about the equipment
+                  supply_date:
+                    type: string
+                    format: date
+                    description: The supply date of the equipment
+                  emp_id:
+                    type: string
+                    format: uuid
+                    description: The ID of the employee associated with the equipment
+      responses:
+        '200':
+          description: Successful addition of equipment details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: The unique identifier for the equipment
+                    owner:
+                      type: string
+                      description: The owner of the equipment
+                    device_type_id:
+                      type: integer
+                      description: The ID of the device type
+                    manufacturer:
+                      type: string
+                      description: The manufacturer of the equipment
+                    serial_number:
+                      type: string
+                      description: The serial number of the equipment
+                    note:
+                      type: string
+                      description: Any additional notes about the equipment
+                    supply_date:
+                      type: string
+                      format: date
+                      description: The supply date of the equipment
+                    emp_id:
+                      type: string
+                      format: uuid
+                      description: The ID of the employee associated with the equipment
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+                    
+  /employee/addProfessionalInfo:
+    put:
+      tags:
+        - Employee
+      summary: Update professional information of an employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                designation_id:
+                  type: string
+                  description: The ID of the designation
+                pf:
+                  type: string
+                  description: The PF number of the employee
+                uan:
+                  type: string
+                  description: The UAN number of the employee
+                department_id:
+                  type: string
+                  description: The ID of the department
+                reporting_manager_id:
+                  type: string
+                  description: The ID of the reporting manager
+                work_location:
+                  type: string
+                  description: The work location of the employee
+                start_date:
+                  type: string
+                  format: date
+                  description: The start date of the employment
+                emp_id:
+                  type: string
+                  description: The ID of the employee
+      responses:
+        '200':
+          description: Successful update of professional information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  designation_id:
+                    type: string
+                    description: The ID of the designation
+                  designation:
+                    type: string
+                    description: The designation of the employee
+                  department_id:
+                    type: string
+                    description: The ID of the department
+                  department:
+                    type: string
+                    description: The department of the employee
+                  maanger_id:
+                    type: string
+                    description: The ID of the manager
+                  maanger_first_name:
+                    type: string
+                    description: The first name of the manager
+                  maanger_last_name:
+                    type: string
+                    description: The last name of the manager
+                  image:
+                    type: string
+                    description: The image URL of the manager
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                    
+  /employee/addPersonalInfo:
+    post:
+      tags:
+        - Employee
+      summary: Add personal information of an employee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: The first name of the employee
+                last_name:
+                  type: string
+                  description: The last name of the employee
+                email:
+                  type: string
+                  format: email
+                  description: The email address of the employee
+                work_email:
+                  type: string
+                  format: email
+                  description: The work email address of the employee
+                gender:
+                  type: string
+                  enum: [Male, Female, Other]
+                  description: The gender of the employee
+                dob:
+                  type: string
+                  format: date
+                  description: The date of birth of the employee
+                number:
+                  type: string
+                  description: The contact number of the employee
+                emergency_number:
+                  type: string
+                  description: The emergency contact number of the employee
+                highest_qualification:
+                  type: string
+                  description: The highest qualification of the employee
+                address_line_1:
+                  type: string
+                  description: The address line 1 of the employee
+                address_line_2:
+                  type: string
+                  description: The address line 2 of the employee
+                landmark:
+                  type: string
+                  description: The landmark near the employee's address
+                country:
+                  type: string
+                  description: The country of the employee's address
+                state:
+                  type: string
+                  description: The state of the employee's address
+                city:
+                  type: string
+                  description: The city of the employee's address
+                zipcode:
+                  type: string
+                  description: The zipcode of the employee's address
+                emp_type:
+                  type: string
+                  description: The type of employment of the employee
+      responses:
+        '200':
+          description: Successful addition of personal information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the employee
+                  first_name:
+                    type: string
+                    description: The first name of the employee
+                  last_name:
+                    type: string
+                    description: The last name of the employee
+                  email:
+                    type: string
+                    format: email
+                    description: The email address of the employee
+                  work_email:
+                    type: string
+                    format: email
+                    description: The work email address of the employee
+                  gender:
+                    type: string
+                    enum: [Male, Female, Other]
+                    description: The gender of the employee
+                  dob:
+                    type: string
+                    format: date
+                    description: The date of birth of the employee
+                  number:
+                    type: string
+                    description: The contact number of the employee
+                  emergency_number:
+                    type: string
+                    description: The emergency contact number of the employee
+                  highest_qualification:
+                    type: string
+                    description: The highest qualification of the employee
+                  address_line_1:
+                    type: string
+                    description: The address line 1 of the employee
+                  address_line_2:
+                    type: string
+                    description: The address line 2 of the employee
+                  landmark:
+                    type: string
+                    description: The landmark near the employee's address
+                  country:
+                    type: string
+                    description: The country of the employee's address
+                  state:
+                    type: string
+                    description: The state of the employee's address
+                  city:
+                    type: string
+                    description: The city of the employee's address
+                  zipcode:
+                    type: string
+                    description: The zipcode of the employee's address
+                  emp_type:
+                    type: string
+                    description: The type of employment of the employee
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                    
+  /searchEmployee:
+    get:
+      tags:
+        - Employee
+      summary: Search Employees
+      description: Retrieves a list of employees based on provided search parameters.
+      parameters:
+        - name: page
+          in: query
+          description: The page number for pagination.
+          required: false
+          schema:
+            type: string
+        - name: pageSize
+          in: query
+          description: The number of items per page.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response. Returns a list of employees.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Employee_Name:
+                      type: string
+                      description: The full name of the employee.
+                    Employee_Id:
+                      type: string
+                      description: The unique identifier of the employee.
+                    Email_Address:
+                      type: string
+                      description: The email address of the employee.
+                    Designation:
+                      type: string
+                      description: The designation of the employee.
+                    Employee_Type:
+                      type: string
+                      description: The type of employee.
+                    Department:
+                      type: string
+                      description: The department of the employee.
+                    Start_Date:
+                      type: string
+                      description: The start date of the employee.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A message describing the error.                                                                                                  
