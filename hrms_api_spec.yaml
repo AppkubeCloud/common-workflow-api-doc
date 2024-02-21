@@ -117,7 +117,7 @@ paths:
                   error:
                     type: string 
                     description: Details of the internal server error
-  /Dashboard/getEmployee:
+  /Dashboard/dashboardStats:
     get:
       tags:
         - Dashboard
@@ -244,7 +244,7 @@ paths:
             schema:
               type: object
               properties:
-                type:
+                name:
                   type: string
                 org_id:
                   type: string
@@ -259,7 +259,7 @@ paths:
                 properties:
                   id:
                     type: integer
-                  type:
+                  name:
                     type: string
                   org_id:
                     type: string
@@ -274,7 +274,7 @@ paths:
                   message:
                     type: string
                     description: An internal server error occurred
-  /emp_type:
+  /empType:
     get:
       tags:
         - Employee Type
@@ -352,7 +352,7 @@ paths:
                   message:
                     type: string
                     description: An internal server error occurred
-  /emp_type/{id}:
+  /empType/{id}:
     put:
       tags:
         - Employee Type
@@ -403,7 +403,7 @@ paths:
                     type: string
                     description: An internal server error occurred
         
-  /employee/addDocument:
+  /employee/document:
     put:
       tags:
         - Employee
@@ -469,7 +469,7 @@ paths:
                   error:
                     type: string
                     description: Details of the internal server error                  
-  /employee/addEquipmentdetailsInfo:
+  /employee/equipmentInfo:
     put:
       tags:
         - Employee
@@ -556,7 +556,7 @@ paths:
                     type: string
                     description: Details of the internal server error
                     
-  /employee/addProfessionalInfo:
+  /employee/professionalInfo:
     put:
       tags:
         - Employee
@@ -636,7 +636,7 @@ paths:
                     type: string
                     description: An internal server error occurred
                     
-  /employee/addPersonalInfo:
+  /employee/personalInfo:
     post:
       tags:
         - Employee
@@ -780,11 +780,11 @@ paths:
                     type: string
                     description: An internal server error occurred
                     
-  /searchEmployee:
+  /employee:
     get:
       tags:
         - Employee
-      summary: Search Employees
+      summary: getEmployees
       description: Retrieves a list of employees based on provided search parameters.
       parameters:
         - name: page
