@@ -839,4 +839,222 @@ paths:
                 properties:
                   message:
                     type: string
-                    description: A message describing the error.                                                                                                  
+                    description: A message describing the error.  
+                    
+  /searchByName:
+    get:
+      tags:
+        - Employee
+      summary: searchByName
+      description: Retrieves a list of employees based on provided search parameters.
+      parameters:
+        - name: name
+          in: query
+          description: The name of the employee to retrieve.
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response. Returns a list of employees.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    Employee_Name:
+                      type: string
+                      description: The full name of the employee.
+                    Employee_Id:
+                      type: string
+                      description: The unique identifier of the employee.
+                    Email_Address:
+                      type: string
+                      description: The email address of the employee.
+                    Designation:
+                      type: string
+                      description: The designation of the employee.
+                    Employee_Type:
+                      type: string
+                      description: The type of employee.
+                    Department:
+                      type: string
+                      description: The department of the employee.
+                    Start_Date:
+                      type: string
+                      description: The start date of the employee.
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: A message describing the error.
+                    
+  /employee/{id}:
+    get:
+      summary: Retrieve employee information by ID
+      operationId: getEmployeeById
+      tags:
+        - Employee
+      parameters:
+        - name: id
+          in: path
+          description: The ID of the employee to retrieve
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful response with employee information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  personal_information:
+                    type: object
+                    properties:
+                      emp_id:
+                        type: string
+                        format: uuid
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      work_email:
+                        type: string
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      gender:
+                        type: string
+                      dob:
+                        type: string
+                        format: date
+                      number:
+                        type: string
+                      emergency_number:
+                        type: string
+                      highest_qualification:
+                        type: string
+                      address_id:
+                        type: string
+                        format: uuid
+                      address_line_1:
+                        type: string
+                      address_line_2:
+                        type: string
+                      landmark:
+                        type: string
+                      country:
+                        type: string
+                      state:
+                        type: string
+                      city:
+                        type: string
+                      zipcode:
+                        type: string
+                  professional_information:
+                    type: object
+                    properties:
+                      emp_detail_id:
+                        type: string
+                        format: uuid
+                      designation_id:
+                        type: string
+                        format: uuid
+                      pf:
+                        type: string
+                      uan:
+                        type: string
+                      department_id:
+                        type: string
+                        format: uuid
+                      reporting_manager_id:
+                        type: string
+                        format: uuid
+                      emp_type_id:
+                        type: string
+                        format: uuid
+                      work_location:
+                        type: string
+                      start_date:
+                        type: string
+                        format: date
+                      department_name:
+                        type: string
+                      emp_type:
+                        type: string
+                      emp_designation_id:
+                        type: string
+                        format: uuid
+                      emp_designation:
+                        type: string
+                      reporting_manager_first_name:
+                        type: string
+                      reporting_manager_last_name:
+                        type: string
+                  documents:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        document_id:
+                          type: string
+                          format: uuid
+                        name:
+                          type: string
+                        url:
+                          type: string
+                          format: uri
+                  equipment:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        owner:
+                          type: string
+                        device_type_id:
+                          type: integer
+                        manufacturer:
+                          type: string
+                        serial_number:
+                          type: string
+                        note:
+                          type: string
+                        supply_date:
+                          type: string
+                          format: date
+                        device_type_name:
+                          type: string
+        '400':
+          description: Bad request, invalid employee ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details of the validation errors
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
