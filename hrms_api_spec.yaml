@@ -13,6 +13,8 @@ tags:
     description: APIs related to employee type
   - name: Employee
     description: APIs related to the employee page
+  - name: Organisation
+    description: APIs related to the Organisation page  
 paths:
   /signin:
     post:
@@ -117,7 +119,7 @@ paths:
                   error:
                     type: string 
                     description: Details of the internal server error
-  /Dashboard/dashboardStats:
+  /dashboard/dashboardStats:
     get:
       tags:
         - Dashboard
@@ -700,9 +702,6 @@ paths:
                 zipcode:
                   type: string
                   description: The zipcode of the employee's address
-                emp_type:
-                  type: string
-                  description: The type of employment of the employee
       responses:
         '200':
           description: Successful addition of personal information
@@ -1058,3 +1057,129 @@ paths:
                   error:
                     type: string
                     description: Details of the internal server error
+  /updateOrganization/{org_id}:
+    put:
+      tags:
+        - Organisation
+      summary: Update organisation details
+      operationId: updateOrganization
+      parameters:
+        - in: path
+          name: org_id
+          required: true
+          schema:
+            type: string
+            format: uuid
+            description: The ID of the organisation to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the organisation
+                email:
+                  type: string
+                  format: email
+                  description: The email address of the organisation
+                number:
+                  type: string
+                  description: The phone number of the organisation
+                logo:
+                  type: string
+                  description: The URL of the organisation's logo
+                address_line_1:
+                  type: string
+                  description: The address line 1 of the organisation
+                address_line_2:
+                  type: string
+                  description: The address line 2 of the organisation
+                landmark:
+                  type: string
+                  description: The landmark of the organisation's address
+                country:
+                  type: string
+                  description: The country of the organisation's address
+                state:
+                  type: string
+                  description: The state of the organisation's address
+                city:
+                  type: string
+                  description: The city of the organisation's address
+                zipcode:
+                  type: string
+                  description: The ZIP code of the organisation's address
+                orgId:
+                  type: string
+                  format: uuid
+                  description: The ID of the organisation
+      responses:
+        '200':
+          description: Organisation details updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: The ID of the organisation
+                  name:
+                    type: string
+                    description: The name of the organisation
+                  email:
+                    type: string
+                    format: email
+                    description: The email address of the organisation
+                  number:
+                    type: string
+                    description: The phone number of the organisation
+                  logo:
+                    type: string
+                    description: The URL of the organisation's logo
+                  address_line_1:
+                    type: string
+                    description: The address line 1 of the organisation
+                  address_line_2:
+                    type: string
+                    description: The address line 2 of the organisation
+                  landmark:
+                    type: string
+                    description: The landmark of the organisation's address
+                  country:
+                    type: string
+                    description: The country of the organisation's address
+                  state:
+                    type: string
+                    description: The state of the organisation's address
+                  city:
+                    type: string
+                    description: The city of the organisation's address
+                  zipcode:
+                    type: string
+                    description: The ZIP code of the organisation's address
+        '400':
+          description: Bad request, invalid request body format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    description: Details of the validation errors
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Details of the error
+                  
