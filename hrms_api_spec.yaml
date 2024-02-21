@@ -165,14 +165,12 @@ paths:
                   properties:
                     id:
                       type: integer
-                      description: The unique identifier for the department.
                     name:
                       type: string
                       description: The name of the department.
                     org_id:
                       type: string
                       format: uuid
-                      description: The organization ID associated with the department.
         '500':
           description: Internal Server Error response.
           content:
@@ -294,14 +292,12 @@ paths:
                   properties:
                     id:
                       type: integer
-                      description: The unique identifier for the employee type.
                     type:
                       type: string
                       description: The name of the employee type.
                     org_id:
                       type: string
                       format: uuid
-                      description: The organization ID associated with the employee type.
         "500":
           description: Internal Server Error
           content:
@@ -415,21 +411,27 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: The name of the document
-                  url:
-                    type: string
-                    format: uri
-                    description: The URL of the document
-                  emp_id:
-                    type: string
-                    format: uuid
-                    description: The ID of the employee associated with the document
+              type: object
+              required:
+                - emp_id
+                - document
+              properties:
+                emp_id:
+                  type: string
+                  format: uuid
+                documents:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - url
+                    properties:
+                      name:
+                        type: string
+                      url:
+                        type: string
+                        format: uri
       responses:
         '200':
           description: Successful addition of document(s)
@@ -442,22 +444,15 @@ paths:
                   properties:
                     id:
                       type: integer
-                      description: The unique identifier for the document
                     name:
                       type: string
                       description: The name of the document
                     url:
                       type: string
                       format: uri
-                      description: The URL of the document
-                    emp_id:
-                      type: string
-                      format: uuid
-                      description: The ID of the employee associated with the document
                     created_at:
                       type: string
                       format: date-time
-                      description: The timestamp when the document was created
         '500':
           description: Internal Server Error
           content:
@@ -487,27 +482,20 @@ paths:
                 properties:
                   owner:
                     type: string
-                    description: The owner of the equipment
                   device_type_id:
                     type: integer
-                    description: The ID of the device type
                   manufacturer:
                     type: string
-                    description: The manufacturer of the equipment
                   serial_number:
                     type: string
-                    description: The serial number of the equipment
                   note:
                     type: string
-                    description: Any additional notes about the equipment
                   supply_date:
                     type: string
                     format: date
-                    description: The supply date of the equipment
                   emp_id:
                     type: string
                     format: uuid
-                    description: The ID of the employee associated with the equipment
       responses:
         '200':
           description: Successful addition of equipment details
@@ -520,30 +508,22 @@ paths:
                   properties:
                     id:
                       type: integer
-                      description: The unique identifier for the equipment
                     owner:
                       type: string
-                      description: The owner of the equipment
                     device_type_id:
                       type: integer
-                      description: The ID of the device type
                     manufacturer:
                       type: string
-                      description: The manufacturer of the equipment
                     serial_number:
                       type: string
-                      description: The serial number of the equipment
                     note:
                       type: string
-                      description: Any additional notes about the equipment
                     supply_date:
                       type: string
                       format: date
-                      description: The supply date of the equipment
                     emp_id:
                       type: string
                       format: uuid
-                      description: The ID of the employee associated with the equipment
         '500':
           description: Internal Server Error
           content:
@@ -572,29 +552,21 @@ paths:
               properties:
                 designation_id:
                   type: string
-                  description: The ID of the designation
                 pf:
                   type: string
-                  description: The PF number of the employee
                 uan:
                   type: string
-                  description: The UAN number of the employee
                 department_id:
                   type: string
-                  description: The ID of the department
                 reporting_manager_id:
                   type: string
-                  description: The ID of the reporting manager
                 work_location:
                   type: string
-                  description: The work location of the employee
                 start_date:
                   type: string
                   format: date
-                  description: The start date of the employment
                 emp_id:
                   type: string
-                  description: The ID of the employee
       responses:
         '200':
           description: Successful update of professional information
@@ -605,28 +577,20 @@ paths:
                 properties:
                   designation_id:
                     type: string
-                    description: The ID of the designation
                   designation:
                     type: string
-                    description: The designation of the employee
                   department_id:
                     type: string
-                    description: The ID of the department
                   department:
                     type: string
-                    description: The department of the employee
                   maanger_id:
                     type: string
-                    description: The ID of the manager
                   maanger_first_name:
                     type: string
-                    description: The first name of the manager
                   maanger_last_name:
                     type: string
-                    description: The last name of the manager
                   image:
                     type: string
-                    description: The image URL of the manager
         '500':
           description: Internal Server Error
           content:
@@ -652,56 +616,40 @@ paths:
               properties:
                 first_name:
                   type: string
-                  description: The first name of the employee
                 last_name:
                   type: string
-                  description: The last name of the employee
                 email:
                   type: string
                   format: email
-                  description: The email address of the employee
                 work_email:
                   type: string
                   format: email
-                  description: The work email address of the employee
                 gender:
                   type: string
                   enum: [Male, Female, Other]
-                  description: The gender of the employee
                 dob:
                   type: string
                   format: date
-                  description: The date of birth of the employee
                 number:
                   type: string
-                  description: The contact number of the employee
                 emergency_number:
                   type: string
-                  description: The emergency contact number of the employee
                 highest_qualification:
                   type: string
-                  description: The highest qualification of the employee
                 address_line_1:
                   type: string
-                  description: The address line 1 of the employee
                 address_line_2:
                   type: string
-                  description: The address line 2 of the employee
                 landmark:
                   type: string
-                  description: The landmark near the employee's address
                 country:
                   type: string
-                  description: The country of the employee's address
                 state:
                   type: string
-                  description: The state of the employee's address
                 city:
                   type: string
-                  description: The city of the employee's address
                 zipcode:
                   type: string
-                  description: The zipcode of the employee's address
       responses:
         '200':
           description: Successful addition of personal information
@@ -710,64 +658,67 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: string
-                    description: The ID of the employee
-                  first_name:
-                    type: string
-                    description: The first name of the employee
-                  last_name:
-                    type: string
-                    description: The last name of the employee
                   email:
                     type: string
                     format: email
-                    description: The email address of the employee
                   work_email:
                     type: string
-                    format: email
-                    description: The work email address of the employee
+                    format: email  
+                  first_name:
+                    type: string
+                  last_name:
+                    type: string
                   gender:
                     type: string
                     enum: [Male, Female, Other]
-                    description: The gender of the employee
                   dob:
                     type: string
                     format: date
-                    description: The date of birth of the employee
                   number:
                     type: string
-                    description: The contact number of the employee
                   emergency_number:
                     type: string
-                    description: The emergency contact number of the employee
                   highest_qualification:
                     type: string
-                    description: The highest qualification of the employee
+                  description:
+                    type: string
+                  created_at:
+                    type: string
+                    format: date-time
+                  updated_at:
+                    type: string
+                    format: date-time
+                  created_by:
+                    type: string
+                  updated_by:
+                    type: string 
+                  image: 
+                    type: string
                   address_line_1:
                     type: string
-                    description: The address line 1 of the employee
                   address_line_2:
                     type: string
-                    description: The address line 2 of the employee
                   landmark:
                     type: string
-                    description: The landmark near the employee's address
                   country:
                     type: string
-                    description: The country of the employee's address
                   state:
                     type: string
-                    description: The state of the employee's address
                   city:
                     type: string
-                    description: The city of the employee's address
                   zipcode:
                     type: string
-                    description: The zipcode of the employee's address
-                  emp_type:
+                  pf:
                     type: string
-                    description: The type of employment of the employee
+                  uan:  
+                    type: string
+                  department_id:
+                    type: integer
+                  work_location:
+                    type: string
+                  start_date:
+                     type: string
+                     format: date
         '500':
           description: Internal Server Error
           content:
@@ -789,13 +740,7 @@ paths:
         - name: page
           in: query
           description: The page number for pagination.
-          required: false
-          schema:
-            type: string
-        - name: pageSize
-          in: query
-          description: The number of items per page.
-          required: false
+          required: true
           schema:
             type: string
       responses:
@@ -804,31 +749,29 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    Employee_Name:
-                      type: string
-                      description: The full name of the employee.
-                    Employee_Id:
-                      type: string
-                      description: The unique identifier of the employee.
-                    Email_Address:
-                      type: string
-                      description: The email address of the employee.
-                    Designation:
-                      type: string
-                      description: The designation of the employee.
-                    Employee_Type:
-                      type: string
-                      description: The type of employee.
-                    Department:
-                      type: string
-                      description: The department of the employee.
-                    Start_Date:
-                      type: string
-                      description: The start date of the employee.
+                type: object
+                properties:
+                  totalPages:
+                    type: integer
+                  currentPage:
+                    type: integer 
+                  employees:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Employee_Name:
+                          type: string
+                        Employee_Id:
+                          type: string
+                        Email_Address:
+                          type: string
+                        Designation:
+                          type: string
+                        Employee_Type:
+                          type: string
+                        Department:
+                          type: string
         '500':
           description: Internal Server Error
           content:
@@ -850,7 +793,7 @@ paths:
         - name: name
           in: query
           description: The name of the employee to retrieve.
-          required: false
+          required: true
           schema:
             type: string
       responses:
@@ -865,25 +808,18 @@ paths:
                   properties:
                     Employee_Name:
                       type: string
-                      description: The full name of the employee.
                     Employee_Id:
                       type: string
-                      description: The unique identifier of the employee.
                     Email_Address:
                       type: string
-                      description: The email address of the employee.
                     Designation:
                       type: string
-                      description: The designation of the employee.
                     Employee_Type:
                       type: string
-                      description: The type of employee.
                     Department:
                       type: string
-                      description: The department of the employee.
                     Start_Date:
                       type: string
-                      description: The start date of the employee.
         '500':
           description: Internal Server Error
           content:
@@ -1080,42 +1016,30 @@ paths:
               properties:
                 name:
                   type: string
-                  description: The name of the organisation
                 email:
                   type: string
                   format: email
-                  description: The email address of the organisation
                 number:
                   type: string
-                  description: The phone number of the organisation
                 logo:
                   type: string
-                  description: The URL of the organisation's logo
                 address_line_1:
                   type: string
-                  description: The address line 1 of the organisation
                 address_line_2:
                   type: string
-                  description: The address line 2 of the organisation
                 landmark:
                   type: string
-                  description: The landmark of the organisation's address
                 country:
                   type: string
-                  description: The country of the organisation's address
                 state:
                   type: string
-                  description: The state of the organisation's address
                 city:
                   type: string
-                  description: The city of the organisation's address
                 zipcode:
                   type: string
-                  description: The ZIP code of the organisation's address
                 orgId:
                   type: string
                   format: uuid
-                  description: The ID of the organisation
       responses:
         '200':
           description: Organisation details updated successfully
@@ -1127,41 +1051,29 @@ paths:
                   id:
                     type: string
                     format: uuid
-                    description: The ID of the organisation
                   name:
                     type: string
-                    description: The name of the organisation
                   email:
                     type: string
                     format: email
-                    description: The email address of the organisation
                   number:
                     type: string
-                    description: The phone number of the organisation
                   logo:
                     type: string
-                    description: The URL of the organisation's logo
                   address_line_1:
                     type: string
-                    description: The address line 1 of the organisation
                   address_line_2:
                     type: string
-                    description: The address line 2 of the organisation
                   landmark:
                     type: string
-                    description: The landmark of the organisation's address
                   country:
                     type: string
-                    description: The country of the organisation's address
                   state:
                     type: string
-                    description: The state of the organisation's address
                   city:
                     type: string
-                    description: The city of the organisation's address
                   zipcode:
                     type: string
-                    description: The ZIP code of the organisation's address
         '400':
           description: Bad request, invalid request body format
           content:
