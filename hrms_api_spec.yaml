@@ -14,7 +14,9 @@ tags:
   - name: Employee
     description: APIs related to the employee page
   - name: Organisation
-    description: APIs related to the Organisation page  
+    description: APIs related to the Organisation page 
+  - name: Designation
+    description: APIs related to the empDesignation    
 paths:
   /signin:
     post:
@@ -864,7 +866,7 @@ paths:
                         format: uuid
                       email:
                         type: string
-                      password:
+                      image:
                         type: string
                       work_email:
                         type: string
@@ -1097,4 +1099,37 @@ paths:
                   message:
                     type: string
                     description: Details of the error
-                  
+  /designation:
+    get:
+      tags:
+        - Designation
+      summary: Retrieve all designations
+      operationId: getDesignation
+      responses:
+        '200':
+          description: Successful response with a list of designation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    designation:
+                      type: string
+                      description: The name of the designation.
+                    org_id:
+                      type: string
+                      format: uuid
+        '500':
+          description: Internal Server Error response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating the cause of the internal server error.                
