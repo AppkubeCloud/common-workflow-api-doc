@@ -14,7 +14,9 @@ tags:
   - name: Employee
     description: APIs related to the employee page
   - name: Organisation
-    description: APIs related to the Organisation page  
+    description: APIs related to the Organisation page 
+  - name: Designation
+    description: APIs related to the empDesignation    
 paths:
   /signin:
     post:
@@ -484,7 +486,7 @@ paths:
                 type: object
                 properties:
                   owner:
-                    type: string
+                    type: boolean
                   device_type_id:
                     type: integer
                   manufacturer:
@@ -512,7 +514,7 @@ paths:
                     id:
                       type: integer
                     owner:
-                      type: string
+                      type: boolean
                     device_type_id:
                       type: integer
                     manufacturer:
@@ -524,6 +526,18 @@ paths:
                     supply_date:
                       type: string
                       format: date
+                    created_at:
+                      type: string
+                      format: date
+                    updated_at:
+                      type: string
+                      format: date  
+                    created_by:
+                      type: string
+                      format: uuid
+                    updated_by:
+                      type: string
+                      format: uuid 
                     emp_id:
                       type: string
                       format: uuid
@@ -554,13 +568,13 @@ paths:
               type: object
               properties:
                 designation_id:
-                  type: string
+                  type: integer
                 pf:
                   type: string
                 uan:
                   type: string
                 department_id:
-                  type: string
+                  type: integer
                 reporting_manager_id:
                   type: string
                 work_location:
@@ -570,8 +584,9 @@ paths:
                   format: date
                 emp_id:
                   type: string
+                  format: uuid
       responses:
-        '200':
+        '200':  
           description: Successful update of professional information
           content:
             application/json:
@@ -579,15 +594,33 @@ paths:
                 type: object
                 properties:
                   designation_id:
+                    type: integer
+                  pf:
                     type: string
-                  designation:
+                  uan:
                     type: string
                   department_id:
+                    type: string
+                  reporting_manager_id:
+                    type: string
+                    format: uuid
+                  emp_type_id:
+                    type: integer
+                  work_location:
+                    type: string
+                  start_date:
+                    type: string
+                    format: date
+                  employee_id:
+                    type: string
+                    format: uuid          
+                  designation:
                     type: string
                   department:
                     type: string
                   manager_id:
                     type: string
+                    format: uuid
                   manager_first_name:
                     type: string
                   manager_last_name:
@@ -653,6 +686,8 @@ paths:
                   type: string
                 zipcode:
                   type: string
+                emp_type:
+                  type: integer  
       responses:
         '200':
           description: Successful addition of personal information
@@ -864,7 +899,7 @@ paths:
                         format: uuid
                       email:
                         type: string
-                      password:
+                      image:
                         type: string
                       work_email:
                         type: string
@@ -1097,4 +1132,37 @@ paths:
                   message:
                     type: string
                     description: Details of the error
-                  
+  /designation:
+    get:
+      tags:
+        - Designation
+      summary: Retrieve all designations
+      operationId: getDesignation
+      responses:
+        '200':
+          description: Successful response with a list of designation.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    designation:
+                      type: string
+                      description: The name of the designation.
+                    org_id:
+                      type: string
+                      format: uuid
+        '500':
+          description: Internal Server Error response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message indicating the cause of the internal server error.                
