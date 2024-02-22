@@ -453,6 +453,9 @@ paths:
                     created_at:
                       type: string
                       format: date-time
+                    emp_id:
+                      type: string
+                      format: uuid  
         '500':
           description: Internal Server Error
           content:
@@ -583,11 +586,11 @@ paths:
                     type: string
                   department:
                     type: string
-                  maanger_id:
+                  manager_id:
                     type: string
-                  maanger_first_name:
+                  manager_first_name:
                     type: string
-                  maanger_last_name:
+                  manager_last_name:
                     type: string
                   image:
                     type: string
@@ -760,17 +763,17 @@ paths:
                     items:
                       type: object
                       properties:
-                        Employee_Name:
+                        employee_name:
                           type: string
-                        Employee_Id:
+                        employee_id:
                           type: string
-                        Email_Address:
+                        email_address:
                           type: string
-                        Designation:
+                        designation:
                           type: string
-                        Employee_Type:
+                        employee_type:
                           type: string
-                        Department:
+                        department:
                           type: string
         '500':
           description: Internal Server Error
@@ -787,7 +790,7 @@ paths:
     get:
       tags:
         - Employee
-      summary: searchByName
+      summary: searchByName 
       description: Retrieves a list of employees based on provided search parameters.
       parameters:
         - name: name
@@ -806,19 +809,19 @@ paths:
                 items:
                   type: object
                   properties:
-                    Employee_Name:
+                    employee_name:
                       type: string
-                    Employee_Id:
+                    employee_id:
                       type: string
-                    Email_Address:
+                    email_address:
                       type: string
-                    Designation:
+                    designation:
                       type: string
-                    Employee_Type:
+                    employee_type:
                       type: string
-                    Department:
+                    department:
                       type: string
-                    Start_Date:
+                    start_date:
                       type: string
         '500':
           description: Internal Server Error
