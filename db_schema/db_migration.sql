@@ -299,3 +299,11 @@ drop column password;
 
 alter table document
 add constraint fk_document_emp_id foreign KEY(emp_id) references employee(id);
+
+ALTER TABLE address
+ALTER COLUMN address_line_1 DROP NOT NULL,
+ALTER COLUMN landmark DROP NOT NULL,
+ALTER COLUMN country DROP NOT NULL,
+ALTER COLUMN state DROP NOT NULL,
+ALTER COLUMN city DROP NOT NULL,
+ALTER COLUMN zipcode DROP NOT NULL;
