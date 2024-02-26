@@ -308,3 +308,12 @@ add column employee_id VARCHAR(20);
 
 alter table organisation 
 drop address_id;
+
+
+ALTER TABLE address
+ALTER COLUMN address_line_1 DROP NOT NULL,
+ALTER COLUMN landmark DROP NOT NULL,
+ALTER COLUMN country DROP NOT NULL,
+ALTER COLUMN state DROP NOT NULL,
+ALTER COLUMN city DROP NOT NULL,
+ALTER COLUMN zipcode DROP NOT NULL;
