@@ -206,7 +206,7 @@ CREATE TABLE device_type (
 
 CREATE TABLE equipment (
     id SERIAL PRIMARY KEY,
-    owner BOOLEAN NOT null ,
+    owner BOOLEAN NOT null , --true if company owns it and false if employee owns it.
     device_type_id INT ,
     manufacturer VARCHAR(100),
     serial_number VARCHAR(100) unique,
@@ -299,3 +299,12 @@ drop column password;
 
 alter table document
 add constraint fk_document_emp_id foreign KEY(emp_id) references employee(id);
+
+alter table employee 
+add column image VARCHAR(255)
+
+alter table emp_detail 
+add column employee_id VARCHAR(20);
+
+alter table organisation 
+drop address_id;
