@@ -13,10 +13,12 @@ tags:
     description: APIs related to employee type
   - name: Employee
     description: APIs related to the employee page
-  - name: Organisation
-    description: APIs related to the Organisation page
+  - name: Organization
+    description: APIs related to the Organization page
   - name: Designation
     description: APIs related to the empDesignation
+  - name: Upload
+    description: APIs related to uploading documents    
 paths:
   /signin:
     post:
@@ -720,11 +722,92 @@ paths:
                   error:
                     type: string
                     description: Details of the internal server error
+                    
+    put:
+      tags:
+        - Employee
+      summary: Update personal information of an employee
+      operationId: updatePersonalInfo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The ID of the employee to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              first_name: "John"
+              last_name: "Doe"
+              email: "John@matrix.com"
+              work_email: "John_work_email@matrix.com"
+              gender: "Male"
+              dob: "1990-01-01"
+              number: "1234567890"
+              emergency_number: "9876543210"
+              highest_qualification: "Master's Degree"
+              address_line_1: "456 Updated St"
+              address_line_2: "Suite 202"
+              landmark: "Near the river"
+              country: "USA"
+              state: "California"
+              city: "Los Angeles"
+              zipcode: "90001"
+              image: "https://example.com/updated_image.jpg"
+      responses:
+        '200':
+          description: Personal information updated successfully
+          content:
+            application/json:
+              example:  
+                first_name: "John"
+                last_name: "Doe"
+                email: "John@matrix.com"
+                work_email: "John_work_email@matrix.com"
+                gender: "Male"
+                dob: "1990-01-01"
+                number: "1234567890"
+                emergency_number: "9876543210"
+                highest_qualification: "Master's Degree"
+                address_line_1: "456 Updated St"
+                address_line_2: "Suite 202"
+                landmark: "Near the river"
+                country: "USA"
+                state: "California"
+                city: "Los Angeles"
+                zipcode: "90001"
+                image: "https://example.com/updated_image.jpg"
+                id: "960abb87-2007-4c2c-96b1-80420a35a970"
+        '400':
+          description: Bad request, invalid request body format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: object
+                    description: Details of the validation errors
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Details of the error
+                  
   /organization:
     put:
       tags:
-        - Organisation
-      summary: Update organisation details
+        - Organization
+      summary: Update organization details
       operationId: updateOrganization
       requestBody:
         required: true
@@ -745,7 +828,7 @@ paths:
               orgId: 482d8374-fca3-43ff-a638-02c8a425c492
       responses:
         '200':
-          description: Organisation details updated successfully
+          description: Organization details updated successfully
           content:
             application/json:
               example:
@@ -809,3 +892,37 @@ paths:
                   error:
                     type: string
                     description: Error message indicating the cause of the internal server error.
+                    
+  /docUpload:
+    post:
+      tags:
+        - Upload
+      summary: Upload a document, photo, vedio etc
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            example:
+                  amar: hrms_api_spects_yaml
+                  
+      responses:
+        '200':
+          description: Document uploaded successfully
+          content:
+            application/json:
+              example:
+                    fileUrl: "https://workflow-lambda-dev-serverlessdeploymentbucket-ygpfd8ufe19x.s3.amazonaws.com/workflow_DMS/file_1708932071705"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details of the error
+                  details:
+                    type: string
+                    description: Details of the error message
+                  
