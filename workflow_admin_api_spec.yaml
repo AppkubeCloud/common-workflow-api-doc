@@ -891,24 +891,24 @@ paths:
                             created_by_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                             project_id: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
                             stages:
-                              - Requirements1:
-                                  tasks:
-                                    - "task-1"
-                                    - "task-2"
-                                    - "task-3"
-                                  checklist:
-                                    - "thing 1"
-                                    - "thing 2"
-                                    - "thing 3"
-                              - mock1:
-                                  tasks:
-                                    - "mytask-1"
-                                    - "task-2"
-                                    - "task-3"
-                                  checklist:
-                                    - "thing 1"
-                                    - "thing 2"
-                                    - "thing 3"
+                              - name: Requirements1
+                                tasks: 
+                                  - task-1
+                                  - task-2
+                                  - task-3
+                                checklist:
+                                  - thing 1
+                                  - thing 2
+                                  - thing 3
+                              - name: mock
+                                tasks: 
+                                  - task-1
+                                  - task-2
+                                  - task-3
+                                checklist:
+                                  - thing 1
+                                  - thing 2
+                                  - thing 3
             responses:
                 "201":
                     description: New workflow added to the project
