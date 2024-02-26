@@ -13,8 +13,8 @@ tags:
     description: APIs related to employee type
   - name: Employee
     description: APIs related to the employee page
-  - name: Organisation
-    description: APIs related to the Organisation page
+  - name: Organization
+    description: APIs related to the Organization page
   - name: Designation
     description: APIs related to the empDesignation
   - name: Upload
@@ -741,10 +741,10 @@ paths:
         content:
           application/json:
             example:
-              first_name: "updated_firstname"
-              last_name: "updated_lastname"
-              email: "updated_email@example.com"
-              work_email: "updated_work_email@example.com"
+              first_name: "John"
+              last_name: "Doe"
+              email: "John@matrix.com"
+              work_email: "John_work_email@matrix.com"
               gender: "Male"
               dob: "1990-01-01"
               number: "1234567890"
@@ -764,30 +764,15 @@ paths:
           content:
             application/json:
               example:  
-                id: "7a015bd2-58d0-4a48-8849-e2dadb70c8fb"
-                email: "updated_email@example.com"
-                work_email: "updated_work_email@example.com"
-                first_name: "updated_firstname"
-                last_name: "updated_lastname"
+                first_name: "John"
+                last_name: "Doe"
+                email: "John@matrix.com"
+                work_email: "John_work_email@matrix.com"
                 gender: "Male"
                 dob: "1990-01-01"
                 number: "1234567890"
                 emergency_number: "9876543210"
                 highest_qualification: "Master's Degree"
-                emp_detail_id: null,
-                description: null,
-                current_task_id: null,
-                access_token: null,
-                refresh_token: null,
-                role_id: null,
-                created_at: "2024-02-22T05:57:18.141Z"
-                updated_at: "2024-02-22T06:57:18.141Z"
-                created_by: "7a015bd2-58d0-4a48-8849-e2dadb70c8fb"
-                updated_by: "98a0321c-a2ea-4d22-b7cf-6a459d6a8bc0"
-                invitation_status: "DRAFT"
-                org_id: "482d8374-fca3-43ff-a638-02c8a425c492"
-                image: "https://example.com/updated_image.jpg"
-                email_verified: ""
                 address_line_1: "456 Updated St"
                 address_line_2: "Suite 202"
                 landmark: "Near the river"
@@ -795,7 +780,8 @@ paths:
                 state: "California"
                 city: "Los Angeles"
                 zipcode: "90001"
-                emp_id: "960abb87-2007-4c2c-96b1-80420a35a970"
+                image: "https://example.com/updated_image.jpg"
+                id: "960abb87-2007-4c2c-96b1-80420a35a970"
         '400':
           description: Bad request, invalid request body format
           content:
@@ -820,8 +806,8 @@ paths:
   /organization:
     put:
       tags:
-        - Organisation
-      summary: Update organisation details
+        - Organization
+      summary: Update organization details
       operationId: updateOrganization
       requestBody:
         required: true
@@ -842,7 +828,7 @@ paths:
               orgId: 482d8374-fca3-43ff-a638-02c8a425c492
       responses:
         '200':
-          description: Organisation details updated successfully
+          description: Organization details updated successfully
           content:
             application/json:
               example:
