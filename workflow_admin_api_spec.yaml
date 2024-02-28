@@ -630,6 +630,7 @@ paths:
                                 workflow_name: "The-latest-workflow-by-team"
                                 total_usecases: 1
                                 task_completed: 0
+                                completed_usecases: 1
                 "500":
                     description: Internal Server Error
                     content:
