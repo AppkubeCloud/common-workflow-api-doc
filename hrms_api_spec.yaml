@@ -802,7 +802,55 @@ paths:
                   message:
                     type: string
                     description: Details of the error
-                  
+  /employee/tracker:
+    get:
+      tags:
+        - Employee
+      operationId: employeeTracker
+      summary: get track the employee details
+      parameters:
+        - name: page
+          in: query
+          description: The page number for pagination.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response. Returns  employees details.
+          content:
+            application/json:
+              example:
+                totalPages: 11
+                currentPage: 1
+                employees:
+                  - employee_name: abduallah mohd
+                    email: abduallahsynectiks@gmail.com
+                    employee_status: DRAFT
+                    designation: DevOps Engineer
+                    employee_type: Full-Time
+                    image: ""
+                  - employee_name: akash pimplay
+                    email: akash@gmail.com
+                    employee_status: DRAFT
+                    designation: AWS Engineer
+                    employee_type: Part-Time
+                    image: ""
+        
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+
   /organization:
     put:
       tags:
