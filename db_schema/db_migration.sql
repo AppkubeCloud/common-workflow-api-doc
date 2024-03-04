@@ -317,3 +317,6 @@ ALTER COLUMN country DROP NOT NULL,
 ALTER COLUMN state DROP NOT NULL,
 ALTER COLUMN city DROP NOT NULL,
 ALTER COLUMN zipcode DROP NOT NULL;
+
+
+ALTER TABLE public.workflows_table ADD CONSTRAINT workflows_table_name_unique UNIQUE (name);
