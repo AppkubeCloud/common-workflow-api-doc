@@ -25,8 +25,9 @@ paths:
       tags:
         - auth
       summary: Sign in to the system
+      operationId: signin
       requestBody:
-        required: true
+        required: true      
         content:
           application/json:
             schema:
@@ -44,12 +45,50 @@ paths:
               schema:
                 type: object
                 properties:
-                  ChallengeName:
+                  Result:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                        format: email
+                      work_email:
+                        type: string
+                        format: email
+                      first_name:
+                        type: string
+                      last_name:
+                        type: string
+                      gender:
+                        type: string
+                      dob:
+                        type: string
+                      number:
+                        type: string
+                      emergency_number:
+                        type: string
+                      highest_qualification:
+                        type: string
+                      emp_detail_id:
+                        type: string
+                      description:
+                        type: string
+                      current_task_id:
+                        type: string
+                      invitation_status:
+                        type: string
+                      org_id:
+                        type: string
+                      image:
+                        type: string
+                      email_verified:
+                        type: string
+                  AccessToken:
                     type: string
-                    description: The challenge name returned from the authentication process
-                  Session:
+                  RefreshToken:
                     type: string
-                    description: The session returned from the authentication process
+
         '400':
           description: Bad request, validation failed
           content:
@@ -78,6 +117,7 @@ paths:
       tags:
         - auth
       summary: Sign up for a new account
+      operationId: signup
       requestBody:
         required: true
         content:
@@ -87,6 +127,7 @@ paths:
               properties:
                 email:
                   type: string
+                  format: email
                 password:
                   type: string
       responses:
@@ -100,6 +141,167 @@ paths:
                   message:
                     type: string
                     description: Confirmation message for successful sign-up
+                  AccessToken:
+                    type: string
+                    description: Access token for the signed-up user  
+        '400':
+          description: Bad request, validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details of the validation errors
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error  
+                    
+  /invite/{id}:
+    post:
+      tags:
+        - auth
+      summary: Sign up a user
+      operationId: inviteUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the employee
+      responses:
+        '200':
+          description: Successful signup
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Confirmation message for successful signup
+        '400':
+          description: Bad request, validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details of the validation errors
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+  /forgotpassword:
+    post:
+      tags:
+        - auth
+      summary: Initiate password reset
+      operationId: forgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User's email address
+      responses:
+        '200':
+          description: Password reset code sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Confirmation message for successful initiation of password reset
+        '400':
+          description: Bad request, validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Details of the validation errors
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error   
+                    
+  /resetPassword:
+    post:
+      tags:
+        - auth
+      summary: Reset user password using confirmation code
+      operationId: resetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: User's email address
+                otp:
+                  type: string
+                  description: One-time password received for confirmation
+                newPassword:
+                  type: string
+                  description: New password for the user
+      responses:
+        '200':
+          description: Password confirmed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Confirmation message for successful password reset
         '400':
           description: Bad request, validation failed
           content:
