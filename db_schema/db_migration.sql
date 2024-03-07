@@ -320,3 +320,7 @@ ALTER COLUMN zipcode DROP NOT NULL;
 
 
 ALTER TABLE public.workflows_table ADD CONSTRAINT workflows_table_name_unique UNIQUE (name);
+
+ALTER TABLE workflows_table
+ADD COLUMN created_by UUID,
+ADD CONSTRAINT fk_created_by FOREIGN KEY (created_by) REFERENCES employee(id);
