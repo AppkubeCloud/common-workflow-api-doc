@@ -16,12 +16,19 @@ Welcome to the documentation for the Human Resource Management System (HRMS) pro
 The project is structured into multiple folders, each representing a distinct aspect of the HRMS functionalities:
 
  **1. Auth :** Contains APIs related to user authentication and authorization.
+
  **2. Dashboard:** Manages APIs for providing insights and statistics through dashboards.
+
  **3. Department:** Handles APIs related to department management.
+
  **4. Designation:** Manages APIs related to designation or job roles within the organization. 
+
  **5. Employee:** Handles APIs related to employee management, such as profiles, roles, and permissions.
+
  **6. EmpType:** Manages APIs related to employment types or categories. 
+
  **7. Organization:** Handles APIs related to organizational management. 
+
  **8. upload:** Handles APIs related to employee data upload.
 
 ## Common Logic Across APIs:
@@ -83,16 +90,17 @@ Detailed documentation for each API, including descriptions, endpoints, request 
 1. Parse the request body to extract the user's email and password.
 2. Validate the request body fields using Zod.
 3. If validation fails:
-    3.1. Return a 400 Bad Request response with the validation error message.
+  -  3.1. Return a 400 Bad Request response with the validation error message.
 4. Establish a connection to the database.
 5. Initialize a Cognito Identity Provider client.
 6. Create an input object with user's email and password for Cognito authentication.
 7. Send a request to Cognito to authenticate the user.
 8. If authentication is successful:
-    8.1. Update the user's access and refresh tokens in the database.
-    8.2. Retrieve the user's details from the database.
-    8.3. Return a 200 OK response with the user's details, access token, and refresh token.
+  -  8.1. Update the user's access and refresh tokens in the database.
+  -  8.2. Retrieve the user's details from the database.
+  -  8.3. Return a 200 OK response with the user's details, access token, and refresh token.
 9. If any error occurs during execution:
+
     9.1. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
@@ -124,20 +132,20 @@ The signUp API allows users to sign up and create an account. Upon successful si
 1. Parse the request body to extract the user's email and password.
 2. Validate the request body fields using Zod.
 3. If validation fails:
-    3.1. Return a 400 Bad Request response with the validation error message.
+  -  3.1. Return a 400 Bad Request response with the validation error message.
 4. Establish a connection to the database.
 5. Initialize a Cognito Identity Provider client.
 6. Generate unique IDs for organization and user.
 7. Create a user in Cognito User Pool with the provided email and password.
 8. If successful:
-    8.1. Send a verification email to the user's email address.
-    8.2. Insert organization and employee records into the database.
-    8.3. Commit the transaction.
-    8.4. Return a 200 OK response with the success message and access token.
+  -  8.1. Send a verification email to the user's email address.
+  -  8.2. Insert organization and employee records into the database.
+  -  8.3. Commit the transaction.
+  -  8.4. Return a 200 OK response with the success message and access token.
 9. If any error occurs during execution:
-    9.1. Rollback the transaction.
-    9.2. Delete the user from Cognito User Pool.
-    9.3. Return a 500 Internal Server Error response with error message.
+  -  9.1. Rollback the transaction.
+  -  9.2. Delete the user from Cognito User Pool.
+  -  9.3. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -145,14 +153,14 @@ The signUp API allows users to sign up and create an account. Upon successful si
   - Log the error.
   - Return a 500 Internal Server Error response with error details. 
 
-#### 3.userSignup
+#### 3.inviteUser
 
 ##### API Description:
 The userSignup API facilitates the signup process for users by creating a user in the Cognito User Pool and adding them to the appropriate group. It also updates the invitation status of the employee in the database.
 
 ##### Endpoint:
 - Method: POST
-- Endpoint: /signup/{id}
+- Endpoint: /invite/{id}
 - Request Parameters:
     - id: string (UUID) (Path parameter) - The unique identifier of the employee for whom the signup is being performed.
 
@@ -164,29 +172,109 @@ The userSignup API facilitates the signup process for users by creating a user i
 - Error Response (HTTP 500):
   Body: { "message": "error_message", "error": "error_details" }
 
-##### Pseudocode for userSignup API:
+##### Pseudocode for inviteUser API:
 1. Extract the employee ID from the path parameters.
 2. Validate the employee ID to ensure it is a valid UUID.
 3. If validation fails:
-    3.1. Return a 400 Bad Request response with the validation error message.
+  -  3.1. Return a 400 Bad Request response with the validation error message.
 4. Initialize a Cognito Identity Provider client.
 5. Retrieve employee details (work email and organization ID) from the database using the employee ID.
 6. Construct input parameters for creating a user in the Cognito User Pool with the retrieved employee details.
 7. Send a request to create the user in the Cognito User Pool.
 8. If user creation is successful:
-    8.1. Add the user to the "User" group in the Cognito User Pool.
-    8.2. Update the invitation status of the employee in the database to "SENT".
+  -  8.1. Add the user to the "User" group in the Cognito User Pool.
+  -  8.2. Update the invitation status of the employee in the database to "SENT".
 9. If any step fails during execution:
-    9.1. Return a 500 Internal Server Error response with the error message.
+  -  9.1. Return a 500 Internal Server Error response with the error message.
 10. If the signup process is successful:
-    10.1. Return a 200 OK response with the message "Successfully Signed-up".
+  -  10.1. Return a 200 OK response with the message "Successfully Signed-up".
 
 ##### Exception Handling:
 - If any step encounters an error:
   - Catch the error.
   - Log the error.
   - Return a 500 Internal Server Error response with error details.
-  
+
+#### 4.forgotPassword:
+
+##### API Description:
+The forgotPassword API allows users to request a password reset by sending a reset code to their email address.
+
+##### Endpoint
+- Method: POST
+- Endpoint: /forgotPassword
+- Request Body:
+    - email: string (required) - The email address of the user requesting the password reset.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "message": "Password reset code sent successfully" }
+- Error Response (HTTP 400):
+  Body: { "error": "error_message" }
+- Error Response (HTTP 500):
+  Body: { "message": "error_message", "error": "error_details" }
+
+##### Pseudocode for forgotPassword API:
+1. Parse the request body to extract the user's email.
+2. Validate the request body parameters (email).
+3. If validation fails:
+   - 3.1. Return a 400 Bad Request response with the validation error message.
+4. Initialize a Cognito Identity Provider client.
+5. Construct input parameters for the forgot password operation with Cognito.
+6. Send a request to initiate the forgot password operation.
+7. If the operation is successful:
+   - 7.1. Return a 200 OK response with the message "Password reset code sent successfully".
+8. If any step fails during execution:
+   - 8.1. Log the error.
+   - 8.2. Return a 500 Internal Server Error response with the error message.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
+#### 5.resetPassword:
+
+##### API Description:
+The resetPassword API allows users to reset their passwords by confirming a forgot password operation using a confirmation code (OTP).
+
+##### Endpoint
+- Method: POST
+- Endpoint: /resetPassword
+- Body:
+  - email: string (required) - The email address of the user requesting the password reset.
+  - confirmationCode: string (required) - The confirmation code (OTP) sent to the user's email.
+  - newPassword: string (required) - The new password to set for the user's account.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "message": "Password confirmed successfully" }
+- Error Response (HTTP 400):
+  Body: { "error": "error_message" }
+- Error Response (HTTP 500):
+  Body: { "message": "error_message", "error": "error_details" }
+
+##### Pseudocode for resetPassword API:
+1. Parse the request body to extract email, confirmation code (OTP), and new password.
+2. Validate the request body parameters (email, confirmation code, and new password).
+3. If validation fails:
+   - 3.1. Return a 400 Bad Request response with the validation error message.
+4. Initialize a Cognito Identity Provider client.
+5. Construct input parameters for confirming the forgot password operation with Cognito.
+6. Send a request to confirm the forgot password operation and set the new password.
+7. If the password confirmation is successful:
+   - 7.1. Return a 200 OK response with the message "Password confirmed successfully".
+8. If any step fails during execution:
+   - 8.1. Log the error.
+   - 8.2. Return a 500 Internal Server Error response with the error message.
+   
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
 ### Dashboard
 
 #### 1.dashboardStats
@@ -210,15 +298,15 @@ The dashboardStats API retrieves summary details about total projects count and 
    - Total number of employees.
    - Total number of projects.
 3. If successful:
-   3.1. Extract employeeCount and projectCount from the query results.
-   3.2. Return a 200 OK response with the following details:
+  - 3.1. Extract employeeCount and projectCount from the query results.
+  - 3.2. Return a 200 OK response with the following details:
         - Message: "Successful response".
         - Employee count.
         - Project count.
 4. If any error occurs during execution:
-   4.1. Catch the error.
-   4.2. Log the error.
-   4.3. Return a 500 Internal Server Error response with error details.
+  - 4.1. Catch the error.
+  - 4.2. Log the error.
+  - 4.3. Return a 500 Internal Server Error response with error details.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -228,10 +316,10 @@ The dashboardStats API retrieves summary details about total projects count and 
 
 ### Department
 
-#### 1.getDepartment
+#### 1.listDepartment
 
 ##### API Description:
-The getDepartment API retrieves a list of all departments from the database.
+The listDepartment API retrieves a list of all departments from the database.
 
 ##### Endpoint:
 - Method: GET
@@ -243,17 +331,17 @@ The getDepartment API retrieves a list of all departments from the database.
 - Error Response (HTTP 500):
   Body: { "message": "Internal Server Error", "error": "error message" }
 
-##### Pseudocode for getDepartment API:
+##### Pseudocode for listDepartment API:
 1. Establish a connection to the database.
 2. Try to execute the following SQL query to retrieve all departments:
    - SELECT * FROM department
 3. If successful:
-   3.1. Extract the list of departments from the query result.
-   3.2. Return a 200 OK response with the list of departments in JSON format.
+  - 3.1. Extract the list of departments from the query result.
+  - 3.2. Return a 200 OK response with the list of departments in JSON format.
 4. If any error occurs during execution:
-   4.1. Catch the error.
-   4.2. Log the error.
-   4.3. Return a 500 Internal Server Error response with error details.
+  - 4.1. Catch the error.
+  - 4.2. Log the error.
+  - 4.3. Return a 500 Internal Server Error response with error details.
 5. Finally, close the database connection.
 
 ##### Exception Handling:
@@ -285,16 +373,16 @@ The addDepartment API adds a new department to the database.
 1. Parse the request body to extract the department name and organization ID.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Establish a connection to the database.
 5. Try to execute an SQL query to insert the department into the database.
 6. If successful:
-   6.1. Extract the inserted department data from the query result.
-   6.2. Return a 200 OK response with the inserted department data.
+  - 6.1. Extract the inserted department data from the query result.
+  - 6.2. Return a 200 OK response with the inserted department data.
 7. If any error occurs during execution:
-   7.1. Catch the error.
-   7.2. Log the error.
-   7.3. Return a 500 Internal Server Error response with error details.
+  - 7.1. Catch the error.
+  - 7.2. Log the error.
+  - 7.3. Return a 500 Internal Server Error response with error details.
 8. Finally, close the database connection.
 
 ##### Exception Handling:
@@ -328,18 +416,18 @@ The updateDepartment API updates an existing department in the database.
 1. Parse the request body to extract the department ID and name.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Establish a connection to the database.
 5. Try to execute an SQL query to update the department in the database.
 6. If successful:
-   6.1. Check if any rows were affected by the update query.
-   6.2. If no rows were affected, return a 404 Not Found response indicating that the department was not found.
-   6.3. If rows were affected, retrieve the updated department data from the database.
-   6.4. Return a 200 OK response with the updated department data.
+  - 6.1. Check if any rows were affected by the update query.
+  - 6.2. If no rows were affected, return a 404 Not Found response indicating that the department was not found.
+  - 6.3. If rows were affected, retrieve the updated department data from the database.
+  - 6.4. Return a 200 OK response with the updated department data.
 7. If any error occurs during execution:
-   7.1. Catch the error.
-   7.2. Log the error.
-   7.3. Return a 500 Internal Server Error response with error details.
+  - 7.1. Catch the error.
+  - 7.2. Log the error.
+  - 7.3. Return a 500 Internal Server Error response with error details.
 8. Finally, close the database connection.
 
 ##### Exception Handling:
@@ -350,10 +438,10 @@ The updateDepartment API updates an existing department in the database.
 
 ### Designation
 
-#### 1.getDesignation
+#### 1.listDesignation
 
 ##### API Description:
-The getDesignation API retrieves a list of all employee designations from the database.
+The listDesignation API retrieves a list of all employee designations from the database.
 
 ##### Endpoint:
 - Method: GET
@@ -365,7 +453,7 @@ The getDesignation API retrieves a list of all employee designations from the da
 - Error Response (HTTP 500):
   Body: { "message": "Internal Server Error", "error": "error message" }
 
-##### Pseudocode for getDesignation API:
+##### Pseudocode for listDesignation API:
 1. Establish a connection to the database.
 2. Try to execute an SQL query to retrieve all employee designations.
 3. If successful:
@@ -376,6 +464,94 @@ The getDesignation API retrieves a list of all employee designations from the da
    4.2. Log the error.
    4.3. Return a 500 Internal Server Error response with error details.
 5. Finally, close the database connection.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.  
+
+#### 2. addDesignation
+
+##### API Description:
+The addDesignation API allows adding a new designation to the organization.
+
+##### Endpoint:
+- Method: POST
+- Endpoint: /designation
+
+##### Request Parameters:
+- Body:
+  - designation: string (required) - The name of the designation to be added.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: JSON representation of the inserted designation.
+- Error Response (HTTP 400):
+  Body: { "error": "error_message" }
+- Error Response (HTTP 500):
+  Body: { "message": "error_message", "error": "error_details" }
+
+##### Pseudocode for addDesignation API:
+1. Parse the request body to extract the designation name.
+2. Validate the request body parameters (designation name).
+3. If validation fails:
+   - 3.1. Return a 400 Bad Request response with the validation error message.
+4. Connect to the database.
+5. Execute a SQL query to insert the new designation into the database for the organization.
+6. Retrieve the inserted designation from the query result.
+7. If insertion is successful:
+   - 7.1. Return a 200 OK response with the JSON representation of the inserted designation.
+8. If any step fails during execution:
+   - 8.1. Log the error.
+   - 8.2. Return a 500 Internal Server Error response with the error message.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.  
+
+#### 3. updateDesignation
+
+##### API Description:
+The updateDesignation API allows updating an existing designation in the organization.
+
+##### Endpoint:
+- Method: PUT
+- Endpoint: /designation
+
+##### Request Parameters:
+- Body:
+  - designation: string (required) - The updated name of the designation.
+  - id: number (required) - The ID of the designation to be updated.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: JSON representation of the updated designation.
+- Error Response (HTTP 404):
+  Body: { "message": "Designation not found" }
+- Error Response (HTTP 400):
+  Body: { "error": "error_message" }
+- Error Response (HTTP 500):
+  Body: { "message": "error_message", "error": "error_details" }
+
+##### Pseudocode for updateDesignation API:
+1. Parse the request body to extract the updated designation name and the designation ID.
+2. Validate the request body parameters (designation name and ID).
+3. If validation fails:
+   - 3.1. Return a 400 Bad Request response with the validation error message.
+4. Connect to the database.
+5. Execute a SQL query to update the existing designation in the database for the organization.
+6. Check if the update operation affected any rows.
+7. If no rows were affected:
+   - 7.1. Return a 404 Not Found response with the message "Designation not found".
+8. Retrieve the updated designation from the query result.
+9. If the update operation is successful:
+   - 9.1. Return a 200 OK response with the JSON representation of the updated designation.
+10. If any step fails during execution:
+   - 10.1. Log the error.
+   - 10.2. Return a 500 Internal Server Error response with the error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -408,20 +584,20 @@ The getDesignation API retrieves a list of all employee designations from the da
 1. Parse the request body to extract the employee ID and documents array.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Define the SQL query template to add a document.
 5. Establish a connection to the database.
 6. Begin a database transaction.
 7. Iterate over each document in the documents array:
-   7.1. Execute the SQL query to add the document to the database.
-   7.2. Extract the inserted document data excluding the employee ID.
-   7.3. Append the extracted data to the insertedDocument array.
+  - 7.1. Execute the SQL query to add the document to the database.
+  - 7.2. Extract the inserted document data excluding the employee ID.
+  - 7.3. Append the extracted data to the insertedDocument array.
 8. Commit the database transaction.
 9. Return a 200 OK response with the array of inserted document objects in JSON format.
 10. If any error occurs during execution:
-    10.1. Rollback the database transaction.
-    10.2. Catch the error.
-    10.3. Return a 500 Internal Server Error response with error message.
+  - 10.1. Rollback the database transaction.
+  - 10.2. Catch the error.
+  - 10.3. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -458,19 +634,19 @@ The addEquipmentdetailsInfo API adds equipment details to the database.
 1. Parse the request body to extract the array of equipment details.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Define the SQL query template to add equipment details.
 5. Establish a connection to the database.
 6. Begin a database transaction.
 7. Iterate over each equipment detail in the array:
-   7.1. Execute the SQL query to add the equipment detail to the database.
-   7.2. Append the inserted equipment detail to the insertedEquipment array.
+  - 7.1. Execute the SQL query to add the equipment detail to the database.
+  - 7.2. Append the inserted equipment detail to the insertedEquipment array.
 8. Commit the database transaction.
 9. Return a 200 OK response with the array of inserted equipment objects in JSON format.
 10. If any error occurs during execution:
-    10.1. Rollback the database transaction.
-    10.2. Catch the error.
-    10.3. Return a 500 Internal Server Error response with error message.
+  - 10.1. Rollback the database transaction.
+  - 10.2. Catch the error.
+  - 10.3. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -517,7 +693,7 @@ The addPersonalInfo API adds personal information of an employee to the database
 1. Parse the request body to extract the personal information.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Define the SQL queries to insert personal, address, and professional information.
 5. Establish a connection to the database.
 6. Begin a database transaction.
@@ -528,9 +704,9 @@ The addPersonalInfo API adds personal information of an employee to the database
 11. Commit the database transaction.
 12. Return a 200 OK response with the inserted personal information, address information, and professional information.
 13. If any error occurs during execution:
-    13.1. Rollback the database transaction.
-    13.2. Catch the error.
-    13.3. Return a 500 Internal Server Error response with error message.
+  - 13.1. Rollback the database transaction.
+  - 13.2. Catch the error.
+  - 13.3. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -567,7 +743,7 @@ The addProfessionalInfo API updates the professional information of an employee 
 1. Parse the request body to extract the professional information.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Define the SQL query to update the professional information.
 5. Establish a connection to the database.
 6. Begin a database transaction.
@@ -576,9 +752,9 @@ The addProfessionalInfo API updates the professional information of an employee 
 9. Commit the database transaction.
 10. Return a 200 OK response with the updated professional information.
 11. If any error occurs during execution:
-    11.1. Rollback the database transaction.
-    11.2. Catch the error.
-    11.3. Return a 500 Internal Server Error response with error message.
+  - 11.1. Rollback the database transaction.
+  - 11.2. Catch the error.
+  - 11.3. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -609,15 +785,15 @@ The getEmployee API retrieves detailed information about an employee from the da
 1. Extract the employee ID from the path parameters.
 2. Validate the employee ID to ensure it is a valid UUID.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation error message.
+  - 3.1. Return a 400 Bad Request response with the validation error message.
 4. Establish a connection to the database.
 5. Construct a SQL query to retrieve detailed employee information.
 6. Execute the query with the employee ID as a parameter.
 7. Format the query result into a structured response.
 8. Return a 200 OK response with the formatted employee information.
 9. If any error occurs during execution:
-    9.1. Catch the error.
-    9.2. Return a 500 Internal Server Error response with error message.
+  - 9.1. Catch the error.
+  - 9.2. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -652,8 +828,8 @@ The getEmployees API retrieves a list of employees with pagination support from 
 8. Format the query result into a structured response with additional metadata.
 9. Return a 200 OK response with the paginated list of employees and metadata.
 10. If any error occurs during execution:
-    10.1. Catch the error.
-    10.2. Return a 500 Internal Server Error response with the error message.
+  - 10.1. Catch the error.
+  - 10.2. Return a 500 Internal Server Error response with the error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -684,15 +860,15 @@ The searchByName API retrieves a list of employees matching a given name pattern
 1. Extract the name pattern from the query parameters.
 2. Validate the name pattern to ensure it is a valid string.
 3. If validation fails:
-    3.1. Return a 400 Bad Request response with the validation error message.
+  -  3.1. Return a 400 Bad Request response with the validation error message.
 4. Establish a connection to the database.
 5. Construct a SQL query to search for employees by name pattern.
 6. Execute the query with the name pattern as a parameter.
 7. Format the query result into a structured response.
 8. Return a 200 OK response with the list of matching employees.
 9. If any error occurs during execution:
-    9.1. Catch the error.
-    9.2. Return a 500 Internal Server Error response with error message.
+  -  9.1. Catch the error.
+  -  9.2. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -743,7 +919,7 @@ The updatePersonalInfo API allows updating personal information of an employee i
 2. Define the schema for the request body fields using Zod.
 3. Validate the request body against the defined schema.
 4. If validation fails:
-    4.1. Return a 400 Bad Request response with the validation error message.
+  -  4.1. Return a 400 Bad Request response with the validation error message.
 5. Establish a connection to the database.
 6. Construct SQL queries to update personal information and address information.
 7. Execute the queries with the updated information and employee ID.
@@ -751,8 +927,47 @@ The updatePersonalInfo API allows updating personal information of an employee i
 9. Construct the response body with the updated information.
 10. Return a 200 OK response with the updated personal information.
 11. If any error occurs during execution:
-    11.1. Rollback the transaction.
-    11.2. Return a 500 Internal Server Error response with error message.
+  -  11.1. Rollback the transaction.
+  -  11.2. Return a 500 Internal Server Error response with error message.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error message.
+
+#### 9. employeeTracker
+
+##### API Description:
+The employeeTracker API fetches employee data with pagination support.
+
+##### Endpoint:
+- Method: GET
+- Endpoint: /employee/tracker
+
+##### Request Parameters:
+- Query Parameters:
+  - page: number (optional) - The page number of the employee data to fetch (default is 1).
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: JSON representation containing pagination metadata and employee data.
+- Error Response (HTTP 500):
+  Body: { "message": "error_message", "error": "error_details" }
+
+##### Pseudocode for employeeTracker API:
+1. Extract the page number from the query parameters.
+2. If the page number is not provided, default it to 1.
+3. Calculate the limit and offset for pagination.
+4. Connect to the database.
+5. Execute a query to fetch the total count of employees.
+6. Calculate the total pages based on the total count and limit.
+7. Execute a query to fetch employee data with pagination.
+8. Map the fetched employee data into the desired format.
+9. Return a 200 OK response with pagination metadata and the formatted employee data.
+10. If any step fails during execution:
+    - 10.1. Log the error.
+    - 10.2. Return a 500 Internal Server Error response with the error message.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -762,10 +977,10 @@ The updatePersonalInfo API allows updating personal information of an employee i
 
 ### EmpType
 
-#### 1.getEmpType
+#### 1.listEmpType
 
 ##### API Description:
-The getEmpType API retrieves a list of all employee types from the database.
+The listEmpType API retrieves a list of all employee types from the database.
 
 ##### Endpoint:
 - Method: GET
@@ -777,15 +992,15 @@ The getEmpType API retrieves a list of all employee types from the database.
 - Error Response (HTTP 500):
   Body: { "error": "Internal Server Error" }
 
-##### Pseudocode for getEmpType API:
+##### Pseudocode for listEmpType API:
 1. Establish a connection to the database.
 2. Try to execute an SQL query to retrieve all employee types.
 3. If successful:
-   3.1. Extract the list of employee types from the query result.
-   3.2. Return a 200 OK response with the list of employee types in JSON format.
+  - 3.1. Extract the list of employee types from the query result.
+  - 3.2. Return a 200 OK response with the list of employee types in JSON format.
 4. If any error occurs during execution:
-   4.1. Catch the error.
-   4.2. Return a 500 Internal Server Error response.
+  - 4.1. Catch the error.
+  - 4.2. Return a 500 Internal Server Error response.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -816,15 +1031,15 @@ The addEmpType API adds a new employee type to the database.
 1. Parse the request body to extract the employee type and organization ID.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Establish a connection to the database.
 5. Try to execute an SQL query to insert the employee type into the database.
 6. If successful:
-   6.1. Extract the newly inserted employee type data from the query result.
-   6.2. Return a 201 Created response with the inserted employee type data in JSON format.
+  - 6.1. Extract the newly inserted employee type data from the query result.
+  - 6.2. Return a 201 Created response with the inserted employee type data in JSON format.
 7. If any error occurs during execution:
-   7.1. Catch the error.
-   7.2. Return a 500 Internal Server Error response.
+  - 7.1. Catch the error.
+  - 7.2. Return a 500 Internal Server Error response.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -857,17 +1072,17 @@ The updateEmpType API updates an existing employee type in the database.
 1. Parse the request body to extract the updated employee type and its ID.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Establish a connection to the database.
 5. Try to execute an SQL query to update the employee type in the database.
 6. If successful:
-   6.1. Check if any rows were affected by the update query.
-   6.2. If no rows were affected, return a 404 Not Found response indicating that the employee type was not found.
-   6.3. If rows were affected, retrieve the updated employee type data from the database.
-   6.4. Return a 200 OK response with the updated employee type data in JSON format.
+  - 6.1. Check if any rows were affected by the update query.
+  - 6.2. If no rows were affected, return a 404 Not Found response indicating that the employee type was not found.
+  - 6.3. If rows were affected, retrieve the updated employee type data from the database.
+  - 6.4. Return a 200 OK response with the updated employee type data in JSON format.
 7. If any error occurs during execution:
-   7.1. Catch the error.
-   7.2. Return a 500 Internal Server Error response.
+  - 7.1. Catch the error.
+  - 7.2. Return a 500 Internal Server Error response.
 
 ##### Exception Handling:
 - If any step encounters an error:
@@ -909,15 +1124,15 @@ The updateOrganization API updates an existing organization's details in the dat
 1. Parse the request body to extract the organization details.
 2. Validate the input data using the provided schema.
 3. If validation fails:
-   3.1. Return a 400 Bad Request response with the validation errors.
+  - 3.1. Return a 400 Bad Request response with the validation errors.
 4. Establish a connection to the database.
 5. Try to execute an SQL query to update the organization details in the database.
 6. If successful:
-   6.1. Return a 200 OK response with the updated organization data.
+  - 6.1. Return a 200 OK response with the updated organization data.
 7. If any error occurs during execution:
-   7.1. Catch the error.
-   7.2. Log the error.
-   7.3. Return a 500 Internal Server Error response with error details.
+  - 7.1. Catch the error.
+  - 7.2. Log the error.
+  - 7.3. Return a 500 Internal Server Error response with error details.
 8. Finally, close the database connection.
 
 ##### Exception Handling:
@@ -958,9 +1173,9 @@ The docUpload API uploads a document to an AWS S3 bucket and returns the downloa
 9. Generate the download link for the uploaded file.
 10. Return a 200 OK response with the download link in JSON format.
 11. If any error occurs during execution:
-    11.1. Catch the error.
-    11.2. Log the error.
-    11.3. Return a 500 Internal Server Error response with error message.
+  -  11.1. Catch the error.
+  -  11.2. Log the error.
+  -  11.3. Return a 500 Internal Server Error response with error message.
 
 ##### Exception Handling:
 - If any step encounters an error:

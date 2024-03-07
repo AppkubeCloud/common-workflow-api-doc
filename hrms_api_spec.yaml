@@ -354,7 +354,7 @@ paths:
       tags:
         - Department
       summary: Retrieve all departments
-      operationId: getDepartment
+      operationId: listDepartment
       responses:
         '200':
           description: Successful response with a list of departments.
@@ -444,7 +444,7 @@ paths:
       tags:
         - Employee Type
       summary: Retrieve all employee types
-      operationId: getEmp_type
+      operationId: listEmp_type
       responses:
         '200':
           description: Successful response with a list of employee types
@@ -1119,7 +1119,7 @@ paths:
       tags:
         - Designation
       summary: Retrieve all designations
-      operationId: getDesignation
+      operationId: listDesignation
       responses:
         '200':
           description: Successful response with a list of designation.
@@ -1142,7 +1142,71 @@ paths:
                   error:
                     type: string
                     description: Error message indicating the cause of the internal server error.
+
+    post:
+       tags:
+         - Designation
+       summary: Add a new designation
+       operationId: addDesignation
+       requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              designation: UI/UX Developer
+              org_id: 482d8374-fca3-43ff-a638-02c8a425c492
+       responses:
+        '201':
+          description: Designation added successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                designation: UI/UX Developer
+                org_id: 482d8374-fca3-43ff-a638-02c8a425c492
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
                     
+    put:
+      tags:
+        - Designation
+      summary: Update a designation
+      operationId: updateDesignation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              designation: UI/UX Developer
+              id: 1
+      responses:
+        '200':
+          description: Designation updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: UI/UX Developer
+                org_id: 482d8374-fca3-43ff-a638-02c8a425c492
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred    
+
   /docUpload:
     post:
       tags:
