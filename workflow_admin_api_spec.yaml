@@ -1474,6 +1474,49 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+    /usecase/{id}/checklist:
+        put:
+            tags:
+                - Usecase
+            summary: update checklist in usecase
+            operationId: updateChecklist
+            parameters:
+                - in: path   
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                  description: Id of the usecase 
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        example:
+                                stage_name: Requirement
+                                item_id: 1
+                                checked: true
+            responses:
+                "200":  
+                    description: checklist update successfully
+                    content:
+                        application/json:
+                            example:
+                                checked: true
+                                item_id: 1
+                                description: testing1
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    message:
+                                        type: string
+                                        description: An internal server error occurred                
+
+
     /task/{id}:
         get:
             tags:
