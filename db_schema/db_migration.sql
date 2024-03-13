@@ -31,9 +31,9 @@ CREATE TABLE
 	);
 
 ALTER TABLE tasks_table
-ADD CONSTRAINT fk_task_usecase_id FOREIGN KEY (usecase_id) REFERENCES usecases_table (id),
-ADD CONSTRAINT fk_task_project_id FOREIGN KEY (project_id) REFERENCES projects_table (id),
-ADD CONSTRAINT fk_task_assignee_id FOREIGN KEY (assignee_id) REFERENCES resources_table (id);
+ADD CONSTRAINT fk_task_usecase_id FOREIGN KEY (usecase_id) REFERENCES usecases_table (id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_task_project_id FOREIGN KEY (project_id) REFERENCES projects_table (id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_task_assignee_id FOREIGN KEY (assignee_id) REFERENCES resources_table (id) ON DELETE CASCADE;
 
 CREATE TABLE
 	workflows_table (
@@ -95,7 +95,7 @@ CREATE TABLE
 
 ALTER TABLE metadocs_table
 ADD CONSTRAINT fk_metadocs_tasks_id FOREIGN KEY (tasks_id) REFERENCES tasks_table (id),
-ADD CONSTRAINT fk_metadocs_created_by FOREIGN KEY (created_by) REFERENCES resources_table (id);
+ADD CONSTRAINT fk_metadocs_created_by FOREIGN KEY (created_by) REFERENCES resources_table (id) ON DELETE CASCADE;
 
 ALTER TABLE metadocs_table
 ADD COLUMN doc_name VARCHAR(20);
@@ -231,12 +231,12 @@ ALTER TABLE resources_table
 RENAME TO employee;
 
 ALTER TABLE employee
-ADD CONSTRAINT fk_employee_addredd_id FOREIGN KEY (address_id) REFERENCES address(id),
-ADD CONSTRAINT fk_employee_employee_detail_id FOREIGN KEY (emp_detail_id) REFERENCES emp_detail(id),
-ADD CONSTRAINT fk_employee_current_task_id FOREIGN KEY (current_task_id) REFERENCES tasks_table(id),
-ADD CONSTRAINT fk_employee_role_id FOREIGN KEY (role_id) REFERENCES role(id),
-ADD CONSTRAINT fk_employee_created_by_id FOREIGN KEY (created_by) REFERENCES employee(id),
-ADD CONSTRAINT fk_employee_updated_by_id FOREIGN KEY (updated_by) REFERENCES employee(id),
+ADD CONSTRAINT fk_employee_addredd_id FOREIGN KEY (address_id) REFERENCES address(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_employee_employee_detail_id FOREIGN KEY (emp_detail_id) REFERENCES emp_detail(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_employee_current_task_id FOREIGN KEY (current_task_id) REFERENCES tasks_table(id) ON DELETE CASCADE;,
+ADD CONSTRAINT fk_employee_role_id FOREIGN KEY (role_id) REFERENCES role(id)ON DELETE CASCADE;,
+ADD CONSTRAINT fk_employee_created_by_id FOREIGN KEY (created_by) REFERENCES employee(id) ON DELETE CASCADE;,
+ADD CONSTRAINT fk_employee_updated_by_id FOREIGN KEY (updated_by) REFERENCES employee(id) ON DELETE CASCADE;,
 ADD CONSTRAINT fk_employee_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
 
 ALTER TABLE organisation
@@ -255,20 +255,20 @@ ALTER TABLE emp_designation
 ADD CONSTRAINT fk_emp_designation_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
 
 ALTER TABLE emp_detail
-ADD CONSTRAINT fk_emp_detail_emp_detail FOREIGN KEY (emp_id) REFERENCES employee(id),
-ADD CONSTRAINT fk_emp_detail_designation_id FOREIGN KEY (designation_id) REFERENCES emp_designation(id),
+ADD CONSTRAINT fk_emp_detail_emp_detail FOREIGN KEY (emp_id) REFERENCES employee(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_emp_detail_designation_id FOREIGN KEY (designation_id) REFERENCES emp_designation(id) ON DELETE CASCADE,
 ADD CONSTRAINT fk_emp_detail_department_id FOREIGN KEY (department_id) REFERENCES department(id),
-ADD CONSTRAINT fk_emp_detail_reporting_manager_id FOREIGN KEY (reporting_manager_id) REFERENCES employee(id),
-ADD CONSTRAINT fk_emp_detail_emp_type_id FOREIGN KEY (emp_type_id) REFERENCES emp_type(id);
+ADD CONSTRAINT fk_emp_detail_reporting_manager_id FOREIGN KEY (reporting_manager_id) REFERENCES employee(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_emp_detail_emp_type_id FOREIGN KEY (emp_type_id) REFERENCES emp_type(id) ON DELETE CASCADE;
 
 ALTER TABLE device_type
 ADD CONSTRAINT fk_device_type_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
 
 ALTER TABLE equipment
 ADD CONSTRAINT fk_equipment_device_type FOREIGN KEY (device_type_id) REFERENCES device_type(id),
-ADD CONSTRAINT fk_equipment_created_by FOREIGN KEY ( created_by) REFERENCES employee(id),
-ADD CONSTRAINT fk_equipment_updated_by FOREIGN KEY (updated_by) REFERENCES employee(id),
-ADD CONSTRAINT fk_equipment_emp_id FOREIGN KEY (emp_id) REFERENCES employee(id);
+ADD CONSTRAINT fk_equipment_created_by FOREIGN KEY ( created_by) REFERENCES employee(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_equipment_updated_by FOREIGN KEY (updated_by) REFERENCES employee(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_equipment_emp_id FOREIGN KEY (emp_id) REFERENCES employee(id) ON DELETE CASCADE;
 
 ALTER TABLE employee
 DROP COLUMN resource;
@@ -298,7 +298,7 @@ alter table employee
 drop column password;
 
 alter table document
-add constraint fk_document_emp_id foreign KEY(emp_id) references employee(id);
+add constraint fk_document_emp_id foreign KEY(emp_id) references employee(id) ON DELETE CASCADE;
 
 alter table employee 
 add column image VARCHAR(255)
@@ -323,4 +323,4 @@ ALTER TABLE public.workflows_table ADD CONSTRAINT workflows_table_name_unique UN
 
 ALTER TABLE workflows_table
 ADD COLUMN created_by UUID,
-ADD CONSTRAINT fk_created_by FOREIGN KEY (created_by) REFERENCES employee(id);
+ADD CONSTRAINT fk_created_by FOREIGN KEY (created_by) REFERENCES employee(id) ON DELETE CASCADE;
