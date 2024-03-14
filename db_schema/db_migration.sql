@@ -328,7 +328,7 @@ ADD CONSTRAINT fk_created_by FOREIGN KEY (created_by) REFERENCES employee(id) ON
 ALTER TYPE invitation_status_enum ADD VALUE 'ACTIVE';
 
 CREATE TABLE invite (
-    id UUID DEFAULT gen_random_uuid () PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     employee_id UUID UNIQUE,
     scheduler UUID,
     scheduled_time VARCHAR(265)
