@@ -233,10 +233,10 @@ RENAME TO employee;
 ALTER TABLE employee
 ADD CONSTRAINT fk_employee_addredd_id FOREIGN KEY (address_id) REFERENCES address(id) ON DELETE CASCADE,
 ADD CONSTRAINT fk_employee_employee_detail_id FOREIGN KEY (emp_detail_id) REFERENCES emp_detail(id) ON DELETE CASCADE,
-ADD CONSTRAINT fk_employee_current_task_id FOREIGN KEY (current_task_id) REFERENCES tasks_table(id) ON DELETE CASCADE;,
-ADD CONSTRAINT fk_employee_role_id FOREIGN KEY (role_id) REFERENCES role(id)ON DELETE CASCADE;,
-ADD CONSTRAINT fk_employee_created_by_id FOREIGN KEY (created_by) REFERENCES employee(id) ON DELETE CASCADE;,
-ADD CONSTRAINT fk_employee_updated_by_id FOREIGN KEY (updated_by) REFERENCES employee(id) ON DELETE CASCADE;,
+ADD CONSTRAINT fk_employee_current_task_id FOREIGN KEY (current_task_id) REFERENCES tasks_table(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_employee_role_id FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_employee_created_by_id FOREIGN KEY (created_by) REFERENCES employee(id) ON DELETE CASCADE,
+ADD CONSTRAINT fk_employee_updated_by_id FOREIGN KEY (updated_by) REFERENCES employee(id) ON DELETE CASCADE,
 ADD CONSTRAINT fk_employee_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
 
 ALTER TABLE organisation
@@ -274,7 +274,7 @@ ALTER TABLE employee
 DROP COLUMN resource;
 
 ALTER TABLE emp_detail
-ADD COLUMN employee_id VARCHAR(20) unique
+ADD COLUMN employee_id VARCHAR(20) unique;
 
 alter table	organisation 
 add column address_line_1 TEXT, 
@@ -283,7 +283,7 @@ add column 	landmark TEXT,
 add column 	country VARCHAR(100),
 add column 	state VARCHAR(100),
 add column 	city VARCHAR(100), 
-add column 	zipcode VARCHAR(10)
+add column 	zipcode VARCHAR(10);
 
 alter table employee 
 drop column address_id;
@@ -301,7 +301,7 @@ alter table document
 add constraint fk_document_emp_id foreign KEY(emp_id) references employee(id) ON DELETE CASCADE;
 
 alter table employee 
-add column image VARCHAR(255)
+add column image VARCHAR(255);
 
 alter table emp_detail 
 add column employee_id VARCHAR(20);
