@@ -153,49 +153,7 @@ The signUp API allows users to sign up and create an account. Upon successful si
   - Log the error.
   - Return a 500 Internal Server Error response with error details. 
 
-#### 3.inviteUser
-
-##### API Description:
-The userSignup API facilitates the signup process for users by creating a user in the Cognito User Pool and adding them to the appropriate group. It also updates the invitation status of the employee in the database.
-
-##### Endpoint:
-- Method: POST
-- Endpoint: /invite/{id}
-- Request Parameters:
-    - id: string (UUID) (Path parameter) - The unique identifier of the employee for whom the signup is being performed.
-
-##### Response:
-- Success Response (HTTP 200):
-  Body: { "message": "Successfully Signed-up" }
-- Error Response (HTTP 400):
-  Body: { "error": "error_message" }
-- Error Response (HTTP 500):
-  Body: { "message": "error_message", "error": "error_details" }
-
-##### Pseudocode for inviteUser API:
-1. Extract the employee ID from the path parameters.
-2. Validate the employee ID to ensure it is a valid UUID.
-3. If validation fails:
-  -  3.1. Return a 400 Bad Request response with the validation error message.
-4. Initialize a Cognito Identity Provider client.
-5. Retrieve employee details (work email and organization ID) from the database using the employee ID.
-6. Construct input parameters for creating a user in the Cognito User Pool with the retrieved employee details.
-7. Send a request to create the user in the Cognito User Pool.
-8. If user creation is successful:
-  -  8.1. Add the user to the "User" group in the Cognito User Pool.
-  -  8.2. Update the invitation status of the employee in the database to "SENT".
-9. If any step fails during execution:
-  -  9.1. Return a 500 Internal Server Error response with the error message.
-10. If the signup process is successful:
-  -  10.1. Return a 200 OK response with the message "Successfully Signed-up".
-
-##### Exception Handling:
-- If any step encounters an error:
-  - Catch the error.
-  - Log the error.
-  - Return a 500 Internal Server Error response with error details.
-
-#### 4.forgotPassword:
+#### 3.forgotPassword:
 
 ##### API Description:
 The forgotPassword API allows users to request a password reset by sending a reset code to their email address.
@@ -234,7 +192,7 @@ The forgotPassword API allows users to request a password reset by sending a res
   - Log the error.
   - Return a 500 Internal Server Error response with error details.
 
-#### 5.resetPassword:
+#### 4.resetPassword:
 
 ##### API Description:
 The resetPassword API allows users to reset their passwords by confirming a forgot password operation using a confirmation code (OTP).
@@ -269,6 +227,94 @@ The resetPassword API allows users to reset their passwords by confirming a forg
    - 8.1. Log the error.
    - 8.2. Return a 500 Internal Server Error response with the error message.
    
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
+#### 5. newUserPassword
+
+##### API Description:
+The newUserPassword API allows users to set a new password upon initial login, typically after the account is created and the user is required to change the password.
+
+##### Endpoint:
+- Method: POST
+- Endpoint: /newUserPassword
+- Body:
+  - email: string (required) - The email address of the user.
+  - password: string (required) - The temporary password provided to the user.
+  - newpassword: string (required) - The new password to be set by the user.
+
+##### Response:
+- Success Response (HTTP 301):
+  Body: { "message": "Password-Reset Successfully" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+    - "Location": "https://workflow.synectiks.net/" (Redirects user after successful password reset)
+- Error Response (HTTP 400):
+  Body: { "error": "error_message" }
+- Error Response (HTTP 500):
+  Body: { "message": "error_message", "error": "error_details" }
+
+##### Pseudocode for newUserPassword API:
+1. Parse the request body to extract email, temporary password, and new password.
+2. Validate the request body parameters (email, temporary password, and new password).
+3. If validation fails:
+   - 3.1. Return a 400 Bad Request response with the validation error message.
+4. Connect to the database.
+5. Initialize a Cognito Identity Provider client.
+6. Set up authentication parameters for admin-initiated authentication.
+7. Send a request to authenticate the user using the temporary password.
+8. Construct input parameters to respond to the new password challenge.
+9. Send a request to set the new password for the user.
+10. Update the invitation status in the database to indicate that the user's account is active.
+11. Return a 301 Redirect response to the workflow application upon successful password reset.
+12. If any step fails during execution:
+    - 12.1. Log the error.
+    - 12.2. Return a 500 Internal Server Error response with the error message.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
+#### 6. refreshToken
+
+##### API Description:
+The refreshToken API allows users to refresh their access token using a refresh token provided by AWS Cognito.
+
+##### Endpoint:
+- Method: POST
+- Endpoint: /refreshToken
+- Body:
+  - email: string (required) - The email address of the user.
+- Headers:
+  - Authorization: Bearer <refresh_token> (Token used for authentication)
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "Access_token": "<new_access_token>" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+- Error Response (HTTP 500):
+  Body: { "message": "error_message" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+
+##### Pseudocode for refreshToken API:
+1. Parse the request body to extract the user's email.
+2. Extract the refresh token from the Authorization header.
+3. Connect to the database.
+4. Set up parameters for initiating authentication with AWS Cognito using the refresh token.
+5. Send a request to AWS Cognito to initiate authentication with the refresh token.
+6. Update the access token in the database with the new token received from Cognito.
+7. Return a 200 OK response with the new access token in the body.
+8. If any error occurs during the process:
+   - 8.1. Catch the error.
+   - 8.2. Return a 500 Internal Server Error response with the error message in the body.
+
 ##### Exception Handling:
 - If any step encounters an error:
   - Catch the error.
@@ -974,6 +1020,240 @@ The employeeTracker API fetches employee data with pagination support.
   - Catch the error.
   - Log the error.
   - Return a 500 Internal Server Error response with error message.
+
+#### 10. deleteInvite
+
+##### API Description:
+The deleteInvite API allows authorized users to delete an invitation along with its associated scheduler.
+
+##### Endpoint:
+- Method: DELETE
+- Endpoint: /deleteinvite
+- Query Parameters:
+  - id: string (required) - The unique identifier of the employee whose invitation is to be deleted.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "message": "user invite deleted successfully." }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+    - "Access-Control-Allow-Credentials": true
+- Error Response (HTTP 500):
+  Body: { "message": "error_message" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+
+##### Pseudocode for deleteInvite API:
+1. Initialize a SchedulerClient from the AWS SDK for deleting the associated scheduler.
+2. Extract the employee id from the query parameters.
+3. Connect to the database.
+4. Retrieve the scheduler name associated with the employee from the database.
+5. Set up input parameters for deleting the scheduler.
+6. Send a request to delete the scheduler.
+7. If the scheduler deletion is successful:
+   - 7.1. Update the invitation status of the employee in the database to "DRAFT".
+8. Return a 200 OK response with a success message.
+9. If any error occurs during the process:
+   - 9.1. Log the error.
+   - 9.2. Return a 500 Internal Server Error response with the error message in the body.
+
+##### Authorization:
+- Authorize the request using the authorize() middleware to ensure only authenticated users can delete invitations.
+
+##### Query Parameters Validation:
+- Validate the id query parameter using the queryParamsValidator middleware with the idSchema.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
+#### 11. deleteEmployee
+
+##### API Description:
+The deleteEmployee API allows authorized users to delete an employee from the database.
+
+##### Endpoint
+- Method: DELETE
+- Endpoint: /employee/{id}
+- Path Parameters:
+  - emp_id: string (required) - The unique identifier of the employee to be deleted.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "message": "resource deleted successfully" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+- No Content Response (HTTP 200):
+  Body: { "message": "content not available" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+
+##### Pseudocode for deleteEmployee API:
+1. Extract the employee ID from the path parameters.
+2. Connect to the database.
+3. Set up a SQL query to delete the employee with the given ID.
+4. Execute the delete query.
+5. If the query returns no rows deleted:
+   - 5.1. Return a 200 OK response with a message indicating that the content is not available.
+6. If the deletion is successful:
+   - 6.1. Return a 200 OK response with a success message.
+7. If any error occurs during the process:
+   - 7.1. Log the error.
+   - 7.2. Return a 500 Internal Server Error response with error details.
+
+##### Authorization:
+- Authorize the request using the authorize() middleware to ensure only authenticated users can delete employees.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
+#### 12. inviteUser
+
+##### API Description:
+The inviteUser API allows authorized users to invite new users by creating accounts in Cognito and adding them to the appropriate user group.
+
+##### Endpoint
+- Method: POST
+- Endpoint: /invite/{id}
+- Path Parameters:
+  - id: string (required) - The unique identifier of the employee to be invited.
+- Query Parameters:
+  - invitation_status: string (optional) - The status of the invitation (default: "SENT").
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "message": "user invited successfully" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+    - "Access-Control-Allow-Credentials": true
+
+##### Pseudocode for inviteUser API:
+1. Extract the employee ID from the path parameters and the invitation status from the query parameters.
+2. If the invitation status is not provided or is not "SCHEDULED", set it to "SENT".
+3. Connect to the database.
+4. Retrieve employee details (work email and organization ID) using the employee ID from the database.
+5. Generate a temporary password for the new user.
+6. Create input parameters for the AdminCreateUserCommand to create a new user in Cognito with the provided details.
+7. Execute the AdminCreateUserCommand to create the user.
+8. Add the user to the "User" group in Cognito.
+9. Update the invitation status of the employee in the database.
+10. Return a 200 OK response with a success message.
+11. If the username already exists (UsernameExistsException):
+    - 11.1. Delete the user from Cognito using the AdminDeleteUserCommand.
+    - 11.2. Log the error and throw it again.
+
+##### Authorization:
+- Authorize the request using the authorize() middleware to ensure only authenticated users can invite new users.
+
+##### Path Parameters Validation:
+- Validate the id path parameter using the pathParamsValidator middleware with the idSchema.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
+#### 13. scheduleInvite
+
+##### API Description:
+The scheduleInvite API allows authorized users to schedule an invitation for a specific time.
+
+##### Endpoint
+- Method: POST
+- Endpoint: /schedule
+- Body:
+  - timestamp: string (required) - The scheduled time for the invitation (format: "YYYY-MM-DDTHH:mm:ss").
+  - id: string (required) - The unique identifier of the employee associated with the invitation.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "message": "user invited scheduled successfully at <timestamp>" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+    - "Access-Control-Allow-Credentials": true
+
+##### Pseudocode for scheduleInvite API:
+1. Initialize a SchedulerClient from the AWS SDK.
+2. Parse the request body to extract the scheduled time (timestamp) and the employee ID.
+3. Generate a unique scheduler name using UUID.
+4. Declare a variable to hold the response from the scheduler.
+5. Define the insertInviteQuery to insert invitation details into the database.
+6. Create input parameters for the scheduled Lambda function.
+7. Send a request to create a schedule with the specified timestamp and Lambda function details.
+8. If the schedule creation is successful:
+   - 8.1. Connect to the database.
+   - 8.2. Insert invitation details into the database.
+9. Return a 200 OK response with a success message indicating the scheduled time.
+10. If any error occurs during the process:
+    - 10.1. Log the error.
+    - 10.2. If a schedule was created before the error occurred, delete the schedule.
+    - 10.3. Throw the error.
+
+##### Authorization:
+- Authorize the request using the authorize() middleware to ensure only authenticated users can schedule invitations.
+
+##### Body Parameters Validation:
+- Validate the request body parameters using the bodyValidator middleware with the provided schema.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
+
+#### 14. updateInviteSchedule
+
+##### API Description:
+The updateInviteSchedule API allows authorized users to update the scheduled time for an invitation.
+
+##### Endpoint
+- Method: POST
+- Endpoint: /updateschedule
+- Body:
+  - timestamp: string (required) - The new scheduled time for the invitation (format: "YYYY-MM-DDTHH:mm:ss").
+  - id: string (required) - The unique identifier of the employee associated with the invitation.
+
+##### Response:
+- Success Response (HTTP 200):
+  Body: { "message": "user invite updated to be scheduled at <timestamp>" }
+  Headers:
+    - "Access-Control-Allow-Origin": "*"
+    - "Access-Control-Allow-Credentials": true
+
+##### Pseudocode for updateInviteSchedule API:
+1. Initialize a SchedulerClient from the AWS SDK.
+2. Parse the request body to extract the new scheduled time (timestamp) and the employee ID.
+3. Connect to the database.
+4. Retrieve the scheduler name associated with the employee from the database.
+5. Set up input parameters for the GetScheduleCommand to get the schedule information.
+6. Send a request to get the schedule information.
+7. Modify the schedule expression and target input with the new timestamp.
+8. Set up input parameters for the UpdateScheduleCommand to update the schedule.
+9. Send a request to update the schedule.
+10. Update the scheduled time for the invitation in the database.
+11. Return a 200 OK response with a success message indicating the updated scheduled time.
+12. If any error occurs during the process:
+    - Catch the error.
+    - Log the error.
+    - Return a 500 Internal Server Error response with error details.
+
+##### Authorization:
+- Authorize the request using the authorize() middleware to ensure only authenticated users can update invitation schedules.
+
+##### Body Parameters Validation:
+- Validate the request body parameters using the bodyValidator middleware with the provided schema.
+
+##### Exception Handling:
+- If any step encounters an error:
+  - Catch the error.
+  - Log the error.
+  - Return a 500 Internal Server Error response with error details.
 
 ### EmpType
 
