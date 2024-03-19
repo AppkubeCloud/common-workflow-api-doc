@@ -141,9 +141,6 @@ paths:
                   message:
                     type: string
                     description: Confirmation message for successful sign-up
-                  AccessToken:
-                    type: string
-                    description: Access token for the signed-up user  
         '400':
           description: Bad request, validation failed
           content:
@@ -168,55 +165,7 @@ paths:
                     type: string
                     description: Details of the internal server error  
                     
-  /invite/{id}:
-    post:
-      tags:
-        - auth
-      summary: Sign up a user
-      operationId: inviteUser
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: ID of the employee
-      responses:
-        '200':
-          description: Successful signup
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Confirmation message for successful signup
-        '400':
-          description: Bad request, validation failed
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-                    description: Details of the validation errors
-        '500':
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: An internal server error occurred
-                  error:
-                    type: string
-                    description: Details of the internal server error
-  /forgotpassword:
+  /forgotPassword:
     post:
       tags:
         - auth
@@ -325,6 +274,104 @@ paths:
                   error:
                     type: string
                     description: Details of the internal server error
+                    
+  /newUserPassword:
+    post:
+      tags:
+        - auth
+      summary: Reset password for a new user
+      operationId: newUserPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: The email of the user
+                password:
+                  type: string
+                  description: The current password of the user
+                newpassword:
+                  type: string
+                  description: The new password to be set for the user
+      responses:
+        '301':
+          description: Password reset successful
+          headers:
+            Location:
+              schema:
+                type: string
+                description: Redirect URL after successful password reset
+          content:
+            application/json:
+              example:
+                message: Password reset successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid request body
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+                  
+  /refreshToken:
+    put:
+      tags:
+        - auth
+      summary: Refresh access token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: The email of the user
+                refreshToken:
+                  type: string
+                  description: The refresh token to be used for token refresh
+      responses:
+        '200':
+          description: Access token refreshed successfully
+          content:
+            application/json:
+              example:
+                Access_token: <new_access_token>
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+                
+                    
   /dashboard/dashboardStats:
     get:
       tags:
@@ -1004,6 +1051,47 @@ paths:
                   message:
                     type: string
                     description: Details of the error
+    delete:
+      tags:
+        - Employee
+      operationId: deleteEmployee
+      summary: Delete an employee record
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the employee to be deleted
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful deletion of the employee
+          content:
+            application/json:
+              example:
+                message: resource deleted successfully
+        '404':
+          description: Employee not found or no content available to delete
+          content:
+            application/json:
+              example:
+                message: content not available
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error        
+      
+    
   /employee/tracker:
     get:
       tags:
@@ -1052,7 +1140,180 @@ paths:
                   error:
                     type: string
                     description: Details of the internal server error
-
+                    
+  /invite/{id}:                  
+    get:
+      tags: 
+        - Employee
+      summary: Invite a user
+      operationId: inviteUser
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the employee to be invited
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User invitation initiated
+          content:
+            application/json:
+              example:
+                message: user invited successfully  
+        '500':
+           description: Internal Server Error
+           content:
+             application/json:
+               schema:
+                 type: object
+                 properties:
+                   message:
+                     type: string
+                     description: An internal server error occurred
+                   error:
+                     type: string
+                     description: Details of the internal server error        
+                
+  /schedule:
+    post:
+      tags:
+        - Employee
+      summary: Schedule user invitation 
+      operationId: scheduleInvite
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                timestamp:
+                  type: string
+                  format: date-time
+                  description: The timestamp to schedule the invitation
+                id:
+                  type: string
+                  format: uuid
+                  description: The ID of the employee to be invited
+      responses:
+        '200':
+          description: User invitation scheduled successfully
+          content:
+            application/json:
+              example:
+                message: user invited scheduled successfully at <timestamp>
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid request body
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error            
+      
+  /deleteinvite:
+    delete:
+      tags:
+        - Employee
+      summary: Delete invitation for an employee
+      operationId: deleteInvite
+      parameters:
+        - in: query
+          name: id
+          required: true
+          description: The ID of the employee whose invitation is to be deleted
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Invitation deleted successfully
+          content:
+            application/json:
+              example:
+                message: user invite deleted successfully.
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid request parameter
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+    
+  /updateschedule:
+    post:
+      tags:
+        - Employee
+      summary: Update invitation schedule for an employee
+      operationId: updateInviteSchedule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  description: The ID of the employee
+                timestamp:
+                  type: string
+                  format: date-time
+                  description: The new timestamp to schedule the invitation
+      responses:
+        '200':
+          description: Invitation schedule updated successfully
+          content:
+            application/json:
+              example:
+                message: user invite updated to be scheduled at <timestamp>
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid request body
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: An internal server error occurred
+                  error:
+                    type: string
+                    description: Details of the internal server error
+  
+      
   /organization:
     put:
       tags:
