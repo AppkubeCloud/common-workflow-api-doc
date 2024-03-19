@@ -324,3 +324,15 @@ ALTER TABLE public.workflows_table ADD CONSTRAINT workflows_table_name_unique UN
 ALTER TABLE workflows_table
 ADD COLUMN created_by UUID,
 ADD CONSTRAINT fk_created_by FOREIGN KEY (created_by) REFERENCES employee(id) ON DELETE CASCADE;
+
+ALTER TYPE invitation_status_enum ADD VALUE 'ACTIVE';
+
+CREATE TABLE invite (
+    id SERIAL PRIMARY KEY,
+    employee_id UUID UNIQUE,
+    scheduler UUID,
+    scheduled_time VARCHAR(265)
+);
+
+ALTER TABLE invite 
+ADD CONSTRAINT fk_employee_scheduler_id FOREIGN KEY (employee_id) REFERENCES employee (id);
