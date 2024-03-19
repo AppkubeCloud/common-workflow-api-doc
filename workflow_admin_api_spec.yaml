@@ -1169,14 +1169,14 @@ paths:
                     content:
                         application/json:
                             example:
-                              tasks:
                                - task_id: "b36a08fa-448b-44ed-89d9-3504d8aca7ae"
                                  task_name: "RequiredSubStage3"
                                  status: "inprogress"
-                                 assignee_id: ""
-                                 image: ""
-                                 assignee_name: " "
-                                 assignee_designation: ""
+                                 assigned_to:
+                                   assignee_id: ""
+                                   image: ""
+                                   assignee_name: " "
+                                   assignee_designation: ""
                                  docs:
                                   - doc_name: "image.file"
                                     doc_id: "c5a6e94e-9f8a-431c-99f3-3529a1845d71"
@@ -1185,10 +1185,11 @@ paths:
                                - task_id: "5e4f668a-1290-4c2d-adf3-840065aec710"
                                  task_name: "RequirementsStages"
                                  status: "inprogress"
-                                 assignee_id: "e105da50-7e17-447a-93fa-12fc2f7fc213"
-                                 image: "https://example.com/image1.jpg"
-                                 assignee_name: "rssame msarrrr"
-                                 assignee_designation: "Ui Developer"
+                                 assigned_to:  
+                                   assignee_id: "e105da50-7e17-447a-93fa-12fc2f7fc213"
+                                   image: "https://example.com/image1.jpg"
+                                   assignee_name: "rssame msarrrr"
+                                   assignee_designation: "Ui Developer"
                                  docs:
                                   - doc_name: "pdf10.file"
                                     doc_id: "fd9f95bc-7038-42d5-8dbc-e5366aefbe1a"
