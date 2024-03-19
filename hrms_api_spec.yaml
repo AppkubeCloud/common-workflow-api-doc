@@ -165,7 +165,7 @@ paths:
                     type: string
                     description: Details of the internal server error  
                     
-  /forgotpassword:
+  /forgotPassword:
     post:
       tags:
         - auth
@@ -280,6 +280,7 @@ paths:
       tags:
         - auth
       summary: Reset password for a new user
+      operationId: newUserPassword
       requestBody:
         required: true
         content:
@@ -1269,6 +1270,7 @@ paths:
       tags:
         - Employee
       summary: Update invitation schedule for an employee
+      operationId: updateInviteSchedule
       requestBody:
         required: true
         content:
