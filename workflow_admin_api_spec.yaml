@@ -1425,58 +1425,30 @@ paths:
                     content:
                         application/json:
                             example:
-                              - Requirements1:
-                                  task_details:
+                              - funcky:
+                                  task:
                                     - id: "a1ce8762-5b54-4f63-af7d-95b8eb8e1576"
-                                      name: "Requirements1-task-3"
-                                      assignee_id: ""
+                                      name: "zootopia"
+                                      assignee_to: 
+                                        id: "75e713d1-afa7-4d01-a3ad-3406d91dac83"
+                                        name: "shfd3h srhf2ah"
+                                        designation: "Project Manager"
+                                        image: ""
                                       start_date: ""
                                       end_date: ""
                                       resource_start_date: ""
                                       resource_end_date: ""
                                       start_deviation: 0
                                       end_deviation: 0
-                                    - id: "62f877ae-07fc-472e-ad3a-0d2ff5c5a1ee"
-                                      name: "Requirements1-task-2"
-                                      assignee_id: ""
-                                      start_date: ""
-                                      end_date: ""
-                                      resource_start_date: ""
-                                      resource_end_date: ""
-                                      start_deviation: 0
-                                      end_deviation: 0
-                                    - id: "9f16e912-17fb-414f-b0ae-9ba108b231e1"
-                                      name: "Requirements1-task-1"
-                                      assignee_id: ""
-                                      start_date: "2024-02-02T07:16:50.571Z"
-                                      end_date: ""
-                                      resource_start_date: "2024-02-02T07:16:50.571Z"
-                                      resource_end_date: ""
-                                      start_deviation: 0
-                                      end_deviation: 0
-                              - mock1:
-                                  task_details:
+                              - elephits:
+                                  task:
                                     - id: "a3eacbcd-60fe-4e6a-a2ee-34a81d637e33"
-                                      name: "mock1-task-2"
-                                      assignee_id: ""
-                                      start_date: ""
-                                      end_date: ""
-                                      resource_start_date: ""
-                                      resource_end_date: ""
-                                      start_deviation: 0
-                                      end_deviation: 0
-                                    - id: "8c7979e0-bde6-49cf-be5f-ccc530711cf5"
-                                      name: "mock1-mytask-1"
-                                      assignee_id: ""
-                                      start_date: "2024-03-01T07:16:50.571Z"
-                                      end_date: "2024-03-01T07:16:50.571Z"
-                                      resource_start_date: "2024-04-01T07:16:50.571Z"
-                                      resource_end_date: "2024-04-01T07:16:50.571Z"
-                                      start_deviation: 31
-                                      end_deviation: 31
-                                    - id: "8834281d-71a9-4377-b149-a79fc3922550"
-                                      name: "mock1-task-3"
-                                      assignee_id: ""
+                                      name: "zod"
+                                      assignee_to: 
+                                        id: "75e713d1-afa7-4d01-a3ad-3406d91dac83"
+                                        name: "John Doe"
+                                        designation: "Project Manager"
+                                        image: ""
                                       start_date: ""
                                       end_date: ""
                                       resource_start_date: ""
