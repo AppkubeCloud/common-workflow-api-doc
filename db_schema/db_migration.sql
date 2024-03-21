@@ -336,3 +336,6 @@ CREATE TABLE invite (
 
 ALTER TABLE invite 
 ADD CONSTRAINT fk_employee_scheduler_id FOREIGN KEY (employee_id) REFERENCES employee (id);
+
+ALTER TABLE metadocs_table 
+ALTER COLUMN doc_url TYPE VARCHAR(255);
