@@ -491,7 +491,7 @@ paths:
       tags:
         - Employee Type
       summary: Retrieve all employee types
-      operationId: listEmp_type
+      operationId: listEmpType
       responses:
         '200':
           description: Successful response with a list of employee types
@@ -518,7 +518,7 @@ paths:
       tags:
         - Employee Type
       summary: Add a new employee type
-      operationId: addEmp_type
+      operationId: addEmpType
       requestBody:
         required: true
         content:
@@ -549,7 +549,7 @@ paths:
       tags:
         - Employee Type
       summary: Update an employee type
-      operationId: updateEmp_type
+      operationId: updateEmpType
       requestBody:
         required: true
         content:
@@ -910,6 +910,17 @@ paths:
                   state: California
                   city: San Francisco
                   zipcode: '12345'
+                organization_details:
+                  org_id: 482d8374-fca3-43ff-a638-02c8a425c492
+                  org_name: Gandhe
+                  org_logo: ""
+                  org_address_line_1: 123 Main St
+                  org_address_line_2: Apt 101
+                  org_contact: 1890
+                  org_country: USA
+                  org_city: San Francisco
+                  org_state: California
+                  org_Zipcode: 1233445  
                 professional_information:
                   emp_detail_id: null
                   designation_id: 2
