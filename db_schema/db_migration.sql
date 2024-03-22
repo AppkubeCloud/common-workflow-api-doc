@@ -339,3 +339,9 @@ ADD CONSTRAINT fk_employee_scheduler_id FOREIGN KEY (employee_id) REFERENCES emp
 
 ALTER TABLE metadocs_table 
 ALTER COLUMN doc_url TYPE VARCHAR(255);
+
+ALTER TABLE projects_table
+ADD COLUMN org_id uuid,
+ADD CONSTRAINT fk_org_id
+    FOREIGN KEY (org_id)
+    REFERENCES organisation(id);
