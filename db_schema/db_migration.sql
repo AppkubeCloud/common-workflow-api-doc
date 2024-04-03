@@ -345,3 +345,7 @@ ADD COLUMN org_id uuid,
 ADD CONSTRAINT fk_org_id
     FOREIGN KEY (org_id)
     REFERENCES organisation(id);
+
+ALTER TABLE workflows_table 
+ADD COLUMN org_id uuid,
+ADD CONSTRAINT fk_org_id FOREIGN KEY (org_id) REFERENCES organisation(id);
