@@ -627,7 +627,7 @@ paths:
         content:
           application/json:
             example:
-              owner: false
+            - owner: false
               device_type_id: 1
               manufacturer: acer
               serial_number: acerer12erre3re*&%237742
@@ -640,7 +640,7 @@ paths:
           content:
             application/json:
               example:
-                id: 1
+              - id: 1
                 owner: false
                 device_type_id: 1
                 manufacturer: acer

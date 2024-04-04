@@ -1830,8 +1830,7 @@ paths:
                             example:
                                 createdBy: "3373514c-6590-4d0f-89cf-c4e17751a1ff"
                                 doc_name: "usecase document"
-                                doc_url: "formkiq.docs/docId.pdf"
-                                type: "text"
+                                data: "base64 encoded data"
             responses:
                 "200":
                     description: Successful response
