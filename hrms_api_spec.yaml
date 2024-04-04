@@ -435,7 +435,6 @@ paths:
           application/json:
             example:
               name: Human Resources
-              org_id: 482d8374-fca3-43ff-a638-02c8a425c492
       responses:
         '201':
           description: Department added successfully
@@ -525,7 +524,6 @@ paths:
           application/json:
             example:
               type: Full-Time
-              org_id: 482d8374-fca3-43ff-a638-02c8a425c492
       responses:
         '201':
           description: Employee type added successfully
@@ -1347,7 +1345,6 @@ paths:
               state: New York
               city: New York City
               zipcode: '100001'
-              orgId: 482d8374-fca3-43ff-a638-02c8a425c492
       responses:
         '200':
           description: Organization details updated successfully
@@ -1426,7 +1423,6 @@ paths:
           application/json:
             example:
               designation: UI/UX Developer
-              org_id: 482d8374-fca3-43ff-a638-02c8a425c492
        responses:
         '201':
           description: Designation added successfully
@@ -1489,8 +1485,8 @@ paths:
         content:
           multipart/form-data:
             example:
-                  amar: hrms_api_spects_yaml
-                  
+                  fileName: "amar"
+                  data: "hrms_api_spects_yaml"
       responses:
         '200':
           description: Document uploaded successfully
