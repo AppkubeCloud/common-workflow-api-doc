@@ -587,9 +587,9 @@ paths:
               emp_id: 4e585c37-66ab-47a4-9985-2161e125a61c
               documents:
                 - name: adhar
-                  url: https://example.com/image.jpg
+                  data: base64 encoded data
                 - name: newdoc
-                  url: https://example.com/image.jpg
+                  data: base64 encoded data
       responses:
         '200':
           description: Successful addition of document(s)
