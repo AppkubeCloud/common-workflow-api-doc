@@ -912,6 +912,7 @@ paths:
                   org_id: 482d8374-fca3-43ff-a638-02c8a425c492
                   org_name: Gandhe
                   org_logo: ""
+                  work_email: john.tsttt@work.example.com
                   org_address_line_1: 123 Main St
                   org_address_line_2: Apt 101
                   org_contact: 1890
