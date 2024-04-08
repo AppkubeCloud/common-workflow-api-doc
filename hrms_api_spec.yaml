@@ -370,14 +370,13 @@ paths:
                   error:
                     type: string
                     description: Details of the internal server error
-                
-                    
+                  
   /dashboard/dashboardStats:
     get:
       tags:
         - Dashboard
       summary: Retrieve total employees and projects count
-      operationId: getEmployee
+      operationId: dashboardStats
       responses:
         '200':
           description: Successful operation
@@ -579,6 +578,7 @@ paths:
       tags:
         - Employee
       summary: Add document for an employee
+      operationId: addDocument
       requestBody:
         required: true
         content:
@@ -587,9 +587,9 @@ paths:
               emp_id: 4e585c37-66ab-47a4-9985-2161e125a61c
               documents:
                 - name: adhar
-                  url: https://example.com/image.jpg
+                  data: base64 encoded data
                 - name: newdoc
-                  url: https://example.com/image.jpg
+                  data: base64 encoded data
       responses:
         '200':
           description: Successful addition of document(s)
@@ -622,6 +622,7 @@ paths:
       tags:
         - Employee
       summary: Add equipment details for an employee
+      operationId: addEquipmentdetailsInfo
       requestBody:
         required: true
         content:
@@ -670,6 +671,7 @@ paths:
       tags:
         - Employee
       summary: Update professional information of an employee
+      operationId: addProfessionalInfo
       requestBody:
         required: true
         content:
@@ -719,6 +721,7 @@ paths:
       tags:
         - Employee
       summary: Add personal information of an employee
+      operationId: addPersonalInfo
       requestBody:
         required: true
         content:
@@ -793,7 +796,8 @@ paths:
     get:
       tags:
         - Employee
-      summary: getEmployees
+      summary:  get Employees by given page number 
+      operationId: getEmployees
       description: Retrieves a list of employees based on provided search parameters.
       parameters:
         - name: page
@@ -817,12 +821,14 @@ paths:
                     designation: DevOps Engineer
                     employee_type: Full-Time
                     department: Enginner
+                    start_date: 2024-04-10T18:30:00.000Z
                   - employee_name: akash pimplay
                     employee_id: 13a7d5ff-64c2-4a6f-87da-82e5fb78ce8f
                     email_address: pimplay@gmail.com
                     designation: UI/Ux Designer
                     employee_type: Consultant
                     department: Finance
+                    start_date: 2024-04-10T18:30:00.000Z
         '500':
           description: Internal Server Error
           content:
@@ -837,7 +843,8 @@ paths:
     get:
       tags:
         - Employee
-      summary: searchByName
+      summary: Retrieve employee information by name  
+      operationId: searchByName
       description: Retrieves a list of employees based on provided search parameters.
       parameters:
         - name: name
@@ -872,7 +879,7 @@ paths:
   /employee/{id}:
     get:
       summary: Retrieve employee information by ID
-      operationId: getEmployeeById
+      operationId: getEmployee
       tags:
         - Employee
       parameters:
@@ -1481,6 +1488,7 @@ paths:
       tags:
         - Upload
       summary: Upload a document, photo, vedio etc
+      operationId: docUpload
       requestBody:
         required: true
         content:
