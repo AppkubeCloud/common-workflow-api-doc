@@ -1487,7 +1487,7 @@ paths:
           multipart/form-data:
             example:
                   fileName: "amar"
-                  data: "hrms_api_spects_yaml"
+                  data: "base64 encoded data"
       responses:
         '200':
           description: Document uploaded successfully
