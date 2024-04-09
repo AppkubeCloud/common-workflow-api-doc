@@ -1828,7 +1828,6 @@ paths:
                 content:
                     application/json:
                             example:
-                                createdBy: "3373514c-6590-4d0f-89cf-c4e17751a1ff"
                                 doc_name: "usecase document"
                                 data: "base64 encoded data"
             responses:
@@ -1837,9 +1836,7 @@ paths:
                     content:
                         application/json:
                             example: 
-                              id: "21426f96-9710-4cbe-a9f7-052791f476e4"
                               task_id: "ef0b5d57-721e-4b6b-9693-f1b00b9d9f96"
-                              created_by: "3373514c-6590-4d0f-89cf-c4e17751a1ff"
                               created_time: "2024-04-02T01:29:23.225Z"
                               doc_url: "formkiq.docs/docId.pdf"
                               doc_name: "usecase document"
