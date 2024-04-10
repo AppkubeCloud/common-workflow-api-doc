@@ -930,6 +930,162 @@ paths:
                                     message:
                                         type: string
                                         description: An internal server error occurred
+    
+    /workflow/template:
+        get:
+            tags:
+                - Workflow
+            summary: Retrieve master workflows
+            operationId: template
+            responses: 
+                "200":
+                    description: Successful response
+                    content:
+                        application/json:
+                                example:
+                                  - id: 1
+                                    workflow:
+                                      stages:
+                                        - name: Requirement
+                                          tasks:
+                                            - Research
+                                            - Usecase writting
+                                            - Designing
+                                          checklist: 
+                                              - item_id: 1
+                                                description: "Checklist item 1"
+                                                checked: false
+                                              - item_id: 2
+                                                description: "Checklist item 2"
+                                                checked: true
+                                        - name: MOCK Development
+                                          tasks:
+                                            - API Specifications 
+                                            - UI Code
+                                            - Test Plans
+                                          checklist: 
+                                              - item_id: 1
+                                                description: "Checklist item 1"
+                                                checked: false
+                                              - item_id: 2
+                                                description: "Checklist item 2"
+                                                checked: true
+                                      status: inprogress
+                                      created_by: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                                      updated_by: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                                      created_time: "2024-04-03T04:08:40.844Z"
+                                    name: Project1-workflow
+                                  - id: 2
+                                    workflow:
+                                      stages:
+                                        - name: Selection
+                                          tasks:
+                                            - shortlisting candidated
+                                          checklist: 
+                                              - item_id: 1
+                                                description: "Checklist item 1"
+                                                checked: false
+                                              - item_id: 2
+                                                description: "Checklist item 2"
+                                                checked: true
+                                        - name: Interview
+                                          tasks:
+                                            - F2F interview
+                                          checklist: 
+                                              - item_id: 1
+                                                description: "Checklist item 1"
+                                                checked: false
+                                              - item_id: 2
+                                                description: "Checklist item 2"
+                                                checked: true
+                                      status: inprogress
+                                      created_by: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                                      updated_by: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+                                      created_time: "2024-04-04T04:33:02.575Z"
+                                    name: Project2-workflow
+                "500":
+                    description: Internal Server Error
+                    content:
+                        application/json:
+                                schema:
+                                  type: object
+                                  properties:
+                                    message:
+                                      type: string
+                                      description: An internal server error occurred  
+        post:
+            tags:
+                - Workflow
+            summary: Add a new template
+            operationId: addTemplate
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        example:
+                            project_id: 242380f0-62cb-4674-8a78-1e40a5341909
+                            template_id: 1
+            responses:
+                "200":
+                  description: Successful responce
+                  content:
+                      application/json:
+                          example:
+                            id: 47afe548-23ca-435c-b70d-3335892ee2c1
+                            metadata:
+                              stages:
+                                - name: Requirement
+                                  tasks:
+                                    - Research
+                                    - Usecase writting
+                                    - Designing
+                                  checklist: 
+                                      - item_id: 1
+                                        description: "Checklist item 1"
+                                        checked: false
+                                      - item_id: 2
+                                        description: "Checklist item 2"
+                                        checked: true
+                                - name: MOCK Development
+                                  tasks:
+                                    - API Specifications 
+                                    - UI Code
+                                    - Test Plans
+                                  checklist: 
+                                      - item_id: 1
+                                        description: "Checklist item 1"
+                                        checked: false
+                                      - item_id: 2
+                                        description: "Checklist item 2"
+                                        checked: true
+                              status: inprogress
+                              created_time: 2024-04-10T06:26:07.930Z
+                            name: d38e8d446086@Project1-workflow
+                            arn: arn:aws:states:us-east-1:657907747545:stateMachine:d38e8d446086@Project1-workflow
+                            project_id: 242380f0-62cb-4674-8a78-1e40a5341909
+                            created_by: ""
+                            org_id: ""
+                "400":
+                  description: Bad request
+                  content:
+                      application/json:
+                          schema:
+                            type: object
+                            properties:
+                              error:
+                                type: string
+                                description: Error message indicating the reason for the bad request
+                "500":
+                  description: Internal Server Error
+                  content:
+                      application/json:
+                          schema:
+                            type: object
+                            properties:
+                              message:
+                                type: string
+                                description: An internal server error occurred
+
 
     /usecase/{id}:
         get:
