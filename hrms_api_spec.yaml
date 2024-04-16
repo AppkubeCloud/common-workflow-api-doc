@@ -45,7 +45,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  Result:
+                  result:
                     type: object
                     properties:
                       id:
@@ -84,9 +84,9 @@ paths:
                         type: string
                       email_verified:
                         type: string
-                  AccessToken:
+                  accesstoken:
                     type: string
-                  RefreshToken:
+                  refreshtoken:
                     type: string
 
         '400':
